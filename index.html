@@ -7,149 +7,153 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body {
-  min-height: 100vh;
-  background: #0B0B0B;
-  font-family: "Rajdhani", sans-serif;
-  color: #EDEDED;
-}
-.scanlines {
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.008) 3px, rgba(255,255,255,0.008) 4px);
-  pointer-events: none;
-  z-index: 1;
-}
-.top-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #FF3EA5, #FF5A1F, #FF3EA5);
-  z-index: 100;
-}
+html, body { min-height: 100vh; background: #0B0B0B; font-family: "Rajdhani", sans-serif; color: #EDEDED; }
+.scanlines { position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.008) 3px, rgba(255,255,255,0.008) 4px); pointer-events: none; z-index: 1; }
+.top-bar { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #FF3EA5, #FF5A1F, #FF3EA5); z-index: 100; }
+.hero { position: relative; width: 100%; height: 100vh; min-height: 600px; max-height: 800px; overflow: hidden; }
+.hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: brightness(0.75) contrast(1.05); }
+.hero-gradient { position: absolute; bottom: 0; left: 0; right: 0; height: 70%; background: linear-gradient(to top, #0B0B0B 0%, rgba(11,11,11,0.8) 40%, transparent 100%); z-index: 2; }
+.hero-gradient-top { position: absolute; top: 0; left: 0; right: 0; height: 30%; background: linear-gradient(to bottom, rgba(11,11,11,0.4) 0%, transparent 100%); z-index: 2; }
+.hero-glow { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(ellipse, rgba(255,62,165,0.12) 0%, transparent 70%); z-index: 2; pointer-events: none; }
+.hero-logo-wrap { position: absolute; bottom: 60px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 10; padding: 0 24px; }
+.hero-logo { width: 260px; mix-blend-mode: screen; filter: drop-shadow(0 0 20px rgba(255,62,165,0.5)) drop-shadow(0 0 40px rgba(255,62,165,0.2)) brightness(1.2); opacity: 0.95; }
+.genre-pill { background: rgba(255,62,165,0.1); border: 1px solid rgba(255,62,165,0.25); padding: 3px 10px; font-family: "Orbitron", sans-serif; font-size: 7px; color: #FF3EA5; letter-spacing: 3px; }
+.spark { color: #FF3EA5; font-size: 9px; }
+.container { position: relative; z-index: 2; max-width: 480px; margin: 0 auto; padding: 40px 24px 60px; display: flex; flex-direction: column; align-items: center; }
+.divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,62,165,0.3), rgba(255,90,31,0.2), transparent); margin-bottom: 32px; }
+.section-label { width: 100%; display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.section-label span { font-family: "Orbitron", sans-serif; font-size: 8px; color: rgba(255,62,165,0.6); letter-spacing: 4px; white-space: nowrap; }
+.section-label::after { content: ""; flex: 1; height: 1px; background: rgba(255,62,165,0.12); }
+.featured-release { width: 100%; background: rgba(255,62,165,0.05); border: 1px solid rgba(255,62,165,0.2); padding: 20px; margin-bottom: 32px; position: relative; }
+.featured-badge { position: absolute; top: 8px; right: 10px; font-family: "Orbitron", sans-serif; font-size: 7px; color: #FF3EA5; letter-spacing: 3px; }
+.release-title { font-family: "Orbitron", sans-serif; font-size: 14px; font-weight: 900; color: #EDEDED; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+.release-label-text { font-size: 10px; color: rgba(255,62,165,0.7); letter-spacing: 3px; display: block; margin-bottom: 16px; }
+.platform-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+.platform-btn { padding: 5px 12px; background: rgba(237,237,237,0.04); border: 1px solid rgba(237,237,237,0.1); font-family: "Rajdhani", sans-serif; font-size: 9px; font-weight: 700; color: #EDEDED; letter-spacing: 2px; text-decoration: none; text-transform: uppercase; }
+.release-row { display: flex; align-items: center; gap: 12px; padding: 11px 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); cursor: pointer; text-decoration: none; margin-bottom: 2px; }
+.rr-num { font-family: "Orbitron", sans-serif; font-size: 9px; color: rgba(255,62,165,0.35); width: 18px; flex-shrink: 0; }
+.rr-name { font-family: "Rajdhani", sans-serif; font-size: 13px; font-weight: 700; color: #EDEDED; display: block; line-height: 1.1; }
+.rr-label { font-size: 9px; color: rgba(237,237,237,0.3); letter-spacing: 2px; display: block; }
+.rr-arrow { font-size: 10px; color: rgba(255,62,165,0.25); }
+.main-link { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); text-decoration: none; margin-bottom: 7px; }
+.main-link.booking { border-color: rgba(255,62,165,0.2); background: rgba(255,62,165,0.04); }
+.link-label { font-family: "Orbitron", sans-serif; font-size: 8px; color: rgba(255,62,165,0.5); letter-spacing: 3px; display: block; }
+.link-text { font-family: "Rajdhani", sans-serif; font-size: 14px; font-weight: 700; color: #EDEDED; }
+.link-arrow { color: rgba(255,62,165,0.35); font-size: 12px; }
 </style>
 </head>
 <body>
 <div class="top-bar"></div>
 <div class="scanlines"></div>
-<div style="position:relative;z-index:2;max-width:480px;margin:0 auto;padding:48px 24px 60px;display:flex;flex-direction:column;align-items:center;">
 
-<!-- LOGO -->
-<div style="width:100%;display:flex;justify-content:center;margin-bottom:8px;">
-<img style="width:280px;filter:drop-shadow(0 0 24px rgba(255,62,165,0.4));" src="https://i.imgur.com/placeholder.png" alt="Sophia Guerrero" />
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-photo" src="Facetune_15-04-2026-11-52-38.jpeg" alt="Sophia Guerrero" />
+  <div class="hero-gradient-top"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-logo-wrap">
+    <img class="hero-logo" src="267ACA45-B751-4E97-842D-1B081785F000.png" alt="Sophia Guerrero" />
+    <div style="font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:4px;color:rgba(237,237,237,0.3);text-transform:uppercase;">Metro Manila, Philippines</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="genre-pill">HOUSE</div>
+      <span class="spark">✦</span>
+      <div class="genre-pill">TECH HOUSE</div>
+    </div>
+  </div>
 </div>
 
-<!-- TAGLINE -->
-<div style="font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:4px;color:rgba(237,237,237,0.3);text-transform:uppercase;text-align:center;margin-bottom:8px;">Metro Manila, Philippines</div>
+<!-- CONTENT -->
+<div class="container">
+<div class="divider"></div>
 
-<!-- GENRE -->
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:32px;">
-<div style="background:rgba(255,62,165,0.1);border:1px solid rgba(255,62,165,0.2);padding:4px 12px;font-family:'Orbitron',sans-serif;font-size:8px;color:#FF3EA5;letter-spacing:3px;">HOUSE</div>
-<span style="color:#FF3EA5;font-size:10px;">✦</span>
-<div style="background:rgba(255,62,165,0.1);border:1px solid rgba(255,62,165,0.2);padding:4px 12px;font-family:'Orbitron',sans-serif;font-size:8px;color:#FF3EA5;letter-spacing:3px;">TECH HOUSE</div>
-</div>
-
-<div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,62,165,0.3),rgba(255,90,31,0.2),transparent);margin-bottom:32px;"></div>
 <!-- LATEST RELEASE -->
-<div style="width:100%;display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-<span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.6);letter-spacing:4px;">Latest Release</span>
-<div style="flex:1;height:1px;background:rgba(255,62,165,0.12);"></div>
-</div>
-<div style="width:100%;background:rgba(255,62,165,0.05);border:1px solid rgba(255,62,165,0.2);padding:20px;margin-bottom:32px;position:relative;">
-<span style="position:absolute;top:8px;right:10px;font-family:'Orbitron',sans-serif;font-size:7px;color:#FF3EA5;letter-spacing:3px;">LATEST</span>
-<span style="font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:#EDEDED;letter-spacing:1px;display:block;margin-bottom:4px;">I AM TELLING YOU</span>
-<span style="font-size:10px;color:rgba(255,62,165,0.7);letter-spacing:3px;display:block;margin-bottom:16px;">HouseU Records · 2025</span>
-<div style="display:flex;gap:6px;flex-wrap:wrap;">
-<a href="https://open.spotify.com/search/Sophia%20Guerrero%20I%20Am%20Telling%20You" target="_blank" style="padding:5px 12px;background:rgba(237,237,237,0.04);border:1px solid rgba(237,237,237,0.1);font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;color:#EDEDED;letter-spacing:2px;text-decoration:none;text-transform:uppercase;">Spotify</a>
-<a href="https://www.beatport.com/search?q=Sophia+Guerrero+I+Am+Telling+You" target="_blank" style="padding:5px 12px;background:rgba(237,237,237,0.04);border:1px solid rgba(237,237,237,0.1);font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;color:#EDEDED;letter-spacing:2px;text-decoration:none;text-transform:uppercase;">Beatport</a>
-<a href="https://music.apple.com/search?term=Sophia+Guerrero+I+Am+Telling+You" target="_blank" style="padding:5px 12px;background:rgba(237,237,237,0.04);border:1px solid rgba(237,237,237,0.1);font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;color:#EDEDED;letter-spacing:2px;text-decoration:none;text-transform:uppercase;">Apple Music</a>
-<a href="https://soundcloud.com/search?q=Sophia%20Guerrero%20I%20Am%20Telling%20You" target="_blank" style="padding:5px 12px;background:rgba(237,237,237,0.04);border:1px solid rgba(237,237,237,0.1);font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;color:#EDEDED;letter-spacing:2px;text-decoration:none;text-transform:uppercase;">SoundCloud</a>
-</div>
-</div>
-<!-- ALL RELEASES -->
-<div style="width:100%;display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-<span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.6);letter-spacing:4px;">All Releases</span>
-<div style="flex:1;height:1px;background:rgba(255,62,165,0.12);"></div>
-</div>
-<div style="width:100%;display:flex;flex-direction:column;gap:2px;margin-bottom:32px;">
-<div onclick="window.open('https://www.beatport.com/search?q=Sophia+Guerrero+Gimme+Your+Number','_blank')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);cursor:pointer;">
-<div style="font-family:'Orbitron',sans-serif;font-size:9px;color:rgba(255,62,165,0.35);width:18px;">01</div>
-<div style="flex:1;"><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#EDEDED;display:block;">Gimme Your Number</span><span style="font-size:9px;color:rgba(237,237,237,0.3);letter-spacing:2px;">Toolroom Records · 2025</span></div>
-<div style="font-size:10px;color:rgba(255,62,165,0.25);">→</div>
-</div>
-<div onclick="window.open('https://www.beatport.com/search?q=Sophia+Guerrero+Body+Move','_blank')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);cursor:pointer;">
-<div style="font-family:'Orbitron',sans-serif;font-size:9px;color:rgba(255,62,165,0.35);width:18px;">02</div>
-<div style="flex:1;"><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#EDEDED;display:block;">Body Move</span><span style="font-size:9px;color:rgba(237,237,237,0.3);letter-spacing:2px;">Toolroom Records · 2025</span></div>
-<div style="font-size:10px;color:rgba(255,62,165,0.25);">→</div>
-</div>
-<div onclick="window.open('https://www.beatport.com/search?q=Sophia+Guerrero+I+Know','_blank')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);cursor:pointer;">
-<div style="font-family:'Orbitron',sans-serif;font-size:9px;color:rgba(255,62,165,0.35);width:18px;">03</div>
-<div style="flex:1;"><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#EDEDED;display:block;">I Know</span><span style="font-size:9px;color:rgba(237,237,237,0.3);letter-spacing:2px;">Toolroom Records · 2025</span></div>
-<div style="font-size:10px;color:rgba(255,62,165,0.25);">→</div>
-</div>
-<div onclick="window.open('https://www.beatport.com/search?q=Sophia+Guerrero+Gonna+Be+The+One','_blank')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);cursor:pointer;">
-<div style="font-family:'Orbitron',sans-serif;font-size:9px;color:rgba(255,62,165,0.35);width:18px;">04</div>
-<div style="flex:1;"><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#EDEDED;display:block;">Gonna Be The One</span><span style="font-size:9px;color:rgba(237,237,237,0.3);letter-spacing:2px;">Toolroom Records · 2025</span></div>
-<div style="font-size:10px;color:rgba(255,62,165,0.25);">→</div>
-</div>
-<div onclick="window.open('https://www.beatport.com/search?q=Sophia+Guerrero+Find+The+Light','_blank')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);cursor:pointer;">
-<div style="font-family:'Orbitron',sans-serif;font-size:9px;color:rgba(255,62,165,0.35);width:18px;">05</div>
-<div style="flex:1;"><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#EDEDED;display:block;">Find The Light</span><span style="font-size:9px;color:rgba(237,237,237,0.3);letter-spacing:2px;">Milk & Sugar Records · 2025</span></div>
-<div style="font-size:10px;color:rgba(255,62,165,0.25);">→</div>
-</div>
-<div onclick="window.open('https://www.beatport.com/search?q=Sophia+Guerrero+I+Need+You','_blank')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);cursor:pointer;">
-<div style="font-family:'Orbitron',sans-serif;font-size:9px;color:rgba(255,62,165,0.35);width:18px;">06</div>
-<div style="flex:1;"><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#EDEDED;display:block;">I Need You</span><span style="font-size:9px;color:rgba(237,237,237,0.3);letter-spacing:2px;">There Was Jack · 2025</span></div>
-<div style="font-size:10px;color:rgba(255,62,165,0.25);">→</div>
-</div>
-<div onclick="window.open('https://www.beatport.com/search?q=Sophia+Guerrero+Its+A+Baby','_blank')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);cursor:pointer;">
-<div style="font-family:'Orbitron',sans-serif;font-size:9px;color:rgba(255,62,165,0.35);width:18px;">07</div>
-<div style="flex:1;"><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#EDEDED;display:block;">It's a Baby</span><span style="font-size:9px;color:rgba(237,237,237,0.3);letter-spacing:2px;">Wh0 Worx Records · 2025</span></div>
-<div style="font-size:10px;color:rgba(255,62,165,0.25);">→</div>
-</div>
-<div onclick="window.open('https://www.beatport.com/search?q=Sophia+Guerrero+I+Am+Telling+You','_blank')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);cursor:pointer;">
-<div style="font-family:'Orbitron',sans-serif;font-size:9px;color:rgba(255,62,165,0.35);width:18px;">08</div>
-<div style="flex:1;"><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#EDEDED;display:block;">I Am Telling You</span><span style="font-size:9px;color:rgba(237,237,237,0.3);letter-spacing:2px;">HouseU Records · 2025</span></div>
-<div style="font-size:10px;color:rgba(255,62,165,0.25);">→</div>
-</div>
+<div class="section-label"><span>Latest Release</span></div>
+<div class="featured-release">
+  <span class="featured-badge">LATEST</span>
+  <span class="release-title">I AM TELLING YOU</span>
+  <span class="release-label-text">HouseU Records · 2026</span>
+  <div class="platform-buttons">
+    <a class="platform-btn" href="https://open.spotify.com/search/Sophia%20Guerrero%20I%20Am%20Telling%20You" target="_blank">Spotify</a>
+    <a class="platform-btn" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">Beatport</a>
+    <a class="platform-btn" href="https://music.apple.com/search?term=Sophia+Guerrero+I+Am+Telling+You" target="_blank">Apple Music</a>
+    <a class="platform-btn" href="https://soundcloud.com/sophiaguerrero" target="_blank">SoundCloud</a>
+  </div>
+</div><!-- ALL RELEASES -->
+<div class="section-label"><span>All Releases</span></div>
+<div style="width:100%;margin-bottom:32px;">
+<a class="release-row" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div class="rr-num">01</div>
+  <div style="flex:1;"><span class="rr-name">Gimme Your Number</span><span class="rr-label">Toolroom Records · 2025</span></div>
+  <div class="rr-arrow">→</div>
+</a>
+<a class="release-row" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div class="rr-num">02</div>
+  <div style="flex:1;"><span class="rr-name">Body Move</span><span class="rr-label">Toolroom Records · 2025</span></div>
+  <div class="rr-arrow">→</div>
+</a>
+<a class="release-row" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div class="rr-num">03</div>
+  <div style="flex:1;"><span class="rr-name">I Know</span><span class="rr-label">Toolroom Records · 2025</span></div>
+  <div class="rr-arrow">→</div>
+</a>
+<a class="release-row" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div class="rr-num">04</div>
+  <div style="flex:1;"><span class="rr-name">Gonna Be The One</span><span class="rr-label">Toolroom Records · 2025</span></div>
+  <div class="rr-arrow">→</div>
+</a>
+<a class="release-row" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div class="rr-num">05</div>
+  <div style="flex:1;"><span class="rr-name">Find The Light</span><span class="rr-label">Milk & Sugar Records · 2025</span></div>
+  <div class="rr-arrow">→</div>
+</a>
+<a class="release-row" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div class="rr-num">06</div>
+  <div style="flex:1;"><span class="rr-name">I Need You</span><span class="rr-label">There Was Jack · 2025</span></div>
+  <div class="rr-arrow">→</div>
+</a>
+<a class="release-row" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div class="rr-num">07</div>
+  <div style="flex:1;"><span class="rr-name">It's a Baby</span><span class="rr-label">Wh0 Worx Records · 2025</span></div>
+  <div class="rr-arrow">→</div>
+</a>
+<a class="release-row" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div class="rr-num">08</div>
+  <div style="flex:1;"><span class="rr-name">I Am Telling You</span><span class="rr-label">HouseU Records · 2026</span></div>
+  <div class="rr-arrow">→</div>
+</a>
 </div>
 <!-- FIND ME -->
-<div style="width:100%;display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-<span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.6);letter-spacing:4px;">Find Me</span>
-<div style="flex:1;height:1px;background:rgba(255,62,165,0.12);"></div>
-</div>
-<div style="width:100%;display:flex;flex-direction:column;gap:7px;margin-bottom:32px;">
-<a href="mailto:sophguerreromusic@gmail.com" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:rgba(255,62,165,0.04);border:1px solid rgba(255,62,165,0.2);text-decoration:none;">
-<div><span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.5);letter-spacing:3px;display:block;">Booking & Enquiries</span><span style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#EDEDED;">sophguerreromusic@gmail.com</span></div>
-<span style="color:rgba(255,62,165,0.35);">→</span>
+<div class="section-label"><span>Find Me</span></div>
+<div style="width:100%;margin-bottom:32px;">
+<a class="main-link booking" href="mailto:sophguerreromusic@gmail.com">
+  <div><span class="link-label">Booking & Enquiries</span><span class="link-text">sophguerreromusic@gmail.com</span></div>
+  <span class="link-arrow">→</span>
 </a>
-<a href="https://www.instagram.com/sophguerrero_" target="_blank" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);text-decoration:none;">
-<div><span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.5);letter-spacing:3px;display:block;">Instagram</span><span style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#EDEDED;">@sophguerrero_</span></div>
-<span style="color:rgba(255,62,165,0.35);">→</span>
+<a class="main-link" href="https://www.instagram.com/sophguerrero_" target="_blank">
+  <div><span class="link-label">Instagram</span><span class="link-text">@sophguerrero_</span></div>
+  <span class="link-arrow">→</span>
 </a>
-<a href="https://open.spotify.com/search/Sophia%20Guerrero" target="_blank" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);text-decoration:none;">
-<div><span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.5);letter-spacing:3px;display:block;">Spotify</span><span style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#EDEDED;">Sophia Guerrero</span></div>
-<span style="color:rgba(255,62,165,0.35);">→</span>
+<a class="main-link" href="https://open.spotify.com/search/Sophia%20Guerrero" target="_blank">
+  <div><span class="link-label">Spotify</span><span class="link-text">Sophia Guerrero</span></div>
+  <span class="link-arrow">→</span>
 </a>
-<a href="https://www.beatport.com/search?q=Sophia+Guerrero" target="_blank" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);text-decoration:none;">
-<div><span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.5);letter-spacing:3px;display:block;">Beatport</span><span style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#EDEDED;">Sophia Guerrero</span></div>
-<span style="color:rgba(255,62,165,0.35);">→</span>
+<a class="main-link" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank">
+  <div><span class="link-label">Beatport</span><span class="link-text">Sophia Guerrero</span></div>
+  <span class="link-arrow">→</span>
 </a>
-<a href="https://soundcloud.com/search?q=Sophia%20Guerrero" target="_blank" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);text-decoration:none;">
-<div><span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.5);letter-spacing:3px;display:block;">SoundCloud</span><span style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#EDEDED;">Sophia Guerrero</span></div>
-<span style="color:rgba(255,62,165,0.35);">→</span>
+<a class="main-link" href="https://soundcloud.com/sophiaguerrero" target="_blank">
+  <div><span class="link-label">SoundCloud</span><span class="link-text">Sophia Guerrero</span></div>
+  <span class="link-arrow">→</span>
 </a>
 </div>
 
 <!-- BEACH PLEASE -->
-<div style="width:100%;display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-<span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,62,165,0.6);letter-spacing:4px;">Also</span>
-<div style="flex:1;height:1px;background:rgba(255,62,165,0.12);"></div>
-</div>
+<div class="section-label"><span>Also</span></div>
 <div style="width:100%;margin-bottom:32px;">
-<a href="https://www.instagram.com/beachpleasemusic" target="_blank" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 20px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);text-decoration:none;">
-<div><span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,90,31,0.5);letter-spacing:3px;display:block;">DUO Project</span><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:rgba(237,237,237,0.65);">@beachpleasemusic</span></div>
-<span style="color:rgba(255,90,31,0.3);">→</span>
+<a style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 20px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);text-decoration:none;" href="https://www.instagram.com/beachpleasemusic" target="_blank">
+  <div><span style="font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,90,31,0.5);letter-spacing:3px;display:block;">DUO Project</span><span style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:rgba(237,237,237,0.65);">@beachpleasemusic</span></div>
+  <span style="color:rgba(255,90,31,0.3);">→</span>
 </a>
 </div>
 
@@ -162,3 +166,4 @@ html, body {
 </div>
 </body>
 </html>
+
