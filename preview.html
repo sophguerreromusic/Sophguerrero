@@ -65,10 +65,10 @@
   .foot a:hover{opacity:1;color:var(--pink)}
 
   /* SPARK GLOW */
-  .glow{position:absolute;inset:0;z-index:-1;width:100%;height:100%;display:block;mix-blend-mode:screen;opacity:.9;filter:blur(14px) saturate(1.15);transform:scale(1.06);pointer-events:none}
-  .hero-spark{position:absolute;left:50%;top:56%;z-index:0;width:clamp(56px,9vw,110px);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;filter:drop-shadow(0 0 16px rgba(255,140,200,.9)) drop-shadow(0 0 44px rgba(255,62,165,.6))}
+  .glow{position:absolute;inset:0;z-index:-1;width:100%;height:100%;display:block;mix-blend-mode:screen;opacity:.8;filter:blur(16px) saturate(1.15);transform:scale(1.06);pointer-events:none}
+  .hero-spark{position:absolute;left:50%;top:56%;z-index:0;width:clamp(24px,3vw,38px);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;filter:drop-shadow(0 0 8px rgba(255,140,200,.9)) drop-shadow(0 0 22px rgba(255,62,165,.5))}
   .hero-spark svg{width:100%;height:100%;display:block}
-  .home>div:not(.hero):not(.hero-spark),.home>nav,.home>.foot{position:relative;z-index:1}
+  .home>div:not(.hero):not(.hero-spark):not(.grain),.home>nav,.home>.foot{position:relative;z-index:1}
   nav.menu a{text-shadow:0 1px 14px rgba(0,0,0,.45)}
   .loader{position:fixed;inset:0;z-index:50;background:var(--ink);display:flex;align-items:center;justify-content:center;transition:opacity .5s ease .05s}
   .loader.hide{opacity:0;pointer-events:none}
@@ -114,6 +114,11 @@
   .big-mail:hover{color:var(--pink)}
   @media (max-width:600px){.row{grid-template-columns:34px 1fr}.row .m{grid-column:2;text-align:left}}
   @media (prefers-reduced-motion:reduce){.panel{transition:none}}
+
+  /* LUXE: dark glass sections, glow stays alive behind, soft fade-in */
+  .panel{--ink:#f4f1ec;--paper:#0b0b0b;background:rgba(11,11,11,.72);-webkit-backdrop-filter:blur(20px) saturate(1.25);backdrop-filter:blur(20px) saturate(1.25);transform:translateY(28px);opacity:0;visibility:hidden;transition:opacity .45s ease,transform .7s cubic-bezier(.2,.7,.2,1),visibility 0s linear .7s}
+  .panel.open{transform:none;opacity:1;visibility:visible;transition:opacity .45s ease,transform .7s cubic-bezier(.2,.7,.2,1),visibility 0s}
+  .home .grain{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 </style>
 </head>
 <body>
@@ -123,6 +128,7 @@
 <header class="home">
   <div class="hero" role="img" aria-label="Sophia Guerrero, House and Tech House DJ from Manila"></div>
   <canvas class="glow" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
   <div class="hero-spark" aria-hidden="true"><svg viewBox="-50 -50 100 100"><use href="#spark"/></svg></div>
   <div>
     <h1 class="name">Sophia<br>Guerrero</h1>
@@ -269,18 +275,18 @@
   var beat=60/126,t0=performance.now();
   function frame(now){
     if(!reduce)requestAnimationFrame(frame);
-    if(document.querySelector('.panel.open'))return;
+    if(document.hidden)return;
     var t=(now-t0)/1000;p.x+=(tg.x-p.x)*.04;p.y+=(tg.y-p.y)*.04;
     var kick=reduce?0:Math.pow(1-(t%beat)/beat,3),br=reduce?0:Math.sin(t*.5)*.03,rot=reduce?0:t*.06;
     ctx.globalCompositeOperation='source-over';ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
-    var m=Math.min(W,H),cx=p.x*W,cy=p.y*H,R=m*(.3+br+kick*.025);
-    blob(cx,cy,m*1.1,[[0,'rgba(140,10,70,.3)'],[1,'rgba(0,0,0,0)']]);
+    var m=Math.min(W,H),cx=p.x*W,cy=p.y*H,R=m*(.17+br*.5+kick*.012);
+    blob(cx,cy,m*1.1,[[0,'rgba(140,10,70,.2)'],[1,'rgba(0,0,0,0)']]);
     spark(cx,cy,R*.95,-rot+Math.PI/4,.42,[[0,'rgba(255,190,90,.75)'],[.5,'rgba(255,140,40,.4)'],[1,'rgba(255,90,20,0)']]);
     spark(cx,cy,R*1.35,rot,.34,[[0,'rgba(255,230,242,1)'],[.18,'rgba(255,140,200,.95)'],[.5,'rgba(255,62,165,.8)'],[1,'rgba(200,20,90,0)']]);
-    for(var i=0;i<4;i++)beam(cx,cy,rot+i*Math.PI/2,Math.max(W,H)*.9,m*.035,'rgba(255,170,215,'+(.18+kick*.35)+')');
-    blob(cx,cy,R*.35,[[0,'rgba(255,255,255,'+(.35+kick*.45)+')'],[1,'rgba(0,0,0,0)']]);
+    for(var i=0;i<4;i++)beam(cx,cy,rot+i*Math.PI/2,Math.max(W,H)*.9,m*.016,'rgba(255,170,215,'+(.07+kick*.12)+')');
+    blob(cx,cy,R*.35,[[0,'rgba(255,255,255,'+(.22+kick*.22)+')'],[1,'rgba(0,0,0,0)']]);
     hero.style.left=(p.x*100)+'%';hero.style.top=(p.y*100)+'%';
-    hero.style.transform='translate(-50%,-50%) rotate('+rot+'rad) scale('+(1+kick*.06)+')';
+    hero.style.transform='translate(-50%,-50%) rotate('+rot+'rad) scale('+(1+kick*.03)+')';
   }
   requestAnimationFrame(frame);
   var L=document.getElementById('loader');
