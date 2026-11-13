@@ -75,7 +75,10 @@
   .panel p{font-size:clamp(17px,1.6vw,22px);line-height:1.45;max-width:780px;margin-bottom:16px}
   .rows{border-top:1.5px solid var(--ink);max-width:1100px}
   .row{display:grid;grid-template-columns:60px 1fr auto;gap:16px;align-items:baseline;padding:18px 0;border-bottom:1.5px solid var(--ink);transition:padding .2s}
-  a.row:hover{padding-left:12px;color:var(--pink)}
+  a.row:hover,div.row:hover{padding-left:12px}
+  a.row:hover{color:var(--pink)}
+  .row .m a{white-space:nowrap}
+  .row .m a:hover{color:var(--pink);opacity:1}
   .row .n{font-size:13px;opacity:.5}
   .row .t{font-weight:700;font-size:clamp(20px,2.4vw,34px);letter-spacing:-.02em;text-transform:uppercase}
   .row .m{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.7;text-align:right}
@@ -145,21 +148,22 @@
     <div class="btns" style="margin:0 0 28px">
       <a class="btn" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank" rel="noopener">All tracks on Beatport</a>
       <a class="btn" href="https://www.traxsource.com/artist/896793/sophia-guerrero" target="_blank" rel="noopener">All tracks on Traxsource</a>
+      <a class="btn" href="https://www.traxsource.com/title/2917425/Habit-Chart" target="_blank" rel="noopener">Habit Chart on Traxsource</a>
     </div>
     <div class="rows">
-      <a class="row" href="https://www.beatport.com/track/habit/30732409" target="_blank" rel="noopener"><span class="n">13</span><span class="t">Habit</span><span class="m">Toolroom · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/the-funk/30165753" target="_blank" rel="noopener"><span class="n">12</span><span class="t">The Funk</span><span class="m">Toolroom · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/lights-flash/29706369" target="_blank" rel="noopener"><span class="n">11</span><span class="t">Lights Flash</span><span class="m">Alleanza · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/are-you-ready/29135902" target="_blank" rel="noopener"><span class="n">10</span><span class="t">Are You Ready?</span><span class="m">Milk & Sugar · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/i-am-telling-you/26912455" target="_blank" rel="noopener"><span class="n">09</span><span class="t">I Am Telling You</span><span class="m">HouseU · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/its-a-baby/24033858" target="_blank" rel="noopener"><span class="n">08</span><span class="t">It's a Baby</span><span class="m">Wh0 Worx · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/gonna-be-the-one/23106981" target="_blank" rel="noopener"><span class="n">07</span><span class="t">Gonna Be The One</span><span class="m">Toolroom · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/i-need-you/22820230" target="_blank" rel="noopener"><span class="n">06</span><span class="t">I Need You</span><span class="m">There Was Jack · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/playing-with-my-heart-feat-may-marnie/21488276" target="_blank" rel="noopener"><span class="n">05</span><span class="t">Playing With My Heart feat. May Marnie</span><span class="m">Milk & Sugar · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/i-know/21066443" target="_blank" rel="noopener"><span class="n">04</span><span class="t">I Know</span><span class="m">Toolroom · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/body-move-feat-may-marnie/20685303" target="_blank" rel="noopener"><span class="n">03</span><span class="t">Body Move feat. May Marnie</span><span class="m">Toolroom · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/find-the-light/20483158" target="_blank" rel="noopener"><span class="n">02</span><span class="t">Find The Light</span><span class="m">Milk & Sugar · Beatport ↗</span></a>
-      <a class="row" href="https://www.beatport.com/track/gimme-your-number/19928115" target="_blank" rel="noopener"><span class="n">01</span><span class="t">Gimme Your Number</span><span class="m">Toolroom · Beatport ↗</span></a>
+      <div class="row"><span class="n">13</span><span class="t">Habit</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/habit/30732409" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/15080881/habit-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">12</span><span class="t">The Funk</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/the-funk/30165753" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14954503/the-funk-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">11</span><span class="t">Lights Flash</span><span class="m">Alleanza · <a href="https://www.beatport.com/track/lights-flash/29706369" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14887956/lights-flash-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">10</span><span class="t">Are You Ready?</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/are-you-ready/29135902" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14740255/are-you-ready-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">09</span><span class="t">I Am Telling You</span><span class="m">HouseU · <a href="https://www.beatport.com/track/i-am-telling-you/26912455" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14480832/i-am-telling-you-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">08</span><span class="t">It's a Baby</span><span class="m">Wh0 Worx · <a href="https://www.beatport.com/track/its-a-baby/24033858" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14381647/its-a-baby-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">07</span><span class="t">Gonna Be The One</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/gonna-be-the-one/23106981" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14230147/gonna-be-the-one-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">06</span><span class="t">I Need You</span><span class="m">There Was Jack · <a href="https://www.beatport.com/track/i-need-you/22820230" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14166085/i-need-you-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">05</span><span class="t">Playing With My Heart feat. May Marnie</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/playing-with-my-heart-feat-may-marnie/21488276" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13893013/playing-with-my-heart-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">04</span><span class="t">I Know</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/i-know/21066443" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13822827/i-know-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">03</span><span class="t">Body Move feat. May Marnie</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/body-move-feat-may-marnie/20685303" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13705489/body-move-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">02</span><span class="t">Find The Light</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/find-the-light/20483158" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13528674/find-the-light-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">01</span><span class="t">Gimme Your Number</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/gimme-your-number/19928115" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13083484/gimme-your-number-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
     </div>
     <h3>Labels</h3>
     <div class="chips"><span class="chip">Toolroom Records</span><span class="chip">Milk & Sugar</span><span class="chip">There Was Jack</span><span class="chip">HouseU</span><span class="chip">Alleanza</span><span class="chip">Wh0 Worx</span></div>
