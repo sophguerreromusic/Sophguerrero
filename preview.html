@@ -124,6 +124,18 @@
   .pagebg{position:fixed;inset:0;z-index:9;background:#0b0b0b;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s ease,visibility 0s linear .45s}
   body.inpage .pagebg{opacity:1;visibility:visible;transition:opacity .45s ease,visibility 0s}
   .pagebg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;filter:blur(30px) saturate(1.1);transform:scale(1.1)}
+  /* RELEASES GRID */
+  .relgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,3.5vw,56px) clamp(18px,2.5vw,40px);max-width:1240px}
+  @media (max-width:900px){.relgrid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:420px){.relgrid{gap:28px 14px}}
+  .rel .cover{display:block;aspect-ratio:1;overflow:hidden;background:#151012;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  .rel .cover img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transform:scale(1.02);transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.2,1),filter .4s}
+  .rel .cover img.in{opacity:1;transform:none}
+  .rel .cover:hover img{transform:scale(1.035);filter:brightness(1.06)}
+  .rel .cover:hover{box-shadow:0 18px 60px rgba(255,62,165,.28)}
+  .rel h3{margin-top:14px;font-weight:500;font-size:clamp(14px,1.25vw,17px);letter-spacing:.01em;line-height:1.3}
+  .rel p{margin-top:5px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+  .rel p a:hover{color:var(--pink);opacity:1}
 </style>
 </head>
 <body>
@@ -186,20 +198,72 @@
       <a class="btn" href="https://www.traxsource.com/artist/896793/sophia-guerrero" target="_blank" rel="noopener">All tracks on Traxsource</a>
       <a class="btn" href="https://www.traxsource.com/title/2917425/Habit-Chart" target="_blank" rel="noopener">Habit Chart on Traxsource</a>
     </div>
-    <div class="rows">
-      <div class="row"><span class="n">13</span><span class="t">Habit</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/habit/30732409" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/15080881/habit-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">12</span><span class="t">The Funk</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/the-funk/30165753" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14954503/the-funk-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">11</span><span class="t">Lights Flash</span><span class="m">Alleanza · <a href="https://www.beatport.com/track/lights-flash/29706369" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14887956/lights-flash-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">10</span><span class="t">Are You Ready?</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/are-you-ready/29135902" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14740255/are-you-ready-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">09</span><span class="t">I Am Telling You</span><span class="m">HouseU · <a href="https://www.beatport.com/track/i-am-telling-you/26912455" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14480832/i-am-telling-you-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">08</span><span class="t">It's a Baby</span><span class="m">Wh0 Worx · <a href="https://www.beatport.com/track/its-a-baby/24033858" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14381647/its-a-baby-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">07</span><span class="t">Gonna Be The One</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/gonna-be-the-one/23106981" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14230147/gonna-be-the-one-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">06</span><span class="t">I Need You</span><span class="m">There Was Jack · <a href="https://www.beatport.com/track/i-need-you/22820230" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14166085/i-need-you-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">05</span><span class="t">Playing With My Heart feat. May Marnie</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/playing-with-my-heart-feat-may-marnie/21488276" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13893013/playing-with-my-heart-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">04</span><span class="t">I Know</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/i-know/21066443" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13822827/i-know-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">03</span><span class="t">Body Move feat. May Marnie</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/body-move-feat-may-marnie/20685303" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13705489/body-move-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">02</span><span class="t">Find The Light</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/find-the-light/20483158" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13528674/find-the-light-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
-      <div class="row"><span class="n">01</span><span class="t">Gimme Your Number</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/gimme-your-number/19928115" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13083484/gimme-your-number-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+    <div class="relgrid">
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/habit/30732409" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/8d928a5d-6b50-4fd4-ab36-875c18867ba5.jpg" alt="Sophia Guerrero — Habit cover art" width="1000" height="1000" decoding="async"></a>
+        <h3>Sophia Guerrero — Habit</h3>
+        <p>Toolroom · <a href="https://www.beatport.com/track/habit/30732409" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/15080881/habit-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/the-funk/30165753" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/0cd1ada7-d364-424c-8337-f6d73136a16f.jpg" alt="Sophia Guerrero — The Funk cover art" width="1000" height="1000" decoding="async"></a>
+        <h3>Sophia Guerrero — The Funk</h3>
+        <p>Toolroom · <a href="https://www.beatport.com/track/the-funk/30165753" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14954503/the-funk-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/lights-flash/29706369" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/84af2157-19c5-494a-be30-bd8cf2cc95a3.jpg" alt="Sophia Guerrero — Lights Flash cover art" width="1000" height="1000" decoding="async"></a>
+        <h3>Sophia Guerrero — Lights Flash</h3>
+        <p>Alleanza · <a href="https://www.beatport.com/track/lights-flash/29706369" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14887956/lights-flash-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/are-you-ready/29135902" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/8310e485-e25b-4c65-a5e8-b0e82a86a05d.jpg" alt="Sophia Guerrero — Are You Ready? cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — Are You Ready?</h3>
+        <p>Milk & Sugar · <a href="https://www.beatport.com/track/are-you-ready/29135902" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14740255/are-you-ready-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/i-am-telling-you/26912455" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/be8509f0-14c0-40e3-a060-beb449a9d93d.jpg" alt="Sophia Guerrero — I Am Telling You cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — I Am Telling You</h3>
+        <p>HouseU · <a href="https://www.beatport.com/track/i-am-telling-you/26912455" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14480832/i-am-telling-you-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/its-a-baby/24033858" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/b3895b53-c79e-4710-b7d4-11e38278aef7.jpg" alt="Sophia Guerrero — It's a Baby cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — It's a Baby</h3>
+        <p>Wh0 Worx · <a href="https://www.beatport.com/track/its-a-baby/24033858" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14381647/its-a-baby-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/gonna-be-the-one/23106981" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/415d3951-0732-4ca9-b894-2f5f8caf3c6c.jpg" alt="Sophia Guerrero — Gonna Be The One cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — Gonna Be The One</h3>
+        <p>Toolroom · <a href="https://www.beatport.com/track/gonna-be-the-one/23106981" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14230147/gonna-be-the-one-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/i-need-you/22820230" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/17edbea7-8dcf-4c41-8a3e-ebed79e03c9a.jpg" alt="Sophia Guerrero — I Need You cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — I Need You</h3>
+        <p>There Was Jack · <a href="https://www.beatport.com/track/i-need-you/22820230" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14166085/i-need-you-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/playing-with-my-heart-feat-may-marnie/21488276" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/96cb2cdd-bf36-4e1d-9372-bec6c55530b4.jpg" alt="Sophia Guerrero — Playing With My Heart feat. May Marnie cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — Playing With My Heart feat. May Marnie</h3>
+        <p>Milk & Sugar · <a href="https://www.beatport.com/track/playing-with-my-heart-feat-may-marnie/21488276" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13893013/playing-with-my-heart-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/i-know/21066443" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/0d27e8d2-e559-4832-b383-b1d08b647f02.jpg" alt="Sophia Guerrero — I Know cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — I Know</h3>
+        <p>Toolroom · <a href="https://www.beatport.com/track/i-know/21066443" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13822827/i-know-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/body-move-feat-may-marnie/20685303" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/53ece1a9-e1b1-44d7-850a-028c1695c9a6.jpg" alt="Sophia Guerrero — Body Move feat. May Marnie cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — Body Move feat. May Marnie</h3>
+        <p>Toolroom · <a href="https://www.beatport.com/track/body-move-feat-may-marnie/20685303" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13705489/body-move-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/find-the-light/20483158" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/a4d237f8-fbff-4e8d-9dae-ab208be30274.jpg" alt="Sophia Guerrero — Find The Light cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — Find The Light</h3>
+        <p>Milk & Sugar · <a href="https://www.beatport.com/track/find-the-light/20483158" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13528674/find-the-light-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
+      <article class="rel">
+        <a class="cover" href="https://www.beatport.com/track/gimme-your-number/19928115" target="_blank" rel="noopener"><img src="https://geo-media.beatport.com/image_size/1000x1000/d8775494-ff8f-4492-9807-d2d717362fff.jpg" alt="Sophia Guerrero — Gimme Your Number cover art" width="1000" height="1000" loading="lazy" decoding="async"></a>
+        <h3>Sophia Guerrero — Gimme Your Number</h3>
+        <p>Toolroom · <a href="https://www.beatport.com/track/gimme-your-number/19928115" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13083484/gimme-your-number-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></p>
+      </article>
     </div>
     <h3>Labels</h3>
     <div class="chips"><span class="chip">Toolroom Records</span><span class="chip">Milk & Sugar</span><span class="chip">There Was Jack</span><span class="chip">HouseU</span><span class="chip">Alleanza</span><span class="chip">Wh0 Worx</span></div>
@@ -338,6 +402,9 @@
   document.querySelectorAll('.close').forEach(b=>b.addEventListener('click',()=>{history.pushState('',document.title,location.pathname);route();}));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&location.hash){history.pushState('',document.title,location.pathname);route();}});
   window.addEventListener('hashchange',function(){var id=location.hash.slice(1);if(id&&document.getElementById(id)&&window.sparkLoad){sparkLoad(true,route)}else route();});route();
+</script>
+<script>
+document.querySelectorAll('.rel .cover img').forEach(function(i){function f(){i.classList.add('in')}if(i.complete&&i.naturalWidth)f();else{i.addEventListener('load',f);i.addEventListener('error',f)}});
 </script>
 </body>
 </html>
