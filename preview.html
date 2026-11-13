@@ -2,281 +2,307 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sophia Guerrero — Photo + Spark Preview</title>
 <meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sophia Guerrero — House & Tech House DJ and Producer, Manila</title>
+<meta name="description" content="Sophia Guerrero is a House and Tech House DJ and producer from Manila, Philippines. Releases on Toolroom, Milk & Sugar, There Was Jack, HouseU, Alleanza and Wh0 Worx. Played on BBC Radio 1.">
+<link rel="canonical" href="https://sophguerrero.com/">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Sophia Guerrero — House & Tech House DJ, Manila">
+<meta property="og:description" content="Releases on Toolroom, Milk & Sugar, There Was Jack, HouseU, Alleanza and Wh0 Worx. Played on BBC Radio 1.">
+<meta property="og:url" content="https://sophguerrero.com/">
+<meta property="og:image" content="https://sophguerrero.com/Facetune_15-04-2026-11-52-38.jpeg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sophia Guerrero",
+  "url": "https://sophguerrero.com/",
+  "image": "https://sophguerrero.com/Facetune_15-04-2026-11-52-38.jpeg",
+  "jobTitle": "DJ and Music Producer",
+  "description": "House and Tech House DJ and producer from Manila, Philippines.",
+  "homeLocation": {"@type": "Place", "name": "Manila, Philippines"},
+  "genre": ["House", "Tech House"],
+  "email": "mailto:sophguerreromusic@gmail.com",
+  "sameAs": [
+    "https://www.instagram.com/sophguerrero_",
+    "https://soundcloud.com/sophiaguerrero",
+    "https://www.beatport.com/artist/sophia-guerrero/1279141",
+    "https://www.traxsource.com/artist/896793/sophia-guerrero",
+    "https://open.spotify.com/artist/2vr2Zel4lL47VOq86RCEHi",
+    "https://music.apple.com/us/artist/sophia-guerrero/1786689507",
+    "https://www.deezer.com/artist/13781519",
+    "https://ra.co/dj/sophiaguerrero",
+    "https://www.youtube.com/@sophguerrero"
+  ]
+}
+</script>
 <style>
   :root{
-    --bg:#050304;
-    --pink:#ff3d9a;
-    --pink-hot:#ff8cc8;
-    --amber:#ffa23a;
-    --red:#e8213f;
-    --ink:#f6eef2;
+    --ink:#0b0b0b; --paper:#f4f1ec; --pink:#ff3ea5; --orange:#ff5a1f;
+    --grad:linear-gradient(90deg,var(--pink),var(--orange));
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;background:var(--bg);color:var(--ink);overflow:hidden;
-    font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;
-    -webkit-tap-highlight-color:transparent;overscroll-behavior:none}
-  .photo{position:fixed;inset:0;background:url("/Facetune_15-04-2026-11-52-38.jpeg") center 30%/cover no-repeat;
-    filter:grayscale(.25) contrast(1.08) brightness(.78);transform:scale(1.04)}
-  .shade{position:fixed;inset:0;pointer-events:none;
-    background:linear-gradient(180deg,rgba(5,3,4,.55) 0%,rgba(5,3,4,.05) 30%,rgba(5,3,4,.15) 55%,rgba(5,3,4,.85) 100%)}
-  canvas#glow{position:fixed;inset:0;width:100%;height:100%;display:block;mix-blend-mode:screen;opacity:.9;
-    filter:blur(var(--blur,28px)) saturate(1.15);transform:scale(1.08)}
-  .grain{position:fixed;inset:0;pointer-events:none;opacity:.09;mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  html,body{height:100%}
+  body{font-family:"Inter Tight",system-ui,sans-serif;background:var(--ink);color:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
 
-  header{position:fixed;top:0;left:0;right:0;z-index:5;text-align:center;
-    padding:calc(22px + env(safe-area-inset-top)) 20px 0}
-  .name{font-family:Orbitron,sans-serif;font-weight:700;letter-spacing:.32em;
-    font-size:clamp(13px,1.4vw,17px);text-transform:uppercase;padding-left:.32em}
-  .name .s{color:var(--pink-hot)}
+  /* HOME */
+  .home{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:28px 20px 34px;text-align:center;isolation:isolate}
+  .hero{position:absolute;inset:0;z-index:-2;background:url("https://sophguerrero.com/Facetune_15-04-2026-11-52-38.jpeg") center 30%/cover no-repeat;filter:grayscale(.15) contrast(1.05)}
+  .home::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,11,11,.55) 0%,rgba(11,11,11,.1) 35%,rgba(11,11,11,.25) 60%,rgba(11,11,11,.85) 100%)}
+  .name{font-weight:900;font-size:clamp(44px,11vw,168px);line-height:.86;letter-spacing:-.045em;text-transform:uppercase}
+  .tag{margin-top:14px;font-size:12px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;opacity:.85}
+  .tag b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+  nav.menu ul{list-style:none;display:flex;flex-direction:column;gap:2px}
+  nav.menu a{display:inline-block;font-weight:700;font-size:clamp(20px,2.6vw,30px);letter-spacing:-.01em;text-transform:uppercase;padding:2px 6px;transition:color .2s, transform .2s}
+  nav.menu a:hover,nav.menu a:focus-visible{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;transform:skewX(-8deg)}
+  .foot{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.7;display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+  .foot a:hover{opacity:1;color:var(--pink)}
 
-  /* centre spark */
-  .hero-spark{position:fixed;left:50%;top:50%;opacity:.95;z-index:4;width:clamp(70px,11vw,130px);
-    aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;
-    filter:drop-shadow(0 0 18px rgba(255,140,200,.9)) drop-shadow(0 0 50px rgba(255,61,154,.6))}
-  .hero-spark svg{width:100%;height:100%}
-  @keyframes spin{to{transform:rotate(360deg)}}
-
-  .tag{position:fixed;left:0;right:0;z-index:5;text-align:center;
-    bottom:calc(88px + env(safe-area-inset-bottom));
-    font-family:Orbitron,sans-serif;font-size:11px;letter-spacing:.4em;text-transform:uppercase;opacity:.75;padding-left:.4em}
-
-  nav{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;
-    gap:clamp(18px,4vw,56px);padding:0 18px calc(26px + env(safe-area-inset-bottom))}
-  nav a{color:var(--ink);text-decoration:none;font-family:Orbitron,sans-serif;font-weight:500;
-    font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:10px 2px;position:relative;cursor:pointer}
-  nav a::after{content:"";position:absolute;left:50%;bottom:2px;width:0;height:1.5px;
-    background:var(--pink-hot);box-shadow:0 0 8px var(--pink);transition:all .25s;transform:translateX(-50%)}
-  nav a:hover::after,nav a:focus-visible::after{width:100%}
-  @media (max-width:640px){
-    nav{display:grid;grid-template-columns:repeat(3,auto);row-gap:2px;column-gap:28px}
-    nav a{font-size:11px;text-align:center}
-    .tag{bottom:calc(118px + env(safe-area-inset-bottom))}
-  }
-
-  /* section panel (demo of page change) */
-  .panel{position:fixed;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:18px;opacity:0;pointer-events:none;transition:opacity .4s;background:rgba(5,3,4,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-  .panel.on{opacity:1;pointer-events:auto}
-  .panel h2{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(40px,9vw,110px);letter-spacing:.04em;text-transform:uppercase}
-  .panel h2 span{color:var(--pink)}
-  .panel p{opacity:.7;font-size:14px;letter-spacing:.06em}
-  .panel button{margin-top:10px;background:none;border:1.5px solid var(--ink);color:var(--ink);border-radius:99px;
-    padding:10px 20px;font-family:Orbitron,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
-  .panel button:hover{background:var(--ink);color:var(--bg)}
-
-  /* loader */
-  .loader{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:center;
-    transition:opacity .6s ease .1s}
+  /* SPARK GLOW */
+  .glow{position:absolute;inset:0;z-index:-1;width:100%;height:100%;display:block;mix-blend-mode:screen;opacity:.9;filter:blur(14px) saturate(1.15);transform:scale(1.06);pointer-events:none}
+  .hero-spark{position:absolute;left:50%;top:56%;z-index:0;width:clamp(56px,9vw,110px);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;filter:drop-shadow(0 0 16px rgba(255,140,200,.9)) drop-shadow(0 0 44px rgba(255,62,165,.6))}
+  .hero-spark svg{width:100%;height:100%;display:block}
+  .home>div:not(.hero):not(.hero-spark),.home>nav,.home>.foot{position:relative;z-index:1}
+  nav.menu a{text-shadow:0 1px 14px rgba(0,0,0,.45)}
+  .loader{position:fixed;inset:0;z-index:50;background:var(--ink);display:flex;align-items:center;justify-content:center;transition:opacity .5s ease .05s}
   .loader.hide{opacity:0;pointer-events:none}
-  .loader .ls{width:64px;height:64px;position:relative}
-  .loader .ls svg{width:100%;height:100%;filter:drop-shadow(0 0 14px rgba(255,140,200,.95)) drop-shadow(0 0 40px rgba(255,61,154,.7))}
-  .loader.run .ls svg{animation:ld 1.5s cubic-bezier(.6,0,.2,1) forwards}
-  .loader.out .ls svg{animation:burst .55s cubic-bezier(.5,0,.8,.2) forwards}
-  .loader .ring{position:absolute;inset:-30px;border-radius:50%;border:1.5px solid rgba(255,140,200,.0)}
-  .loader.run .ring{animation:ring 1.5s ease-out .2s infinite}
-  @keyframes ld{0%{transform:scale(0) rotate(-135deg);opacity:0}
-    35%{transform:scale(1.15) rotate(0);opacity:1}
-    55%{transform:scale(.9) rotate(20deg)}
-    75%{transform:scale(1.05) rotate(45deg)}
-    100%{transform:scale(1) rotate(90deg);opacity:1}}
+  .loader .ls{width:60px;height:60px;position:relative}
+  .loader .ls svg{width:100%;height:100%;filter:drop-shadow(0 0 14px rgba(255,140,200,.95)) drop-shadow(0 0 40px rgba(255,62,165,.7))}
+  .loader.run .ls svg{animation:ld 1.3s cubic-bezier(.6,0,.2,1) forwards}
+  .loader.quick .ls svg{animation-duration:.6s}
+  .loader.out .ls svg{animation:burst .5s cubic-bezier(.5,0,.8,.2) forwards}
+  .loader .ring{position:absolute;inset:-28px;border-radius:50%;border:1.5px solid transparent}
+  .loader.run .ring{animation:ring 1.3s ease-out .15s infinite}
+  @keyframes ld{0%{transform:scale(0) rotate(-135deg);opacity:0}35%{transform:scale(1.15) rotate(0);opacity:1}55%{transform:scale(.9) rotate(20deg)}75%{transform:scale(1.05) rotate(45deg)}100%{transform:scale(1) rotate(90deg);opacity:1}}
   @keyframes burst{to{transform:scale(14) rotate(135deg);opacity:0}}
   @keyframes ring{0%{transform:scale(.4);border-color:rgba(255,140,200,.7)}100%{transform:scale(2.2);border-color:rgba(255,140,200,0)}}
+  @media (prefers-reduced-motion:reduce){.loader .ls svg,.loader .ring{animation:none!important}}
 
-  .note{position:fixed;top:calc(14px + env(safe-area-inset-top));right:14px;z-index:7;font-size:10px;letter-spacing:.14em;
-    text-transform:uppercase;opacity:.45;font-family:Orbitron,sans-serif}
-  @media (max-width:640px){.note{display:none}}
-
-  @media (prefers-reduced-motion:reduce){
-    .hero-spark svg{animation:none}
-    .loader.run .ls svg,.loader.out .ls svg,.loader.run .ring{animation:none}
-  }
+  /* PANELS */
+  .panel{position:fixed;inset:0;z-index:10;background:var(--paper);color:var(--ink);overflow-y:auto;transform:translateY(100%);transition:transform .55s cubic-bezier(.7,0,.2,1);padding:84px clamp(20px,6vw,90px) 80px}
+  .panel.open{transform:none}
+  .panel .close{position:fixed;top:20px;right:24px;font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;background:none;border:0;color:var(--ink)}
+  .panel .close:hover{color:var(--pink)}
+  .panel .brand{position:fixed;top:20px;left:clamp(20px,6vw,90px);font-weight:900;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+  .panel h2{font-weight:900;font-size:clamp(48px,10vw,150px);line-height:.85;letter-spacing:-.05em;text-transform:uppercase;margin-bottom:40px}
+  .panel h2 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .panel h3{font-size:12px;letter-spacing:.28em;text-transform:uppercase;margin:44px 0 14px;opacity:.6;font-weight:500}
+  .panel p{font-size:clamp(17px,1.6vw,22px);line-height:1.45;max-width:780px;margin-bottom:16px}
+  .rows{border-top:1.5px solid var(--ink);max-width:1100px}
+  .row{display:grid;grid-template-columns:60px 1fr auto;gap:16px;align-items:baseline;padding:18px 0;border-bottom:1.5px solid var(--ink);transition:padding .2s}
+  a.row:hover,div.row:hover{padding-left:12px}
+  a.row:hover{color:var(--pink)}
+  .row .m a{white-space:nowrap}
+  .row .m a:hover{color:var(--pink);opacity:1}
+  .row .n{font-size:13px;opacity:.5}
+  .row .t{font-weight:700;font-size:clamp(20px,2.4vw,34px);letter-spacing:-.02em;text-transform:uppercase}
+  .row .m{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.7;text-align:right}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;max-width:1000px}
+  .chip{border:1.5px solid var(--ink);border-radius:99px;padding:9px 16px;font-weight:500;font-size:15px}
+  a.chip:hover{background:var(--ink);color:var(--paper)}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .btn{background:var(--ink);color:var(--paper);padding:13px 22px;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+  .btn:hover{background:var(--grad)}
+  .player{width:100%;max-width:1100px;height:450px;border:0;margin-top:8px}
+  .big-mail{font-weight:900;font-size:clamp(22px,4.4vw,64px);letter-spacing:-.03em;word-break:break-all}
+  .big-mail:hover{color:var(--pink)}
+  @media (max-width:600px){.row{grid-template-columns:34px 1fr}.row .m{grid-column:2;text-align:left}}
+  @media (prefers-reduced-motion:reduce){.panel{transition:none}}
 </style>
 </head>
 <body>
+<div class="loader run" id="loader" aria-hidden="true"><div class="ls"><div class="ring"></div><svg viewBox="-50 -50 100 100"><use href="#spark"/></svg></div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ffd3ea"/><stop offset=".55" stop-color="#ff7ab8"/><stop offset=".7" stop-color="#fff2f8"/><stop offset="1" stop-color="#ff3ea5"/></linearGradient><symbol id="spark" viewBox="-50 -50 100 100"><path d="M0,-48 C4,-14 14,-4 48,0 C14,4 4,14 0,48 C-4,14 -14,4 -48,0 C-14,-4 -4,-14 0,-48 Z" fill="url(#chrome)"/></symbol></defs></svg>
 
-<div class="photo" role="img" aria-label="Sophia Guerrero, House and Tech House DJ from Manila"></div>
-<canvas id="glow" aria-hidden="true"></canvas>
-<div class="shade"></div>
-<div class="grain"></div>
+<header class="home">
+  <div class="hero" role="img" aria-label="Sophia Guerrero, House and Tech House DJ from Manila"></div>
+  <canvas class="glow" aria-hidden="true"></canvas>
+  <div class="hero-spark" aria-hidden="true"><svg viewBox="-50 -50 100 100"><use href="#spark"/></svg></div>
+  <div>
+    <h1 class="name">Sophia<br>Guerrero</h1>
+    <p class="tag">Manila <b>✦</b> House <b>✦</b> Tech House</p>
+  </div>
+  <nav class="menu" aria-label="Main">
+    <ul>
+      <li><a href="#play">Play</a></li>
+      <li><a href="#music">Music</a></li>
+      <li><a href="#tour">Tour</a></li>
+      <li><a href="#mixes">Mixes</a></li>
+      <li><a href="#press">Press</a></li>
+      <li><a href="#info">Info</a></li>
+    </ul>
+  </nav>
+  <div class="foot">
+    <a href="https://www.instagram.com/sophguerrero_" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://soundcloud.com/sophiaguerrero" target="_blank" rel="noopener">SoundCloud</a>
+    <a href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank" rel="noopener">Beatport</a>
+    <a href="https://www.traxsource.com/artist/896793/sophia-guerrero" target="_blank" rel="noopener">Traxsource</a>
+    <a href="https://open.spotify.com/artist/2vr2Zel4lL47VOq86RCEHi" target="_blank" rel="noopener">Spotify</a>
+    <a href="https://music.apple.com/us/artist/sophia-guerrero/1786689507" target="_blank" rel="noopener">Apple Music</a>
+    <a href="https://www.deezer.com/artist/13781519" target="_blank" rel="noopener">Deezer</a>
+    <a href="https://www.youtube.com/@sophguerrero" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://ra.co/dj/sophiaguerrero" target="_blank" rel="noopener">RA</a>
+  </div>
+</header>
 
-<header><div class="name">Sophia Guerrero <span class="s">✦</span></div></header>
+<main>
+  <section class="panel" id="play" aria-label="Play">
+    <span class="brand">Sophia Guerrero</span><button class="close">Close ✕</button>
+    <h2>Play<span>.</span></h2>
+    <p>Latest release: <strong>Habit</strong> — Toolroom.</p>
+    <iframe class="player" loading="lazy" allow="autoplay" title="Sophia Guerrero on SoundCloud"
+      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sophiaguerrero&color=%23ff3ea5&auto_play=false&visual=true"></iframe>
+    <div class="btns">
+      <a class="btn" href="https://open.spotify.com/artist/2vr2Zel4lL47VOq86RCEHi" target="_blank" rel="noopener">Spotify</a>
+      <a class="btn" href="https://music.apple.com/us/artist/sophia-guerrero/1786689507" target="_blank" rel="noopener">Apple Music</a>
+      <a class="btn" href="https://www.deezer.com/artist/13781519" target="_blank" rel="noopener">Deezer</a>
+      <a class="btn" href="https://www.beatport.com/track/habit/30732409" target="_blank" rel="noopener">Beatport</a>
+      <a class="btn" href="https://soundcloud.com/sophiaguerrero" target="_blank" rel="noopener">SoundCloud</a>
+    </div>
+  </section>
 
-<div class="hero-spark" aria-hidden="true">
-  <svg viewBox="-50 -50 100 100"><use href="#spark"/></svg>
-</div>
+  <section class="panel" id="music" aria-label="Music">
+    <span class="brand">Sophia Guerrero</span><button class="close">Close ✕</button>
+    <h2>Music<span>.</span></h2>
+    <div class="btns" style="margin:0 0 28px">
+      <a class="btn" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank" rel="noopener">All tracks on Beatport</a>
+      <a class="btn" href="https://www.traxsource.com/artist/896793/sophia-guerrero" target="_blank" rel="noopener">All tracks on Traxsource</a>
+      <a class="btn" href="https://www.traxsource.com/title/2917425/Habit-Chart" target="_blank" rel="noopener">Habit Chart on Traxsource</a>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="n">13</span><span class="t">Habit</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/habit/30732409" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/15080881/habit-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">12</span><span class="t">The Funk</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/the-funk/30165753" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14954503/the-funk-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">11</span><span class="t">Lights Flash</span><span class="m">Alleanza · <a href="https://www.beatport.com/track/lights-flash/29706369" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14887956/lights-flash-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">10</span><span class="t">Are You Ready?</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/are-you-ready/29135902" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14740255/are-you-ready-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">09</span><span class="t">I Am Telling You</span><span class="m">HouseU · <a href="https://www.beatport.com/track/i-am-telling-you/26912455" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14480832/i-am-telling-you-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">08</span><span class="t">It's a Baby</span><span class="m">Wh0 Worx · <a href="https://www.beatport.com/track/its-a-baby/24033858" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14381647/its-a-baby-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">07</span><span class="t">Gonna Be The One</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/gonna-be-the-one/23106981" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14230147/gonna-be-the-one-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">06</span><span class="t">I Need You</span><span class="m">There Was Jack · <a href="https://www.beatport.com/track/i-need-you/22820230" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/14166085/i-need-you-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">05</span><span class="t">Playing With My Heart feat. May Marnie</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/playing-with-my-heart-feat-may-marnie/21488276" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13893013/playing-with-my-heart-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">04</span><span class="t">I Know</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/i-know/21066443" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13822827/i-know-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">03</span><span class="t">Body Move feat. May Marnie</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/body-move-feat-may-marnie/20685303" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13705489/body-move-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">02</span><span class="t">Find The Light</span><span class="m">Milk & Sugar · <a href="https://www.beatport.com/track/find-the-light/20483158" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13528674/find-the-light-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+      <div class="row"><span class="n">01</span><span class="t">Gimme Your Number</span><span class="m">Toolroom · <a href="https://www.beatport.com/track/gimme-your-number/19928115" target="_blank" rel="noopener">Beatport ↗</a> · <a href="https://www.traxsource.com/track/13083484/gimme-your-number-extended-mix" target="_blank" rel="noopener">Traxsource ↗</a></span></div>
+    </div>
+    <h3>Labels</h3>
+    <div class="chips"><span class="chip">Toolroom Records</span><span class="chip">Milk & Sugar</span><span class="chip">There Was Jack</span><span class="chip">HouseU</span><span class="chip">Alleanza</span><span class="chip">Wh0 Worx</span></div>
+  </section>
 
-<div class="tag">Habit — out now on Toolroom</div>
+  <section class="panel" id="tour" aria-label="Tour">
+    <span class="brand">Sophia Guerrero</span><button class="close">Close ✕</button>
+    <h2>Tour<span>.</span></h2>
+    <p>New dates announced soon. Follow on Resident Advisor to get notified.</p>
+    <div class="btns"><a class="btn" href="https://ra.co/dj/sophiaguerrero" target="_blank" rel="noopener">Follow on RA</a></div>
+    <h3>Played at</h3>
+    <div class="chips"><span class="chip">Casa Disco, Manila</span><span class="chip">Uma Nota, Manila</span><span class="chip">Nokal, Manila</span><span class="chip">Apotheka, Manila</span></div>
+  </section>
 
-<nav>
-  <a data-page="Play">Play</a>
-  <a data-page="Music">Music</a>
-  <a data-page="Tour">Tour</a>
-  <a data-page="Mixes">Mixes</a>
-  <a data-page="Press">Press</a>
-  <a data-page="Info">Info</a>
-</nav>
+  <section class="panel" id="mixes" aria-label="Mixes">
+    <span class="brand">Sophia Guerrero</span><button class="close">Close ✕</button>
+    <h2>Mixes<span>.</span></h2>
+    <div class="rows">
+      <a class="row" href="https://soundcloud.com/sophiaguerrero" target="_blank" rel="noopener"><span class="n">↗</span><span class="t">Sounds Good</span><span class="m">Monthly series</span></a>
+    </div>
+    <h3>Latest on YouTube</h3>
+    <iframe class="player" style="aspect-ratio:16/9;height:auto" loading="lazy" title="1 Hour House &amp; Tech House Mix 2026 — Sophia Guerrero" src="https://www.youtube-nocookie.com/embed/UxSzeYTAOZY" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div class="btns"><a class="btn" href="https://www.youtube.com/watch?v=UxSzeYTAOZY" target="_blank" rel="noopener">Watch on YouTube</a><a class="btn" href="https://www.youtube.com/@sophguerrero" target="_blank" rel="noopener">Subscribe</a></div>
+  </section>
 
-<div class="panel" id="panel">
-  <h2 id="ptitle">Music<span>.</span></h2>
-  <p>Your existing section content would load here</p>
-  <button id="back">Back to the glow</button>
-</div>
+  <section class="panel" id="press" aria-label="Press">
+    <span class="brand">Sophia Guerrero</span><button class="close">Close ✕</button>
+    <h2>Press<span>.</span></h2>
+    <div class="rows">
+      <div class="row"><span class="n">—</span><span class="t">BBC Radio 1</span><span class="m">Arielle Free · Danny Howard's Club Mix</span></div>
+      <div class="row"><span class="n">—</span><span class="t">DJane Mag</span><span class="m">Feature</span></div>
+      <div class="row"><span class="n">—</span><span class="t">Rave Residence</span><span class="m">Feature</span></div>
+    </div>
+    <h3>Supported by</h3>
+    <div class="chips"><span class="chip">TSHA</span><span class="chip">Nicole Moudaber</span><span class="chip">Sam Divine</span><span class="chip">Arielle Free</span><span class="chip">Mark Knight</span><span class="chip">Roger Sanchez</span><span class="chip">Fedde Le Grand</span><span class="chip">Illyus & Barrientos</span><span class="chip">GUZ</span><span class="chip">Earth n Days</span></div>
+  </section>
 
-<div class="note">Preview · move / touch to steer the light</div>
-
-<div class="loader run" id="loader">
-  <div class="ls"><div class="ring"></div><svg viewBox="-50 -50 100 100"><use href="#spark"/></svg></div>
-</div>
-
-<!-- four-point chrome spark -->
-<svg width="0" height="0" style="position:absolute">
-  <defs>
-    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".35" stop-color="#ffd3ea"/>
-      <stop offset=".55" stop-color="#ff7ab8"/>
-      <stop offset=".7" stop-color="#fff2f8"/>
-      <stop offset="1" stop-color="#ff4fa3"/>
-    </linearGradient>
-    <symbol id="spark" viewBox="-50 -50 100 100">
-      <path d="M0,-48 C4,-14 14,-4 48,0 C14,4 4,14 0,48 C-4,14 -14,4 -48,0 C-14,-4 -4,-14 0,-48 Z" fill="url(#chrome)"/>
-    </symbol>
-  </defs>
-</svg>
+  <section class="panel" id="info" aria-label="Info">
+    <span class="brand">Sophia Guerrero</span><button class="close">Close ✕</button>
+    <h2>Info<span>.</span></h2>
+    <p>Sophia Guerrero is a House and Tech House DJ and producer from Manila, Philippines. Her catalogue spans Toolroom Records, Milk & Sugar, There Was Jack, HouseU, Alleanza and Wh0 Worx, with support from TSHA, Nicole Moudaber, Mark Knight, Roger Sanchez and Fedde Le Grand.</p>
+    <p>Her music has been played on BBC Radio 1 by Arielle Free and featured on Danny Howard's Club Mix. Behind the decks she's a fixture of Manila's club scene — precise, hypnotic, built for peak-time dancefloors.</p>
+    <h3>Bookings & enquiries</h3>
+    <a class="big-mail" href="mailto:sophguerreromusic@gmail.com">sophguerreromusic@gmail.com</a>
+    <h3>Follow</h3>
+    <div class="chips">
+      <a class="chip" href="https://www.instagram.com/sophguerrero_" target="_blank" rel="noopener">Instagram @sophguerrero_</a>
+      <a class="chip" href="https://soundcloud.com/sophiaguerrero" target="_blank" rel="noopener">SoundCloud</a>
+      <a class="chip" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank" rel="noopener">Beatport</a>
+      <a class="chip" href="https://www.traxsource.com/artist/896793/sophia-guerrero" target="_blank" rel="noopener">Traxsource</a>
+      <a class="chip" href="https://open.spotify.com/artist/2vr2Zel4lL47VOq86RCEHi" target="_blank" rel="noopener">Spotify</a>
+      <a class="chip" href="https://music.apple.com/us/artist/sophia-guerrero/1786689507" target="_blank" rel="noopener">Apple Music</a>
+      <a class="chip" href="https://www.deezer.com/artist/13781519" target="_blank" rel="noopener">Deezer</a>
+      <a class="chip" href="https://www.youtube.com/@sophguerrero" target="_blank" rel="noopener">YouTube</a>
+      <a class="chip" href="https://ra.co/dj/sophiaguerrero" target="_blank" rel="noopener">Resident Advisor</a>
+    </div>
+  </section>
+</main>
 
 <script>
-(() => {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isMobile = matchMedia('(max-width: 640px), (pointer: coarse)').matches;
-  const cv = document.getElementById('glow');
-  const ctx = cv.getContext('2d');
-  // Render small and let CSS blur/upscale it: soft look + cheap on phones
-  const SCALE = isMobile ? 0.18 : 0.25;
-  document.documentElement.style.setProperty('--blur', isMobile ? '9px' : '14px');
-  let W, H;
-  function resize(){
-    W = cv.width = Math.max(64, Math.round(innerWidth * SCALE));
-    H = cv.height = Math.max(64, Math.round(innerHeight * SCALE));
-  }
-  resize(); addEventListener('resize', resize);
-
-  // pointer / touch steering
-  const BASEY = .7; // sit the light below the face
-  const target = {x:.5, y:BASEY}, pos = {x:.5, y:BASEY};
-  function steer(x, y){ target.x = .5 + (x/innerWidth - .5) * .35; target.y = BASEY + (y/innerHeight - .5) * .2; }
-  addEventListener('pointermove', e => steer(e.clientX, e.clientY));
-  addEventListener('touchmove', e => { const t = e.touches[0]; if (t) steer(t.clientX, t.clientY); }, {passive:true});
-  addEventListener('pointerleave', () => { target.x = .5; target.y = BASEY; });
-
-  const BPM = 126, beat = 60 / BPM;
-  const hero = document.querySelector('.hero-spark');
-  function blob(x, y, r, stops){
-    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-    stops.forEach(([o, c]) => g.addColorStop(o, c));
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
-  }
-
-  // four-point spark of light: pinch = how fat the waist is (0 = needle, .5 = diamond)
-  function spark(x, y, r, a, pinch, stops){
-    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-    stops.forEach(([o, c]) => g.addColorStop(o, c));
-    ctx.save(); ctx.translate(x, y); ctx.rotate(a); ctx.translate(-x, -y);
-    const c = r * pinch;
-    ctx.beginPath();
-    ctx.moveTo(x, y - r);
-    ctx.quadraticCurveTo(x + c, y - c, x + r, y);
-    ctx.quadraticCurveTo(x + c, y + c, x, y + r);
-    ctx.quadraticCurveTo(x - c, y + c, x - r, y);
-    ctx.quadraticCurveTo(x - c, y - c, x, y - r);
-    ctx.fillStyle = g; ctx.fill(); ctx.restore();
-  }
-  // long thin flare beam fading outward
-  function beam(x, y, a, len, w, color){
-    ctx.save(); ctx.translate(x, y); ctx.rotate(a);
-    const g = ctx.createLinearGradient(0, 0, len, 0);
-    g.addColorStop(0, color); g.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.moveTo(0, -w); ctx.lineTo(len, 0); ctx.lineTo(0, w); ctx.closePath(); ctx.fill();
-    ctx.restore();
-  }
-
-  let start = performance.now();
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mobile=matchMedia('(max-width: 640px), (pointer: coarse)').matches;
+  var home=document.querySelector('.home'),cv=document.querySelector('.glow'),ctx=cv.getContext('2d'),hero=document.querySelector('.hero-spark');
+  var S=mobile?0.18:0.25,W,H;
+  if(mobile)cv.style.filter='blur(9px) saturate(1.15)';
+  function size(){W=cv.width=Math.max(64,Math.round(home.clientWidth*S));H=cv.height=Math.max(64,Math.round(home.clientHeight*S));}
+  size();addEventListener('resize',size);
+  var BY=.56,tg={x:.5,y:BY},p={x:.5,y:BY};
+  function steer(x,y){var r=home.getBoundingClientRect();tg.x=.5+((x-r.left)/r.width-.5)*.3;tg.y=BY+((y-r.top)/r.height-.5)*.2;}
+  home.addEventListener('pointermove',function(e){steer(e.clientX,e.clientY)});
+  home.addEventListener('touchmove',function(e){var t=e.touches[0];if(t)steer(t.clientX,t.clientY)},{passive:true});
+  home.addEventListener('pointerleave',function(){tg.x=.5;tg.y=BY});
+  function grad(x,y,r,st){var g=ctx.createRadialGradient(x,y,0,x,y,r);st.forEach(function(s){g.addColorStop(s[0],s[1])});return g;}
+  function blob(x,y,r,st){ctx.fillStyle=grad(x,y,r,st);ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill();}
+  function spark(x,y,r,a,k,st){ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=grad(0,0,r,st);var c=r*k;ctx.beginPath();ctx.moveTo(0,-r);ctx.quadraticCurveTo(c,-c,r,0);ctx.quadraticCurveTo(c,c,0,r);ctx.quadraticCurveTo(-c,c,-r,0);ctx.quadraticCurveTo(-c,-c,0,-r);ctx.fill();ctx.restore();}
+  function beam(x,y,a,len,w,col){ctx.save();ctx.translate(x,y);ctx.rotate(a);var g=ctx.createLinearGradient(0,0,len,0);g.addColorStop(0,col);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(0,-w);ctx.lineTo(len,0);ctx.lineTo(0,w);ctx.closePath();ctx.fill();ctx.restore();}
+  var beat=60/126,t0=performance.now();
   function frame(now){
-    const t = (now - start) / 1000;
-    pos.x += (target.x - pos.x) * 0.04;
-    pos.y += (target.y - pos.y) * 0.04;
-
-    // beat envelope: quick swell, slow decay
-    const ph = (t % beat) / beat;
-    const kick = reduce ? 0 : Math.pow(1 - ph, 3);
-    const breathe = reduce ? 0 : Math.sin(t * 0.5) * 0.04;
-
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = '#050304'; ctx.fillRect(0, 0, W, H);
-    ctx.globalCompositeOperation = 'lighter';
-
-    const m = Math.min(W, H);
-    const cx = pos.x * W, cy = pos.y * H;
-    const R = m * (0.3 + breathe*0.7 + kick * 0.025);
-    const rot = reduce ? 0 : t * 0.06;
-
-    // faint warm ambience so the black isn't flat
-    blob(cx, cy, m*1.1, [[0,'rgba(140,10,70,.3)'],[1,'rgba(0,0,0,0)']]);
-
-    // amber spark behind, turned 45°, counter-rotating
-    spark(cx, cy, R*0.95, rot*-1 + Math.PI/4, 0.42, [[0,'rgba(255,190,90,.75)'],[.5,'rgba(255,140,40,.4)'],[1,'rgba(255,90,20,0)']]);
-
-    // main chrome-pink spark of light
-    spark(cx, cy, R*1.35, rot, 0.34, [[0,'rgba(255,230,242,1)'],[.18,'rgba(255,140,200,.95)'],[.5,'rgba(255,61,154,.8)'],[1,'rgba(200,20,90,0)']]);
-
-    // flare beams along the four points, flashing on the kick
-    const beamA = 0.18 + kick * 0.35;
-    for (let i = 0; i < 4; i++){
-      const a = rot + i * Math.PI/2;
-      beam(cx, cy, a, Math.max(W, H) * 0.9, m*0.035, `rgba(255,170,215,${beamA})`);
-    }
-
-    // keep the crisp chrome spark locked to the light
-    hero.style.transform = `translate(-50%,-50%) translate(${(pos.x-.5)*innerWidth}px,${(pos.y-.5)*innerHeight}px) rotate(${rot}rad) scale(${1 + kick*0.06})`;
-
-    // hot core flashes on the kick
-    blob(cx, cy, R*0.35, [[0,`rgba(255,255,255,${0.35 + kick*0.45})`],[1,'rgba(0,0,0,0)']]);
-
-    if (!reduce) requestAnimationFrame(frame);
+    if(!reduce)requestAnimationFrame(frame);
+    if(document.querySelector('.panel.open'))return;
+    var t=(now-t0)/1000;p.x+=(tg.x-p.x)*.04;p.y+=(tg.y-p.y)*.04;
+    var kick=reduce?0:Math.pow(1-(t%beat)/beat,3),br=reduce?0:Math.sin(t*.5)*.03,rot=reduce?0:t*.06;
+    ctx.globalCompositeOperation='source-over';ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
+    var m=Math.min(W,H),cx=p.x*W,cy=p.y*H,R=m*(.3+br+kick*.025);
+    blob(cx,cy,m*1.1,[[0,'rgba(140,10,70,.3)'],[1,'rgba(0,0,0,0)']]);
+    spark(cx,cy,R*.95,-rot+Math.PI/4,.42,[[0,'rgba(255,190,90,.75)'],[.5,'rgba(255,140,40,.4)'],[1,'rgba(255,90,20,0)']]);
+    spark(cx,cy,R*1.35,rot,.34,[[0,'rgba(255,230,242,1)'],[.18,'rgba(255,140,200,.95)'],[.5,'rgba(255,62,165,.8)'],[1,'rgba(200,20,90,0)']]);
+    for(var i=0;i<4;i++)beam(cx,cy,rot+i*Math.PI/2,Math.max(W,H)*.9,m*.035,'rgba(255,170,215,'+(.18+kick*.35)+')');
+    blob(cx,cy,R*.35,[[0,'rgba(255,255,255,'+(.35+kick*.45)+')'],[1,'rgba(0,0,0,0)']]);
+    hero.style.left=(p.x*100)+'%';hero.style.top=(p.y*100)+'%';
+    hero.style.transform='translate(-50%,-50%) rotate('+rot+'rad) scale('+(1+kick*.06)+')';
   }
   requestAnimationFrame(frame);
-  if (reduce) setTimeout(() => requestAnimationFrame(frame), 50);
-
-  // spark loader
-  const loader = document.getElementById('loader');
-  function runLoader(done){
-    loader.classList.remove('hide','out'); loader.classList.add('run');
-    // restart animations
-    const s = loader.querySelector('svg'); s.style.animation = 'none'; void s.offsetWidth; s.style.animation = '';
-    const hold = reduce ? 300 : 1500;
-    setTimeout(() => {
-      done && done();
-      loader.classList.remove('run'); loader.classList.add('out');
-      setTimeout(() => loader.classList.add('hide'), reduce ? 50 : 300);
-    }, hold);
+  var L=document.getElementById('loader');
+  function load(quick,done){
+    L.className='loader run'+(quick?' quick':'');
+    var s=L.querySelector('svg');s.style.animation='none';void s.offsetWidth;s.style.animation='';
+    setTimeout(function(){if(done)done();L.className='loader out';setTimeout(function(){L.className='loader hide'},reduce?30:280)},reduce?150:(quick?600:1300));
   }
-  if (document.readyState === 'complete') runLoader();
-  else addEventListener('load', () => runLoader(), {once:true});
-
-  // demo page changes use the spark loader
-  const panel = document.getElementById('panel'), ptitle = document.getElementById('ptitle');
-  document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
-    runLoader(() => { ptitle.innerHTML = a.dataset.page + '<span>.</span>'; panel.classList.add('on'); });
-  }));
-  document.getElementById('back').addEventListener('click', () => runLoader(() => panel.classList.remove('on')));
+  window.sparkLoad=load;
+  if(document.readyState==='complete')load(false);else addEventListener('load',function(){load(false)},{once:true});
 })();
+</script>
+<script>
+  const panels=[...document.querySelectorAll('.panel')];
+  function route(){
+    const id=location.hash.slice(1);
+    panels.forEach(p=>p.classList.toggle('open',p.id===id));
+    document.body.style.overflow=panels.some(p=>p.id===id)?'hidden':'';
+  }
+  document.querySelectorAll('.close').forEach(b=>b.addEventListener('click',()=>{history.pushState('',document.title,location.pathname);route();}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&location.hash){history.pushState('',document.title,location.pathname);route();}});
+  window.addEventListener('hashchange',function(){var id=location.hash.slice(1);if(id&&document.getElementById(id)&&window.sparkLoad){sparkLoad(true,route)}else route();});route();
 </script>
 </body>
 </html>
