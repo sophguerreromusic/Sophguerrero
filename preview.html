@@ -119,9 +119,15 @@
   .panel{--ink:#f4f1ec;--paper:#0b0b0b;background:rgba(11,11,11,.72);-webkit-backdrop-filter:blur(20px) saturate(1.25);backdrop-filter:blur(20px) saturate(1.25);transform:translateY(28px);opacity:0;visibility:hidden;transition:opacity .45s ease,transform .7s cubic-bezier(.2,.7,.2,1),visibility 0s linear .7s}
   .panel.open{transform:none;opacity:1;visibility:visible;transition:opacity .45s ease,transform .7s cubic-bezier(.2,.7,.2,1),visibility 0s}
   .home .grain{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  /* SECTIONS: solid black with a cursor-following glow in brand colours */
+  .panel{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .pagebg{position:fixed;inset:0;z-index:9;background:#0b0b0b;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s ease,visibility 0s linear .45s}
+  body.inpage .pagebg{opacity:1;visibility:visible;transition:opacity .45s ease,visibility 0s}
+  .pagebg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;filter:blur(30px) saturate(1.1);transform:scale(1.1)}
 </style>
 </head>
 <body>
+<div class="pagebg" aria-hidden="true"><canvas></canvas></div>
 <div class="loader run" id="loader" aria-hidden="true"><div class="ls"><div class="ring"></div><svg viewBox="-50 -50 100 100"><use href="#spark"/></svg></div></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ffd3ea"/><stop offset=".55" stop-color="#ff7ab8"/><stop offset=".7" stop-color="#fff2f8"/><stop offset="1" stop-color="#ff3ea5"/></linearGradient><symbol id="spark" viewBox="-50 -50 100 100"><path d="M0,-48 C4,-14 14,-4 48,0 C14,4 4,14 0,48 C-4,14 -14,4 -48,0 C-14,-4 -4,-14 0,-48 Z" fill="url(#chrome)"/></symbol></defs></svg>
 
@@ -137,8 +143,7 @@
   <nav class="menu" aria-label="Main">
     <ul>
       <li><a href="#play">Play</a></li>
-      <li><a href="#music">Music</a></li>
-      <li><a href="#tour">Tour</a></li>
+      <li><a href="#releases">Releases</a></li>
       <li><a href="#mixes">Mixes</a></li>
       <li><a href="#press">Press</a></li>
       <li><a href="#info">Info</a></li>
@@ -173,9 +178,9 @@
     </div>
   </section>
 
-  <section class="panel" id="music" aria-label="Music">
+  <section class="panel" id="releases" aria-label="Music">
     <span class="brand">Sophia Guerrero</span><button class="close">Close ✕</button>
-    <h2>Music<span>.</span></h2>
+    <h2>Releases<span>.</span></h2>
     <div class="btns" style="margin:0 0 28px">
       <a class="btn" href="https://www.beatport.com/artist/sophia-guerrero/1279141" target="_blank" rel="noopener">All tracks on Beatport</a>
       <a class="btn" href="https://www.traxsource.com/artist/896793/sophia-guerrero" target="_blank" rel="noopener">All tracks on Traxsource</a>
@@ -275,7 +280,7 @@
   var beat=60/126,t0=performance.now();
   function frame(now){
     if(!reduce)requestAnimationFrame(frame);
-    if(document.hidden)return;
+    if(document.hidden||document.body.classList.contains('inpage'))return;
     var t=(now-t0)/1000;p.x+=(tg.x-p.x)*.04;p.y+=(tg.y-p.y)*.04;
     var kick=reduce?0:Math.pow(1-(t%beat)/beat,3),br=reduce?0:Math.sin(t*.5)*.03,rot=reduce?0:t*.06;
     ctx.globalCompositeOperation='source-over';ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
@@ -289,6 +294,30 @@
     hero.style.transform='translate(-50%,-50%) rotate('+rot+'rad) scale('+(1+kick*.03)+')';
   }
   requestAnimationFrame(frame);
+  // cursor glow for section pages
+  var pb=document.querySelector('.pagebg canvas'),pc=pb.getContext('2d'),PW,PH,PS=mobile?.15:.2;
+  function psize(){PW=pb.width=Math.max(64,Math.round(innerWidth*PS));PH=pb.height=Math.max(64,Math.round(innerHeight*PS));}
+  psize();addEventListener('resize',psize);
+  var mt={x:.5,y:.5},mp={x:.5,y:.5},lastMove=-1e9;
+  function mv(x,y){mt.x=x/innerWidth;mt.y=y/innerHeight;lastMove=performance.now();}
+  addEventListener('pointermove',function(e){mv(e.clientX,e.clientY)});
+  addEventListener('touchstart',function(e){var q=e.touches[0];if(q)mv(q.clientX,q.clientY)},{passive:true});
+  addEventListener('touchmove',function(e){var q=e.touches[0];if(q)mv(q.clientX,q.clientY)},{passive:true});
+  function pblob(x,y,r,st){var g=pc.createRadialGradient(x,y,0,x,y,r);st.forEach(function(s){g.addColorStop(s[0],s[1])});pc.fillStyle=g;pc.beginPath();pc.arc(x,y,r,0,6.2832);pc.fill();}
+  function pframe(now){
+    requestAnimationFrame(pframe);
+    if(document.hidden||!document.body.classList.contains('inpage'))return;
+    var t=now/1000;
+    if(!reduce&&now-lastMove>2500){mt.x=.5+Math.sin(t*.23)*.28;mt.y=.5+Math.cos(t*.31)*.22;}
+    mp.x+=(mt.x-mp.x)*.08;mp.y+=(mt.y-mp.y)*.08;
+    var kick=reduce?0:Math.pow(1-(t%beat)/beat,3);
+    pc.globalCompositeOperation='source-over';pc.fillStyle='#0b0b0b';pc.fillRect(0,0,PW,PH);pc.globalCompositeOperation='lighter';
+    var m=Math.min(PW,PH),px=mp.x*PW,py=mp.y*PH,pr=m*(.38+kick*.02);
+    pblob(px,py,pr*1.7,[[0,'rgba(255,162,58,.26)'],[1,'rgba(0,0,0,0)']]);
+    pblob(px,py,pr,[[0,'rgba(255,62,165,.75)'],[.5,'rgba(255,62,165,.3)'],[1,'rgba(0,0,0,0)']]);
+    pblob(px,py,pr*.35,[[0,'rgba(255,214,236,'+(.5+kick*.2)+')'],[1,'rgba(0,0,0,0)']]);
+  }
+  requestAnimationFrame(pframe);
   var L=document.getElementById('loader');
   function load(quick,done){
     L.className='loader run'+(quick?' quick':'');
@@ -304,7 +333,7 @@
   function route(){
     const id=location.hash.slice(1);
     panels.forEach(p=>p.classList.toggle('open',p.id===id));
-    document.body.style.overflow=panels.some(p=>p.id===id)?'hidden':'';
+    document.body.style.overflow=panels.some(p=>p.id===id)?'hidden':'';document.body.classList.toggle('inpage',panels.some(p=>p.id===id));
   }
   document.querySelectorAll('.close').forEach(b=>b.addEventListener('click',()=>{history.pushState('',document.title,location.pathname);route();}));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&location.hash){history.pushState('',document.title,location.pathname);route();}});
