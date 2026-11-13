@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sophia Guerrero — Photo + Spark Preview</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#050304;
+    --pink:#ff3d9a;
+    --pink-hot:#ff8cc8;
+    --amber:#ffa23a;
+    --red:#e8213f;
+    --ink:#f6eef2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--ink);overflow:hidden;
+    font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+  .photo{position:fixed;inset:0;background:url("/Facetune_15-04-2026-11-52-38.jpeg") center 30%/cover no-repeat;
+    filter:grayscale(.25) contrast(1.08) brightness(.78);transform:scale(1.04)}
+  .shade{position:fixed;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(5,3,4,.55) 0%,rgba(5,3,4,.05) 30%,rgba(5,3,4,.15) 55%,rgba(5,3,4,.85) 100%)}
+  canvas#glow{position:fixed;inset:0;width:100%;height:100%;display:block;mix-blend-mode:screen;opacity:.9;
+    filter:blur(var(--blur,28px)) saturate(1.15);transform:scale(1.08)}
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.09;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:5;text-align:center;
+    padding:calc(22px + env(safe-area-inset-top)) 20px 0}
+  .name{font-family:Orbitron,sans-serif;font-weight:700;letter-spacing:.32em;
+    font-size:clamp(13px,1.4vw,17px);text-transform:uppercase;padding-left:.32em}
+  .name .s{color:var(--pink-hot)}
+
+  /* centre spark */
+  .hero-spark{position:fixed;left:50%;top:50%;opacity:.95;z-index:4;width:clamp(70px,11vw,130px);
+    aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;
+    filter:drop-shadow(0 0 18px rgba(255,140,200,.9)) drop-shadow(0 0 50px rgba(255,61,154,.6))}
+  .hero-spark svg{width:100%;height:100%}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .tag{position:fixed;left:0;right:0;z-index:5;text-align:center;
+    bottom:calc(88px + env(safe-area-inset-bottom));
+    font-family:Orbitron,sans-serif;font-size:11px;letter-spacing:.4em;text-transform:uppercase;opacity:.75;padding-left:.4em}
+
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;
+    gap:clamp(18px,4vw,56px);padding:0 18px calc(26px + env(safe-area-inset-bottom))}
+  nav a{color:var(--ink);text-decoration:none;font-family:Orbitron,sans-serif;font-weight:500;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:10px 2px;position:relative;cursor:pointer}
+  nav a::after{content:"";position:absolute;left:50%;bottom:2px;width:0;height:1.5px;
+    background:var(--pink-hot);box-shadow:0 0 8px var(--pink);transition:all .25s;transform:translateX(-50%)}
+  nav a:hover::after,nav a:focus-visible::after{width:100%}
+  @media (max-width:640px){
+    nav{display:grid;grid-template-columns:repeat(3,auto);row-gap:2px;column-gap:28px}
+    nav a{font-size:11px;text-align:center}
+    .tag{bottom:calc(118px + env(safe-area-inset-bottom))}
+  }
+
+  /* section panel (demo of page change) */
+  .panel{position:fixed;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:18px;opacity:0;pointer-events:none;transition:opacity .4s;background:rgba(5,3,4,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .panel.on{opacity:1;pointer-events:auto}
+  .panel h2{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(40px,9vw,110px);letter-spacing:.04em;text-transform:uppercase}
+  .panel h2 span{color:var(--pink)}
+  .panel p{opacity:.7;font-size:14px;letter-spacing:.06em}
+  .panel button{margin-top:10px;background:none;border:1.5px solid var(--ink);color:var(--ink);border-radius:99px;
+    padding:10px 20px;font-family:Orbitron,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+  .panel button:hover{background:var(--ink);color:var(--bg)}
+
+  /* loader */
+  .loader{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:center;
+    transition:opacity .6s ease .1s}
+  .loader.hide{opacity:0;pointer-events:none}
+  .loader .ls{width:64px;height:64px;position:relative}
+  .loader .ls svg{width:100%;height:100%;filter:drop-shadow(0 0 14px rgba(255,140,200,.95)) drop-shadow(0 0 40px rgba(255,61,154,.7))}
+  .loader.run .ls svg{animation:ld 1.5s cubic-bezier(.6,0,.2,1) forwards}
+  .loader.out .ls svg{animation:burst .55s cubic-bezier(.5,0,.8,.2) forwards}
+  .loader .ring{position:absolute;inset:-30px;border-radius:50%;border:1.5px solid rgba(255,140,200,.0)}
+  .loader.run .ring{animation:ring 1.5s ease-out .2s infinite}
+  @keyframes ld{0%{transform:scale(0) rotate(-135deg);opacity:0}
+    35%{transform:scale(1.15) rotate(0);opacity:1}
+    55%{transform:scale(.9) rotate(20deg)}
+    75%{transform:scale(1.05) rotate(45deg)}
+    100%{transform:scale(1) rotate(90deg);opacity:1}}
+  @keyframes burst{to{transform:scale(14) rotate(135deg);opacity:0}}
+  @keyframes ring{0%{transform:scale(.4);border-color:rgba(255,140,200,.7)}100%{transform:scale(2.2);border-color:rgba(255,140,200,0)}}
+
+  .note{position:fixed;top:calc(14px + env(safe-area-inset-top));right:14px;z-index:7;font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;opacity:.45;font-family:Orbitron,sans-serif}
+  @media (max-width:640px){.note{display:none}}
+
+  @media (prefers-reduced-motion:reduce){
+    .hero-spark svg{animation:none}
+    .loader.run .ls svg,.loader.out .ls svg,.loader.run .ring{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="photo" role="img" aria-label="Sophia Guerrero, House and Tech House DJ from Manila"></div>
+<canvas id="glow" aria-hidden="true"></canvas>
+<div class="shade"></div>
+<div class="grain"></div>
+
+<header><div class="name">Sophia Guerrero <span class="s">✦</span></div></header>
+
+<div class="hero-spark" aria-hidden="true">
+  <svg viewBox="-50 -50 100 100"><use href="#spark"/></svg>
+</div>
+
+<div class="tag">Habit — out now on Toolroom</div>
+
+<nav>
+  <a data-page="Play">Play</a>
+  <a data-page="Music">Music</a>
+  <a data-page="Tour">Tour</a>
+  <a data-page="Mixes">Mixes</a>
+  <a data-page="Press">Press</a>
+  <a data-page="Info">Info</a>
+</nav>
+
+<div class="panel" id="panel">
+  <h2 id="ptitle">Music<span>.</span></h2>
+  <p>Your existing section content would load here</p>
+  <button id="back">Back to the glow</button>
+</div>
+
+<div class="note">Preview · move / touch to steer the light</div>
+
+<div class="loader run" id="loader">
+  <div class="ls"><div class="ring"></div><svg viewBox="-50 -50 100 100"><use href="#spark"/></svg></div>
+</div>
+
+<!-- four-point chrome spark -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".35" stop-color="#ffd3ea"/>
+      <stop offset=".55" stop-color="#ff7ab8"/>
+      <stop offset=".7" stop-color="#fff2f8"/>
+      <stop offset="1" stop-color="#ff4fa3"/>
+    </linearGradient>
+    <symbol id="spark" viewBox="-50 -50 100 100">
+      <path d="M0,-48 C4,-14 14,-4 48,0 C14,4 4,14 0,48 C-4,14 -14,4 -48,0 C-14,-4 -4,-14 0,-48 Z" fill="url(#chrome)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = matchMedia('(max-width: 640px), (pointer: coarse)').matches;
+  const cv = document.getElementById('glow');
+  const ctx = cv.getContext('2d');
+  // Render small and let CSS blur/upscale it: soft look + cheap on phones
+  const SCALE = isMobile ? 0.18 : 0.25;
+  document.documentElement.style.setProperty('--blur', isMobile ? '9px' : '14px');
+  let W, H;
+  function resize(){
+    W = cv.width = Math.max(64, Math.round(innerWidth * SCALE));
+    H = cv.height = Math.max(64, Math.round(innerHeight * SCALE));
+  }
+  resize(); addEventListener('resize', resize);
+
+  // pointer / touch steering
+  const BASEY = .7; // sit the light below the face
+  const target = {x:.5, y:BASEY}, pos = {x:.5, y:BASEY};
+  function steer(x, y){ target.x = .5 + (x/innerWidth - .5) * .35; target.y = BASEY + (y/innerHeight - .5) * .2; }
+  addEventListener('pointermove', e => steer(e.clientX, e.clientY));
+  addEventListener('touchmove', e => { const t = e.touches[0]; if (t) steer(t.clientX, t.clientY); }, {passive:true});
+  addEventListener('pointerleave', () => { target.x = .5; target.y = BASEY; });
+
+  const BPM = 126, beat = 60 / BPM;
+  const hero = document.querySelector('.hero-spark');
+  function blob(x, y, r, stops){
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    stops.forEach(([o, c]) => g.addColorStop(o, c));
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
+  }
+
+  // four-point spark of light: pinch = how fat the waist is (0 = needle, .5 = diamond)
+  function spark(x, y, r, a, pinch, stops){
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    stops.forEach(([o, c]) => g.addColorStop(o, c));
+    ctx.save(); ctx.translate(x, y); ctx.rotate(a); ctx.translate(-x, -y);
+    const c = r * pinch;
+    ctx.beginPath();
+    ctx.moveTo(x, y - r);
+    ctx.quadraticCurveTo(x + c, y - c, x + r, y);
+    ctx.quadraticCurveTo(x + c, y + c, x, y + r);
+    ctx.quadraticCurveTo(x - c, y + c, x - r, y);
+    ctx.quadraticCurveTo(x - c, y - c, x, y - r);
+    ctx.fillStyle = g; ctx.fill(); ctx.restore();
+  }
+  // long thin flare beam fading outward
+  function beam(x, y, a, len, w, color){
+    ctx.save(); ctx.translate(x, y); ctx.rotate(a);
+    const g = ctx.createLinearGradient(0, 0, len, 0);
+    g.addColorStop(0, color); g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.moveTo(0, -w); ctx.lineTo(len, 0); ctx.lineTo(0, w); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  let start = performance.now();
+  function frame(now){
+    const t = (now - start) / 1000;
+    pos.x += (target.x - pos.x) * 0.04;
+    pos.y += (target.y - pos.y) * 0.04;
+
+    // beat envelope: quick swell, slow decay
+    const ph = (t % beat) / beat;
+    const kick = reduce ? 0 : Math.pow(1 - ph, 3);
+    const breathe = reduce ? 0 : Math.sin(t * 0.5) * 0.04;
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = '#050304'; ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+
+    const m = Math.min(W, H);
+    const cx = pos.x * W, cy = pos.y * H;
+    const R = m * (0.3 + breathe*0.7 + kick * 0.025);
+    const rot = reduce ? 0 : t * 0.06;
+
+    // faint warm ambience so the black isn't flat
+    blob(cx, cy, m*1.1, [[0,'rgba(140,10,70,.3)'],[1,'rgba(0,0,0,0)']]);
+
+    // amber spark behind, turned 45°, counter-rotating
+    spark(cx, cy, R*0.95, rot*-1 + Math.PI/4, 0.42, [[0,'rgba(255,190,90,.75)'],[.5,'rgba(255,140,40,.4)'],[1,'rgba(255,90,20,0)']]);
+
+    // main chrome-pink spark of light
+    spark(cx, cy, R*1.35, rot, 0.34, [[0,'rgba(255,230,242,1)'],[.18,'rgba(255,140,200,.95)'],[.5,'rgba(255,61,154,.8)'],[1,'rgba(200,20,90,0)']]);
+
+    // flare beams along the four points, flashing on the kick
+    const beamA = 0.18 + kick * 0.35;
+    for (let i = 0; i < 4; i++){
+      const a = rot + i * Math.PI/2;
+      beam(cx, cy, a, Math.max(W, H) * 0.9, m*0.035, `rgba(255,170,215,${beamA})`);
+    }
+
+    // keep the crisp chrome spark locked to the light
+    hero.style.transform = `translate(-50%,-50%) translate(${(pos.x-.5)*innerWidth}px,${(pos.y-.5)*innerHeight}px) rotate(${rot}rad) scale(${1 + kick*0.06})`;
+
+    // hot core flashes on the kick
+    blob(cx, cy, R*0.35, [[0,`rgba(255,255,255,${0.35 + kick*0.45})`],[1,'rgba(0,0,0,0)']]);
+
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  if (reduce) setTimeout(() => requestAnimationFrame(frame), 50);
+
+  // spark loader
+  const loader = document.getElementById('loader');
+  function runLoader(done){
+    loader.classList.remove('hide','out'); loader.classList.add('run');
+    // restart animations
+    const s = loader.querySelector('svg'); s.style.animation = 'none'; void s.offsetWidth; s.style.animation = '';
+    const hold = reduce ? 300 : 1500;
+    setTimeout(() => {
+      done && done();
+      loader.classList.remove('run'); loader.classList.add('out');
+      setTimeout(() => loader.classList.add('hide'), reduce ? 50 : 300);
+    }, hold);
+  }
+  if (document.readyState === 'complete') runLoader();
+  else addEventListener('load', () => runLoader(), {once:true});
+
+  // demo page changes use the spark loader
+  const panel = document.getElementById('panel'), ptitle = document.getElementById('ptitle');
+  document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
+    runLoader(() => { ptitle.innerHTML = a.dataset.page + '<span>.</span>'; panel.classList.add('on'); });
+  }));
+  document.getElementById('back').addEventListener('click', () => runLoader(() => panel.classList.remove('on')));
+})();
+</script>
+</body>
+</html>
