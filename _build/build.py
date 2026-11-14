@@ -486,7 +486,6 @@ tr_rows = ''.join(
   for ep, d, t, seg, i in TR_PLAYS)
 on_air = (f'<section class="onair" aria-labelledby="oa-t" id="on-air">\n'
  f'  <h2 id="oa-t" class="sec-label">On air</h2>\n'
- f'  <div class="oa-stats"><p><b>{len(BBC_PLAYS)}</b><span>BBC Radio 1 plays</span></p><p><b>{len(TR_PLAYS)}</b><span>Toolroom Radio episodes</span></p><p><b>{totw}</b><span>Toolroom Academy Tracks Of The Week</span></p><p><b>2</b><span>Toolroom guest mixes</span></p></div>\n'
  f'  <div class="oa-feat">\n'
  f'    <article><p class="kicker">Guest mix · {GUEST_TT["date"]}</p><h3>Toolroom Trax Guest Mix</h3><div class="btns"><button class="btn play" type="button" data-play="{GUEST_TT["sc"]}">▶ Play</button><a class="btn" href="{GUEST_TT["mixcloud"]}"{EXT} data-track="radio-link" data-label="Toolroom Trax Guest Mix Mixcloud">Mixcloud ↗</a><a class="btn" href="{GUEST_TT["tracklist"]}"{EXT}>Tracklist ↗</a></div></article>\n'
  f'    <article><p class="kicker">Guest mix · 4 Aug 2025</p><h3>Toolroom Radio EP801 · Hour Two</h3><div class="btns"><a class="btn" href="{APPLE.format(ep=801, i="1000720565962")}"{EXT} data-track="radio-link" data-label="Toolroom Radio EP801 guest mix">Listen on Apple Podcasts ↗</a></div></article>\n'
