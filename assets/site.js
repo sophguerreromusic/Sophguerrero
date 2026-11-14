@@ -333,7 +333,15 @@
     }
     gi.addEventListener('click',openGate);
     gate.querySelector('.gate-quiet').addEventListener('click',openGate);
-    document.addEventListener('keydown',function g(e){if(e.key==='Escape'&&document.body.classList.contains('gated')){openGate();document.removeEventListener('keydown',g);}});
+    document.addEventListener('keydown',function g(e){if(!document.body.classList.contains('gated')){document.removeEventListener('keydown',g);return;}if(e.key==='Escape'||e.key==='ArrowDown'||e.key==='PageDown'||e.key==='End'){openGate();document.removeEventListener('keydown',g);}});
+    /* never trap the page: a swipe or scroll on the welcome screen simply enters the site (without sound) */
+    var gy=null;
+    var swipe=function(e){if(!document.body.classList.contains('gated'))return off();
+      if(e.type==='wheel'){if(Math.abs(e.deltaY)>4){openGate();off();}return;}
+      var t=e.touches&&e.touches[0];if(!t)return;if(e.type==='touchstart'){gy=t.clientY;return;}
+      if(gy!=null&&Math.abs(t.clientY-gy)>24){openGate();off();}};
+    var off=function(){removeEventListener('wheel',swipe);removeEventListener('touchstart',swipe);removeEventListener('touchmove',swipe);};
+    addEventListener('wheel',swipe,{passive:true});addEventListener('touchstart',swipe,{passive:true});addEventListener('touchmove',swipe,{passive:true});
   }
   function manilaTime(){try{return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit'}).format(new Date());}catch(e){return '';}}
   document.querySelectorAll('.mnl').forEach(function(el){el.textContent='Manila · '+manilaTime();});

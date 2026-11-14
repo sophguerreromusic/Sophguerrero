@@ -548,3 +548,15 @@ body{padding-bottom:calc(var(--bar) + env(safe-area-inset-bottom))}
   .mast nav{order:3;width:100%}
   .mast .bookbtn{order:2;margin-left:auto}
 }
+
+/* touch screens of any size (iPhone and iPad): 44px targets */
+@media (pointer:coarse){
+  .mast nav a{display:inline-flex;align-items:center;min-height:44px}
+  .mast .logo,.bookbtn,.filters button,.seg button,.chip,.btn,.kbd-open,.pm-btn,.gate-quiet,.gate-calm{min-height:44px}
+  .listen-on a,.follow a,.foot a{display:inline-flex;align-items:center;min-height:44px}
+  .lib-sort select{font-size:16px;min-height:44px}
+  .deck button{min-width:44px;height:44px}
+  .pm-vol input{height:44px}
+  .cue{min-height:44px}
+  .sel-l{display:inline-flex;align-items:center;min-height:44px}
+}
