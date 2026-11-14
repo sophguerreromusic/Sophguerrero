@@ -609,17 +609,14 @@ html[data-phase="sunrise"]{--acid:#ffc27a;--lav:#f2d1cc}
 /* running order (home contents) */
 .ro{margin-top:4px}
 .ro-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--paper-dim);margin-bottom:6px}
-.ro-sub{font-family:var(--mono);font-weight:400;font-size:13px;text-transform:none;letter-spacing:0}
 .ro ol{list-style:none;border-top:1px solid var(--char-2)}
 .ro li{border-bottom:1px solid var(--char-2);position:relative}
-.ro a{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:12px 0;text-decoration:none}
-.ro time{font-family:var(--mono);font-size:14px;color:var(--paper-dim)}
+.ro a{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:12px 0;text-decoration:none}
+.ro .side{font-family:var(--mono);font-size:14px;color:var(--paper-dim)}
 .ro .t{font-family:var(--display);font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1}
 .ro .d{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--paper-dim);text-align:right}
-.ro a:hover .t,.ro li.on .t{color:var(--acid)}
-.ro li.on time{color:var(--acid)}
-.ro li.on time::before{content:"▶ ";font-size:11px}
-@media (max-width:520px){.ro a{grid-template-columns:56px minmax(0,1fr)}.ro .d{grid-column:2;text-align:left}}
+.ro a:hover .t,.ro a:hover .side{color:var(--acid)}
+@media (max-width:520px){.ro a{grid-template-columns:40px minmax(0,1fr)}.ro .d{grid-column:2;text-align:left}}
 
 /* ✦ is the only marker */
 .sec-label{border-top:0;padding-top:0;font-family:var(--display);font-weight:600;font-size:15px;color:var(--paper);display:flex;align-items:center;gap:10px}
@@ -640,3 +637,8 @@ body[data-page="music"] .btn{background:none}
 .btn.solid:hover{background:var(--paper);color:var(--ink)}
 .gate-in{border:0;background:var(--acid);color:var(--ink);padding:16px 26px}
 .gate-in:hover{background:var(--paper);color:var(--ink)}
+/* every link and button at least 28px tall (44px on touch screens) */
+.mast .logo,.follow a,.foot a,.deck .ext,.cue-rel,.sel-l{display:inline-flex;align-items:center;min-height:28px}
+@media (pointer:coarse){.deck .ext,.cue-rel,.sel-l,.follow a,.foot a{min-height:44px}}
+.ro a{grid-template-columns:minmax(0,1fr) auto}
+@media (max-width:520px){.ro a{grid-template-columns:minmax(0,1fr)}.ro .d{grid-column:1}}

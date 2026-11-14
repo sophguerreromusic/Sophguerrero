@@ -355,12 +355,6 @@
     if(document.documentElement.getAttribute('data-phase')!==p[0])document.documentElement.setAttribute('data-phase',p[0]);
     window.SG_PAL=PAL[p[0]];
     document.querySelectorAll('.mnl').forEach(function(el){el.textContent='Manila · '+t+' · '+p[1];});
-    var ro=document.querySelector('.ro');if(ro){
-      var hh=h<12?h+24:h,on=null,li=ro.querySelectorAll('li[data-at]');
-      for(var i=0;i<li.length;i++){var a=+li[i].getAttribute('data-at'),e=li[i].getAttribute('data-end');e=e?+e:(li[i+1]?+li[i+1].getAttribute('data-at'):a);
-        var is=hh>=a&&hh<e;li[i].classList.toggle('on',is);var sr=li[i].querySelector('.sr');if(is&&!sr){sr=document.createElement('span');sr.className='sr';sr.textContent=' (on now)';li[i].querySelector('a').appendChild(sr);}else if(!is&&sr)sr.remove();if(is)on=li[i];}
-      var sub=ro.querySelector('.ro-sub');if(sub)sub.textContent=on?('On now · '+t+' in Manila'):('Doors 22:00 · it\'s '+t+' in Manila');
-    }
   }
   window.SGClock=clock;clock();setInterval(clock,30000);
 
