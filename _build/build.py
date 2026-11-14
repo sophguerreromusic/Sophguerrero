@@ -33,6 +33,8 @@ info = section('info'); press = section('press'); tour = section('tour'); mixes 
 bio = [html.unescape(re.sub(r'<[^>]+>', '', x)) for x in re.findall(r'<p>(.*?)</p>', info, re.S)]
 press_rows = [(html.unescape(t), html.unescape(m)) for t, m in re.findall(r'<span class="t">(.*?)</span><span class="m">(.*?)</span>', press)]
 supporters = [html.unescape(x) for x in re.findall(r'<span class="chip">(.*?)</span>', press)]
+# Added by Sophia, 14 Nov 2026
+if 'Danny Howard' not in supporters: supporters.insert(supporters.index('Arielle Free') + 1, 'Danny Howard')
 venues = [html.unescape(x) for x in re.findall(r'<span class="chip">(.*?)</span>', tour)]
 labels = [html.unescape(x) for x in re.findall(r'<span class="chip">(.*?)</span>', rel_sec)]
 rel_btns = re.findall(r'<a class="btn" href="([^"]+)"[^>]*>(.*?)</a>', rel_sec)
