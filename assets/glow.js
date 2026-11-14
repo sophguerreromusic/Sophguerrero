@@ -3,6 +3,8 @@
 (function(){
 'use strict';
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* save data / low-memory devices: skip the light layer entirely, the site works the same without it */
+var nc=navigator.connection||{};if(nc.saveData||(navigator.deviceMemory&&navigator.deviceMemory<3))return;
 var cv=document.createElement('canvas');cv.className='glow';cv.setAttribute('aria-hidden','true');
 document.body.appendChild(cv);
 var gl=cv.getContext('webgl',{premultipliedAlpha:false,antialias:false,powerPreference:'low-power'});
