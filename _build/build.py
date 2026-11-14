@@ -204,12 +204,12 @@ home = f'''<section class="gate" aria-label="Welcome">
       </div>
     </article>
     <nav aria-label="Contents" class="ro">
-      <p class="ro-h"><span>Running order</span><span class="ro-sub">Manila time</span></p>
+      <p class="ro-h"><span class="mnl">Manila</span></p>
       <ol>
-        <li data-at="22"><a href="/music/"><time>22:00</time><span class="t">Music</span><span class="d">{N} releases</span></a></li>
-        <li data-at="23.5"><a href="/mixes/"><time>23:30</time><span class="t">Mixes</span><span class="d">Mixes &amp; guest mixes</span></a></li>
-        <li data-at="25"><a href="/press/"><time>01:00</time><span class="t">Press</span><span class="d">BBC Radio 1 · Toolroom Radio</span></a></li>
-        <li data-at="26.5" data-end="28"><a href="/book/"><time>02:30</time><span class="t">Book</span><span class="d">Bookings &amp; enquiries</span></a></li>
+        <li><a href="/music/"><span class="t">Music</span><span class="d">{N} releases</span></a></li>
+        <li><a href="/mixes/"><span class="t">Mixes</span><span class="d">Mixes &amp; guest mixes</span></a></li>
+        <li><a href="/press/"><span class="t">Press</span><span class="d">BBC Radio 1 · Toolroom Radio</span></a></li>
+        <li><a href="/book/"><span class="t">Book</span><span class="d">Bookings &amp; enquiries</span></a></li>
       </ol>
     </nav>
     <div class="follow" aria-label="Follow">{follow_links([f for f in follow if f[1] in ("Instagram","SoundCloud","Spotify","Beatport")])}<a href="#site-links">More ↓</a></div>
