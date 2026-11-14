@@ -100,7 +100,7 @@ function frame(now){
      every pulse (no hard on/off), the big photo flash at most once per bar (<= 0.75 a second), and
      calm mode (or reduced motion) turns all pulsing off. */
   var calm=!!window.SG_CALM;
-  var lit=playing&&!calm;
+  var lit=playing&&!calm&&!window.SG_NOPULSE;
   var b,m,h,kickT=0,flashT=0;
   if(lit){
     var beats=(now-beat0)/1000*BPM/60;

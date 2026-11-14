@@ -1,8 +1,7 @@
 /* Sophia Guerrero — site behaviour: persistent deck, page swaps, filters */
 (function(){
   'use strict';
-  var PROFILE='https://soundcloud.com/sophiaguerrero';
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var B=document.body.dataset.base||'';
 
   /* ---------- old #panel links → new pages ---------- */
@@ -10,58 +9,140 @@
   var h=location.hash.slice(1);
   if((location.pathname===B+'/'||/index\.html$/.test(location.pathname))&&legacy[h]){location.replace(legacy[h]);return;}
 
-  /* ---------- deck (SoundCloud widget, created on first play) ---------- */
+  /* ---------- deck: one player bar for two real sources ----------
+     SoundCloud widget (releases queue) and the YouTube IFrame player (mixes, kept visible in a dock).
+     Nothing here generates or fakes audio; everything shown comes from the players' own events. */
   var deck=document.querySelector('.deck'),lcdT=deck.querySelector('.tt'),lcdS=deck.querySelector('.st'),lcdM=deck.querySelector('.tm'),
-      pp=deck.querySelector('.pp'),live=document.getElementById('deck-live'),ext=deck.querySelector('.ext');
-  var widget=null,frame=null,pendingUrl=null,playing=false,apiLoading=false,stallT;
+      pp=deck.querySelector('.pp'),live=document.getElementById('deck-live'),ext=deck.querySelector('.ext'),
+      prog=deck.querySelector('.prog'),progI=prog?prog.querySelector('i'):null;
+  var CAT=[];try{CAT=JSON.parse(document.getElementById('catalog').textContent)}catch(e){}
+  var QUEUE=CAT.filter(function(r){return r.sc});
   var ICON_PLAY='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg>',
       ICON_PAUSE='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h4v12H3zM9 2h4v12H9z" fill="currentColor"/></svg>';
-  function fmt(ms){ms=Math.max(0,ms|0);var s=Math.floor(ms/1000);return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
+  function fmt(ms){ms=Math.max(0,ms|0);var s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60);return (h?h+':'+('0'+m).slice(-2):m)+':'+('0'+s%60).slice(-2);}
   function say(t){live.textContent=t;}
+  var src=null,playing=false,stallT,durMs=0,posMs=0;
+  function setProg(p,d){posMs=p;durMs=d||durMs;if(progI)progI.style.width=(durMs?Math.min(100,p/durMs*100):0)+'%';lcdM.textContent=fmt(p)+(durMs?' / '+fmt(durMs):'');if(prog){prog.setAttribute('aria-valuenow',String(Math.round(durMs?p/durMs*100:0)));prog.setAttribute('aria-valuetext',fmt(p)+' of '+fmt(durMs));}}
   function setState(p){
     playing=p;deck.classList.toggle('playing',p);document.body.classList.toggle('playing',p);
     pp.innerHTML=p?ICON_PAUSE:ICON_PLAY;pp.setAttribute('aria-label',p?'Pause':'Play');
     lcdS.textContent=p?'Play':'Pause';
-    document.querySelectorAll('[data-play]').forEach(function(b){b.setAttribute('aria-pressed',String(p&&b.dataset.play===(currentUrl||PROFILE)))});
+    markNow();
   }
-  var currentUrl=null;
-  function srcFor(url){return 'https://w.soundcloud.com/player/?url='+encodeURIComponent(url)+'&auto_play=true&show_artwork=false&visual=false&buying=false&sharing=false';}
-  function loadApi(cb){
-    if(window.SC&&SC.Widget)return cb();
-    if(apiLoading){var i=setInterval(function(){if(window.SC&&SC.Widget){clearInterval(i);cb()}},80);return;}
-    apiLoading=true;var s=document.createElement('script');s.src='https://w.soundcloud.com/player/api.js';s.async=true;s.onload=cb;document.head.appendChild(s);
+  function markNow(){
+    var cur=src==='sc'&&QUEUE[qi]?QUEUE[qi].sc:'';
+    document.querySelectorAll('.rec').forEach(function(li){var d=li.querySelector('.rec-data');li.classList.toggle('now',!!cur&&!!d&&d.textContent.indexOf(cur)>-1&&playing);});
+    document.querySelectorAll('[data-play]').forEach(function(b){var u=b.dataset.play||(QUEUE[0]&&QUEUE[0].sc);b.setAttribute('aria-pressed',String(playing&&src==='sc'&&u===cur));});
+    document.querySelectorAll('[data-yt-play]').forEach(function(b){b.setAttribute('aria-pressed',String(playing&&src==='yt'&&b.dataset.ytPlay===ytId));});
   }
-  function bind(){
-    var E=SC.Widget.Events;
-    widget.bind(E.READY,function(){widget.play();});
-    widget.bind(E.PLAY,function(){clearTimeout(stallT);setState(true);widget.getCurrentSound(function(s){if(s){lcdT.textContent=s.title;ext.href=s.permalink_url;say('Now playing: '+s.title);}});});
-    widget.bind(E.PAUSE,function(){setState(false);});
-    widget.bind(E.FINISH,function(){setState(false);});
-    widget.bind(E.PLAY_PROGRESS,function(e){lcdM.textContent=fmt(e.currentPosition);});
-  }
-  function start(url){
-    url=url||PROFILE;
-    lcdS.textContent='Load';lcdT.textContent='Tuning in…';
-    clearTimeout(stallT);
-    stallT=setTimeout(function(){if(!playing){lcdS.textContent='Tap';lcdT.textContent='Press play again, or open on SoundCloud';}},6000);
-    if(widget&&url===currentUrl){widget.play();return;}
-    currentUrl=url;
-    loadApi(function(){
+  function stalled(){clearTimeout(stallT);stallT=setTimeout(function(){if(!playing){lcdS.textContent='Tap';lcdT.textContent='Press play again to start';}},7000);}
+
+  /* SoundCloud: releases */
+  var widget=null,frame=null,scApi=false,qi=0;
+  function loadScript(u,ok){var s=document.createElement('script');s.src=u;s.async=true;s.onload=ok;document.head.appendChild(s);}
+  function scReady(cb){if(window.SC&&SC.Widget)return cb();if(scApi){var i=setInterval(function(){if(window.SC&&SC.Widget){clearInterval(i);cb()}},80);return;}scApi=true;loadScript('https://w.soundcloud.com/player/api.js',cb);}
+  function scShow(){var r=QUEUE[qi];if(!r)return;lcdT.textContent=r.title+' — '+r.label;ext.href=r.sc;ext.textContent='SoundCloud ↗';window.SG_BPM=r.bpm||124;window.SG_NOPULSE=false;}
+  function playRelease(i){
+    if(!QUEUE.length)return;qi=(i+QUEUE.length)%QUEUE.length;var url=QUEUE[qi].sc;
+    if(src==='yt')ytPause();src='sc';scShow();lcdS.textContent='Load';setProg(0,0);stalled();
+    scReady(function(){
       if(!frame){
         frame=document.createElement('iframe');frame.className='sc';frame.title='SoundCloud player';frame.allow='autoplay';frame.setAttribute('aria-hidden','true');frame.tabIndex=-1;
-        frame.src=srcFor(url);deck.appendChild(frame);widget=SC.Widget(frame);bind();
+        frame.src='https://w.soundcloud.com/player/?url='+encodeURIComponent(url)+'&auto_play=true&show_artwork=false&visual=false&buying=false&sharing=false';
+        deck.appendChild(frame);widget=SC.Widget(frame);
+        var E=SC.Widget.Events;
+        widget.bind(E.READY,function(){widget.play();});
+        widget.bind(E.PLAY,function(){if(src!=='sc'){widget.pause();return;}clearTimeout(stallT);setState(true);scShow();widget.getDuration(function(d){durMs=d;});say('Now playing: '+QUEUE[qi].title);});
+        widget.bind(E.PAUSE,function(){if(src==='sc')setState(false);});
+        widget.bind(E.FINISH,function(){if(src==='sc')playRelease(qi+1);});
+        widget.bind(E.PLAY_PROGRESS,function(e){if(src==='sc')setProg(e.currentPosition,durMs);});
       }else{widget.load(url,{auto_play:true,show_artwork:false,visual:false,callback:function(){widget.play();}});}
     });
   }
-  function toggle(){if(!widget){start();return;}widget.isPaused(function(p){p?widget.play():widget.pause();});}
+  function indexOfUrl(u){for(var i=0;i<QUEUE.length;i++)if(QUEUE[i].sc===u)return i;return 0;}
+
+  /* YouTube: mixes, in a dock that stays visible (YouTube requires a visible player) */
+  var dock=null,yt=null,ytApi=false,ytId='',ytTimer=null;
+  function ytReady(cb){if(window.YT&&YT.Player)return cb();var prev=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=function(){if(prev)prev();cb();};if(!ytApi){ytApi=true;loadScript('https://www.youtube.com/iframe_api',function(){});}}
+  function ensureDock(){
+    if(dock)return dock;
+    dock=document.createElement('div');dock.className='yt-dock';dock.innerHTML='<div class="yt-el"></div><button type="button" class="yt-x">Close mix ✕</button>';
+    document.body.appendChild(dock);
+    dock.querySelector('.yt-x').addEventListener('click',function(){ytStop();});
+    return dock;
+  }
+  function placeDock(){
+    if(!dock||!dock.classList.contains('on'))return;
+    var slot=document.getElementById('yt-slot');
+    document.querySelectorAll('.fm-slot').forEach(function(s){s.classList.remove('docked-here')});
+    if(slot){var r=slot.getBoundingClientRect();dock.classList.remove('mini');dock.style.cssText='left:'+(r.left+scrollX)+'px;top:'+(r.top+scrollY)+'px;width:'+r.width+'px;height:'+r.height+'px';slot.classList.add('docked-here');}
+    else{dock.classList.add('mini');dock.style.cssText='';}
+  }
+  addEventListener('resize',placeDock);
+  var ytTitle='Mix';
+  function ytShow(){
+    lcdT.textContent=ytTitle+' — YouTube';
+    ext.href='https://www.youtube.com/watch?v='+ytId;ext.textContent='YouTube ↗';window.SG_NOPULSE=true;
+  }
+  function ytTick(){if(!yt||!yt.getCurrentTime)return;var p=yt.getCurrentTime()*1000,d=(yt.getDuration&&yt.getDuration()*1000)||0;setProg(p,d);markCue(p/1000);}
+  function playMix(id,at){
+    if(src==='sc'&&widget)widget.pause();
+    var tEl=document.getElementById('fm-t');if(tEl)ytTitle=tEl.textContent;
+    src='yt';ytId=id;ytShow();lcdS.textContent='Load';setProg(0,0);stalled();
+    ensureDock();dock.classList.add('on');placeDock();
+    ytReady(function(){
+      if(!yt){
+        yt=new YT.Player(dock.querySelector('.yt-el'),{videoId:id,host:'https://www.youtube-nocookie.com',width:'100%',height:'100%',
+          playerVars:{autoplay:1,playsinline:1,rel:0,modestbranding:1,start:at||0},
+          events:{
+            onReady:function(){yt.playVideo();},
+            onStateChange:function(e){
+              if(e.data===YT.PlayerState.PLAYING){if(src!=='yt'){yt.pauseVideo();return;}clearTimeout(stallT);setState(true);ytShow();clearInterval(ytTimer);ytTimer=setInterval(ytTick,500);}
+              else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.ENDED){if(src==='yt')setState(false);clearInterval(ytTimer);ytTick();}
+            }}});
+      }else{if(yt.getVideoData&&yt.getVideoData().video_id===id){if(at!=null)yt.seekTo(at,true);yt.playVideo();}else yt.loadVideoById({videoId:id,startSeconds:at||0});}
+    });
+  }
+  function ytPause(){if(yt&&yt.pauseVideo)yt.pauseVideo();}
+  function ytStop(){if(yt&&yt.stopVideo)yt.stopVideo();if(dock){dock.classList.remove('on','mini');}document.querySelectorAll('.fm-slot').forEach(function(s){s.classList.remove('docked-here')});if(src==='yt'){src=null;setState(false);lcdT.textContent='Sophia Guerrero — press play';setProg(0,0);window.SG_NOPULSE=false;}}
+  function markCue(sec){
+    var cues=[].slice.call(document.querySelectorAll('.cue')),on=null;
+    cues.forEach(function(c){if(+c.dataset.t<=sec)on=c;});
+    cues.forEach(function(c){c.classList.toggle('on',c===on&&src==='yt');});
+  }
+
+  /* shared controls */
+  function toggle(){
+    if(src==='yt'&&yt){yt.getPlayerState&&yt.getPlayerState()===YT.PlayerState.PLAYING?yt.pauseVideo():yt.playVideo();return;}
+    if(src==='sc'&&widget){widget.isPaused(function(p){p?widget.play():widget.pause();});return;}
+    playRelease(0);
+  }
+  function next(){
+    if(src==='yt'&&yt&&yt.getCurrentTime){var t=yt.getCurrentTime(),c=[].slice.call(document.querySelectorAll('.cue')).map(function(x){return +x.dataset.t}).filter(function(x){return x>t+1});if(c.length)yt.seekTo(c[0],true);return;}
+    playRelease(src==='sc'?qi+1:0);
+  }
+  function prev(){
+    if(src==='yt'&&yt&&yt.getCurrentTime){var t=yt.getCurrentTime(),c=[].slice.call(document.querySelectorAll('.cue')).map(function(x){return +x.dataset.t}).filter(function(x){return x<t-4});yt.seekTo(c.length?c[c.length-1]:0,true);return;}
+    if(src==='sc'&&widget&&posMs>4000){widget.seekTo(0);return;}
+    playRelease(src==='sc'?qi-1:0);
+  }
   pp.addEventListener('click',toggle);
-  deck.querySelector('.prev').addEventListener('click',function(){widget?widget.prev():start();});
-  deck.querySelector('.next').addEventListener('click',function(){widget?widget.next():start();});
+  deck.querySelector('.prev').addEventListener('click',prev);
+  deck.querySelector('.next').addEventListener('click',next);
+  function seekFrac(f){f=Math.max(0,Math.min(1,f));if(src==='sc'&&widget&&durMs)widget.seekTo(f*durMs);else if(src==='yt'&&yt&&yt.getDuration)yt.seekTo(f*yt.getDuration(),true);}
+  if(prog){
+    prog.addEventListener('click',function(e){var r=prog.getBoundingClientRect();seekFrac((e.clientX-r.left)/r.width);});
+    prog.addEventListener('keydown',function(e){var step=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!step||!durMs)return;e.preventDefault();seekFrac((posMs+step*10000)/durMs);});
+  }
   document.addEventListener('click',function(e){
-    var b=e.target.closest('[data-play]');if(!b)return;e.preventDefault();
-    var url=b.dataset.play||PROFILE;
-    if(widget&&playing&&url===currentUrl){widget.pause();return;}
-    start(url);
+    var b=e.target.closest('[data-play],[data-queue],[data-yt-play],.cue');if(!b)return;
+    if(b.matches('.cue')){var fid=(document.querySelector('[data-yt-play]')||{}).dataset;if(src==='yt'&&yt&&yt.seekTo){yt.seekTo(+b.dataset.t,true);yt.playVideo();}else if(fid)playMix(fid.ytPlay,+b.dataset.t);return;}
+    e.preventDefault();
+    if(b.hasAttribute('data-yt-play')){var id=b.dataset.ytPlay;if(src==='yt'&&ytId===id&&playing){ytPause();return;}if(src==='yt'&&ytId===id&&yt){yt.playVideo();return;}playMix(id);return;}
+    if(b.hasAttribute('data-queue')){playRelease(0);return;}
+    var url=b.dataset.play||(QUEUE[0]&&QUEUE[0].sc),i=indexOfUrl(url);
+    if(src==='sc'&&widget&&qi===i){widget.isPaused(function(p){p?widget.play():widget.pause();});return;}
+    playRelease(i);
   });
   if(/[?&]play\b/.test(location.search)){lcdT.textContent='Press play to start';pp.focus({preventScroll:true});}
 
@@ -83,7 +164,7 @@
       if(u.hash&&document.querySelector(u.hash))document.querySelector(u.hash).scrollIntoView();else scrollTo(0,0);
       var h1=nm.querySelector('h1');if(h1){h1.setAttribute('tabindex','-1');h1.focus({preventScroll:true});}
       say('Page: '+doc.title.split(' — ')[0]);
-      init(nm);
+      init(nm);placeDock();markNow();
     });
   }
   document.addEventListener('click',function(e){
@@ -103,15 +184,53 @@
       torch.addEventListener('touchmove',function(e){var t=e.touches[0];if(t)mv(t.clientX,t.clientY)},{passive:true});
       torch.addEventListener('pointerleave',function(){torch.style.setProperty('--fx','60%');torch.style.setProperty('--fy','34%');});
     }
-    var f=root.querySelector('.filters');
-    if(f){
+    /* record library */
+    var lib=root.querySelector('.records');
+    if(lib){
+      var f=root.querySelector('.filters'),sel=root.querySelector('.lib-sort select'),seg=root.querySelector('.seg[aria-label="View"]');
+      var view='crate';try{view=localStorage.getItem('sgView')||'crate'}catch(e){}
+      function setView(v){lib.dataset.view=v;seg.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.view===v))});try{localStorage.setItem('sgView',v)}catch(e){}}
+      setView(view);
+      seg.addEventListener('click',function(e){var b=e.target.closest('button');if(b)setView(b.dataset.view);});
       f.addEventListener('click',function(e){
         var b=e.target.closest('button');if(!b)return;
         f.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
         var lab=b.dataset.label,n=0;
-        root.querySelectorAll('.issue').forEach(function(it){var show=!lab||it.dataset.label===lab;it.hidden=!show;if(show)n++;});
+        lib.querySelectorAll('.rec').forEach(function(it){var show=!lab||it.dataset.label===lab;it.hidden=!show;if(show)n++;});
         say(n+' releases shown');
       });
+      sel.addEventListener('change',function(){
+        var k=sel.value,items=[].slice.call(lib.children);
+        items.sort(function(a,b){
+          if(k==='date')return b.dataset.date.localeCompare(a.dataset.date);
+          if(k==='date-asc')return a.dataset.date.localeCompare(b.dataset.date);
+          if(k==='bpm')return (+b.dataset.bpm)-(+a.dataset.bpm)||b.dataset.date.localeCompare(a.dataset.date);
+          return a.dataset.title.localeCompare(b.dataset.title);
+        });
+        items.forEach(function(x){lib.appendChild(x)});say('Sorted by '+sel.options[sel.selectedIndex].text);
+      });
+      /* sleeve view */
+      var dlg=root.querySelector('dialog.sleeve-view'),opener=null;
+      function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+      lib.addEventListener('click',function(e){
+        var b=e.target.closest('.rec-open');if(!b||!dlg||!dlg.showModal)return;opener=b;
+        var r=JSON.parse(b.parentNode.querySelector('.rec-data').textContent);
+        dlg.querySelector('.sv-art img').src=r.img;dlg.querySelector('.sv-art img').alt=r.title+' cover art';
+        dlg.querySelector('.sv-no').textContent='No. '+('0'+r.no).slice(-2)+' · '+r.label;
+        dlg.querySelector('.sv-title').innerHTML=esc(r.title)+(r.feat?'<small>'+esc(r.feat)+'</small>':'');
+        dlg.querySelector('.sv-label').textContent=r.label;dlg.querySelector('.sv-date').textContent=r.date;
+        dlg.querySelector('.sv-bpm').textContent=r.bpm;dlg.querySelector('.sv-key').textContent=r.key;
+        var L=dlg.querySelector('.sv-listen');
+        if(r.sc){L.innerHTML='<button class="btn play" type="button" data-play="'+r.sc+'">▶ Play in the player bar</button><p class="note">Plays from SoundCloud and keeps going while you browse.</p>';}
+        else{L.innerHTML='<iframe title="'+esc(r.title)+' on Spotify" src="https://open.spotify.com/embed/album/'+r.sp+'?theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe><p class="note">Plays here through Spotify. Without a Spotify login you may hear a 30-second preview.</p>';}
+        var links=[['Beatport',r.bp],['Traxsource',r.tx],['Spotify','https://open.spotify.com/album/'+r.sp]];if(r.sc)links.push(['SoundCloud',r.sc]);
+        dlg.querySelector('.sv-links').innerHTML=links.map(function(l){return '<a class="btn" href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+' ↗</a>'}).join('');
+        dlg.showModal();
+      });
+      if(dlg){
+        dlg.addEventListener('close',function(){dlg.querySelector('.sv-listen').innerHTML='';if(opener)opener.focus();});
+        dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();if(e.target.closest('[data-play]'))setTimeout(function(){dlg.close()},150);});
+      }
     }
   }
 
@@ -164,8 +283,8 @@
     if(e.metaKey||e.ctrlKey||e.altKey)return;
     var tag=(e.target.tagName||'').toLowerCase();if(/input|textarea|select/.test(tag)||e.target.isContentEditable)return;
     if(e.key===' '&&!/button|a|summary/.test(tag)){e.preventDefault();toggle();}
-    else if(e.key==='n'||e.key==='N'){widget?widget.next():start();}
-    else if(e.key==='b'||e.key==='B'){if(widget)widget.prev();}
+    else if(e.key==='n'||e.key==='N'){next();}
+    else if(e.key==='b'||e.key==='B'){prev();}
     else if(e.key==='?'&&kbd&&kbd.showModal){kbd.showModal();}
   });
   document.addEventListener('click',function(e){if(e.target.closest('.kbd-open')&&kbd&&kbd.showModal)kbd.showModal();});
