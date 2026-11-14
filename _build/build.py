@@ -437,8 +437,7 @@ home = home + now_strip
 # ---------- BOOK ----------
 # Past dates from Sophia's RA profile, read 14 Nov 2026. Upcoming: none announced on RA.
 PAST_DATES = [('2026-04-25', 'Sat 25 Apr 2026', 'Casa Disco', 'Manila', 'with Meloko'),
-              ('2025-06-11', 'Wed 11 Jun 2025', "It's a Groove Thang · Apotheka", 'Manila', 'with Antonne'),
-              ('2017-06-03', 'Sat 3 Jun 2017', 'Deep Dark Dirty · Time In Manila', 'Philippines', 'with Emel, Charles David')]
+              ('2025-06-11', 'Wed 11 Jun 2025', "It's a Groove Thang · Apotheka", 'Manila', 'with Antonne')]
 PAST = ''.join(f'<li><time datetime="{d}">{nice}</time><span class="pd-e">{esc(e)}</span><span class="pd-w">{esc(c)} · {esc(w)}</span></li>' for d, nice, e, c, w in PAST_DATES)
 book_ld = {"@context": "https://schema.org", "@graph": [{"@type": "MusicEvent", "name": e, "startDate": d,
            "location": {"@type": "Place", "name": e.split(' · ')[-1], "address": c}, "performer": {"@type": "Person", "name": "Sophia Guerrero"},
@@ -497,7 +496,7 @@ play_page = f'''<div class="page play-page">
 pages = [
     ('home', '/', 'index.html', 'Sophia Guerrero — House & Tech House DJ and Producer, Manila', desc_home, home, None, 'Sophia Guerrero — House & Tech House DJ, Manila'),
     ('play', '/play/', 'play/index.html', 'Play — Sophia Guerrero, House & Tech House DJ, Manila',
-     "Play mode: listen to Sophia Guerrero's releases and mixes in an immersive, fullscreen listening room with a display mode for screens.", play_page, None, None),
+     "Listen to Sophia Guerrero's releases and latest mix in Play mode.", play_page, None, None),
     ('music', '/music/', 'music/index.html', 'Music — Sophia Guerrero, House & Tech House DJ, Manila',
      f'All {N} releases by Sophia Guerrero on Toolroom, Milk & Sugar, There Was Jack, HouseU, Alleanza and Wh0 Worx, with Beatport and Traxsource links.', music, music_ld, None),
     ('mixes', '/mixes/', 'mixes/index.html', 'Mixes — Sounds Good by Sophia Guerrero',
