@@ -560,3 +560,6 @@ body{padding-bottom:calc(var(--bar) + env(safe-area-inset-bottom))}
   .cue{min-height:44px}
   .sel-l{display:inline-flex;align-items:center;min-height:44px}
 }
+/* email address: clean grotesk, lowercase, easy to read */
+.big-mail{font-family:var(--display);font-weight:500;font-size:clamp(22px,3vw,40px);line-height:1.15;letter-spacing:-.01em;text-transform:none;padding-bottom:4px}
+.foot a[href^="mailto:"]{font-family:var(--display);font-size:15px;letter-spacing:0;text-transform:none;color:var(--paper)}
