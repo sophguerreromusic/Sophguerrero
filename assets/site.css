@@ -191,3 +191,6 @@ body.playing .mast .spark{animation:pulse var(--beat,.476s) ease-out infinite}
 .issue h2{font-size:24px}
 .credit .t{font-weight:700;text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(26px,3.4vw,46px)}
 .display{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:-.04em}
+
+/* sensory glow layer */
+canvas.glow{position:fixed;inset:0;width:100vw;height:100vh;z-index:30;pointer-events:none;mix-blend-mode:screen;display:block}
