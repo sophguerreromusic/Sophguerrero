@@ -194,3 +194,51 @@ body.playing .mast .spark{animation:pulse var(--beat,.476s) ease-out infinite}
 
 /* sensory glow layer */
 canvas.glow{position:fixed;inset:0;width:100vw;height:100vh;z-index:30;pointer-events:none;mix-blend-mode:screen;display:block}
+
+/* ---- A · Tune-in gate (home, first visit) ---- */
+.gate{display:none}
+body.gated .gate{position:fixed;left:0;right:0;top:var(--mast-h,62px);bottom:var(--bar);z-index:25;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:22px;padding:0 var(--gut);background:var(--ink);transition:transform .9s cubic-bezier(.7,0,.2,1),opacity .6s ease}
+body.gated.gate-open .gate{transform:translateY(-102%);opacity:0;pointer-events:none}
+body.gated:not(.gate-open){overflow:hidden}
+.gate-top{position:absolute;top:18px;left:var(--gut);right:var(--gut);display:flex;justify-content:space-between;border-bottom:1px solid var(--char-2);padding-bottom:10px}
+.gate-name{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(64px,13.5vw,240px);line-height:.82;letter-spacing:-.045em}
+.gate-name em{font-style:normal;color:var(--lav)}
+.gate-act{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:8px}
+.gate-in{font-size:15px;padding:16px 24px;border-color:var(--acid);color:var(--acid)}
+.gate-in:hover{background:var(--acid);color:var(--ink)}
+.gate-quiet{font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-dim);text-decoration:underline;text-underline-offset:4px}
+.gate-quiet:hover{color:var(--paper)}
+
+/* ---- B · flashlight photo ---- */
+.torch{--fx:60%;--fy:34%;--r:24%}
+.torch::after{content:"";position:absolute;inset:0;pointer-events:none;background:rgba(18,17,21,.86);
+  -webkit-mask:radial-gradient(circle at var(--fx) var(--fy),transparent 0,transparent var(--r),#000 calc(var(--r) * 2.3));
+  mask:radial-gradient(circle at var(--fx) var(--fy),transparent 0,transparent var(--r),#000 calc(var(--r) * 2.3));
+  opacity:calc(1 - var(--flash,0) * .9);transition:opacity .08s linear}
+.torch figcaption{z-index:1}
+@media (prefers-reduced-motion:reduce){.torch::after{display:none}}
+
+/* ---- D · LCD level meter ---- */
+.lcd{grid-template-columns:auto minmax(0,1fr) auto auto}
+.vu{display:flex;align-items:flex-end;gap:2px;height:16px}
+.vu i{display:block;width:3px;height:100%;background:var(--lav);transform-origin:bottom;transform:scaleY(.12);opacity:.85}
+.vu i:nth-child(n+7){background:var(--acid)}
+@media (max-width:640px){.vu{display:none}.lcd{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* ---- E · surprises ---- */
+.deck .tap{font-size:16px;color:var(--lav)}
+.deck .tap.hit{color:var(--acid);border-color:var(--acid)}
+@media (max-width:640px){.deck .tap{display:none}}
+.afterhours{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(18,17,21,.92);text-align:center;opacity:0;transition:opacity 1.2s ease}
+.afterhours.on{opacity:1}
+.afterhours[hidden]{display:none}
+.ah-time{font-family:var(--display);font-weight:700;font-size:clamp(80px,18vw,260px);line-height:.85;letter-spacing:-.04em;color:var(--lav);font-variant-numeric:tabular-nums}
+.kbd-open{font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-dim)}
+.kbd-open:hover{color:var(--paper)}
+dialog.kbd{margin:auto;background:var(--char);color:var(--paper);border:1px solid var(--char-2);padding:24px;max-width:420px;width:calc(100% - 32px)}
+dialog.kbd::backdrop{background:rgba(18,17,21,.7)}
+.kbd dl{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:16px 0 20px;font-size:16px}
+.kbd dt{font-family:var(--mono);font-size:13px;color:var(--acid);text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.lost{min-height:calc(100svh - 160px);display:flex;flex-direction:column;justify-content:center}
+.lost h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(60px,12vw,200px);line-height:.84;letter-spacing:-.045em}
+.lost h1 em{font-style:normal;color:var(--lav)}
