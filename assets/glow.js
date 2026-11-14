@@ -72,7 +72,8 @@ function size(){cv.width=Math.max(2,Math.round(innerWidth*scale));cv.height=Math
 size();addEventListener('resize',size);
 /* page -> look: 0 bloom, 1 haze, 2 spark, 3 scan */
 var LOOK={home:0,mixes:1,press:2,book:2,music:3,lost:1};
-var AMT={home:.9,mixes:.58,press:.48,book:.42,music:.42,lost:.7};
+var KMUL={home:.45,mixes:.7,press:.7,book:.7,music:.7,lost:.7};
+var AMT={home:.65,mixes:.58,press:.48,book:.42,music:.42,lost:.7};
 function home(page){
   if(page==='home')return small.matches?{x:.5,y:.42}:{x:.455,y:.38};
   if(page==='press'||page==='book')return small.matches?{x:.82,y:.86}:{x:.86,y:.84};
@@ -108,9 +109,9 @@ function frame(now){
   pos.x+=(tgt.x-pos.x)*Math.min(1,dt*2);pos.y+=(tgt.y-pos.y)*Math.min(1,dt*2);
   rot+=dt*(.08+.25*K);
   var bar=playing?((now-beat0)/1000)*BPM/60/4:t*.1;
-  gl.uniform2f(U.R,cv.width,cv.height);gl.uniform1f(U.T,t);gl.uniform1f(U.M,mode);gl.uniform1f(U.K,K);gl.uniform1f(U.B,B);gl.uniform1f(U.MD,MD);gl.uniform1f(U.H,H);gl.uniform1f(U.A,amt);gl.uniform1f(U.BAR,bar);gl.uniform1f(U.ROT,rot);gl.uniform2f(U.P,pos.x,pos.y);
+  gl.uniform2f(U.R,cv.width,cv.height);gl.uniform1f(U.T,t);gl.uniform1f(U.M,mode);gl.uniform1f(U.K,K*(KMUL[page]||.7));gl.uniform1f(U.B,B);gl.uniform1f(U.MD,MD);gl.uniform1f(U.H,H);gl.uniform1f(U.A,amt);gl.uniform1f(U.BAR,bar);gl.uniform1f(U.ROT,rot);gl.uniform2f(U.P,pos.x,pos.y);
   gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-  root.style.setProperty('--flash',(playing?Math.max(0,K-.25)/.75:0).toFixed(3));
+  root.style.setProperty('--flash',(playing?Math.max(0,K-.3)/.7*.5:0).toFixed(3));
   if(vu.length&&(fN++&1)===0){
     for(var i=0;i<vu.length;i++){var lv=i<3?B:i<6?MD:H;var v=playing?Math.min(1,lv*1.8*(1-i*.06)+K*(i<4?.5:.15)):.08+.04*Math.sin(t*1.3+i);vu[i].style.transform='scaleY('+Math.max(.08,v).toFixed(2)+')';}
   }
