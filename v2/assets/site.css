@@ -253,3 +253,7 @@ body.calm .torch::after{opacity:1}
 /* Music: the scan light sits behind the covers, not over them */
 main{position:relative;z-index:1}
 body[data-page="music"] canvas.glow{z-index:0}
+body[data-page="music"] main :is(h1,h2,p,a,button,span){text-shadow:0 0 14px var(--ink),0 0 4px var(--ink)}
+body[data-page="music"] .filters button,body[data-page="music"] .btn,body[data-page="music"] .chip{background:var(--ink)}
+body[data-page="music"] .filters button[aria-pressed="true"]{background:var(--lav)}
+body[data-page="music"] .btn:hover{background:var(--paper)}
