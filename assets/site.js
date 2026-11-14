@@ -13,7 +13,7 @@
   /* ---------- privacy-conscious analytics (off until a GoatCounter site is set) ----------
      Cookieless counting only. Respects Do Not Track and Global Privacy Control: if either is on,
      nothing is loaded or sent. No personal data, no IDs. Events: player-start, mix-play,
-     release-link, streaming-click, booking-inquiry, newsletter-signup, return-visit, and a few
+     release-link, streaming-click, booking-inquiry, newsletter-signup, and a few
      discovery clicks (mix-to-release, release-to-mix, selection-click). */
   var GC=document.body.dataset.gc||'',optOut=navigator.doNotTrack==='1'||window.doNotTrack==='1'||navigator.globalPrivacyControl===true;
   window.SG_EVENTS=[];
@@ -30,8 +30,8 @@
     gs.onload=function(){var t=setInterval(function(){if(window.goatcounter&&window.goatcounter.count){clearInterval(t);gcQ.splice(0).forEach(function(e){window.goatcounter.count(e)});}},200);};
     document.head.appendChild(gs);
   }
-    /* return visit = back on the site after 30+ minutes away; only a last-seen time is kept on the device */
-  if(!optOut){try{var nowT=Date.now(),lastT=+localStorage.getItem('sgLast')||0;localStorage.setItem('sgLast',String(nowT));if(lastT&&nowT-lastT>1800000)track('return-visit');}catch(e){}}
+    /* Return visits are not tracked on the device (nothing is stored for analytics);
+     GoatCounter's own cookieless visitor counts give the overall picture. */
   document.addEventListener('click',function(e){var a=e.target.closest('[data-track]');if(a)track(a.dataset.track,a.dataset.label||'');},true);
   document.addEventListener('submit',function(e){var f=e.target.closest('[data-track-submit]');if(f)track(f.dataset.trackSubmit);},true);
 
