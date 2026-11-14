@@ -3,6 +3,7 @@
   --ink:#121115; --char:#2a2830; --char-2:#3a3742; --paper:#f2efea; --paper-dim:#bdb8c4;
   --lav:#c8bfdc; --violet:#6b5b8c; --acid:#c8f03c;
   --serif:"Instrument Serif", "Times New Roman", serif;
+  --display:"Funnel Display", "Inter Tight", system-ui, sans-serif;
   --sans:"Inter Tight", system-ui, sans-serif;
   --mono:"Space Mono", ui-monospace, Menlo, monospace;
   --gut:clamp(18px,4vw,56px); --bar:64px;
@@ -21,6 +22,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .skip{position:fixed;left:12px;top:-60px;z-index:200;background:var(--acid);color:var(--ink);padding:10px 14px;font-family:var(--mono);font-size:14px}
 .skip:focus{top:12px}
 
+/* type — display grotesk for names and headings, serif italic for accents */
+body.t-familjen{--display:"Familjen Grotesk", "Inter Tight", system-ui, sans-serif}
 /* type */
 .mono{font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
 .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim)}
@@ -176,3 +179,19 @@ body.playing .mast .spark{animation:pulse var(--beat,.476s) ease-out infinite}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* ---- display grotesk layer ---- */
+.mast .logo{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.06em;text-transform:uppercase}
+.mast nav a{font-family:var(--display);font-size:14px;font-weight:500;letter-spacing:.08em}
+.mast nav a .n{font-family:var(--mono);font-size:11px}
+.cover-copy h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(60px,9.4vw,172px);line-height:.84;letter-spacing:-.04em}
+.cover-copy h1 em{font-family:var(--serif);font-weight:400;text-transform:none;letter-spacing:-.02em;font-size:1.08em;display:inline-block;margin-top:.04em}
+.page-head h1{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.045em;font-size:clamp(56px,11vw,176px);line-height:.84}
+.contents .t,.issue h2,.credit .t,.venues li,.names,.feature .t{font-family:var(--display);font-weight:500;letter-spacing:-.02em}
+.contents .t{font-size:clamp(24px,2.6vw,34px);text-transform:uppercase;letter-spacing:.01em}
+.issue h2{font-size:24px}
+.credit .t{font-weight:700;text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(26px,3.4vw,46px)}
+.display{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.04em}
+.typeswitch{position:fixed;left:var(--gut);bottom:calc(var(--bar) + 12px);z-index:46;display:flex;gap:4px;background:var(--ink);border:1px solid var(--char-2);padding:4px}
+.typeswitch button{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px}
+.typeswitch button[aria-pressed="true"]{background:var(--lav);color:var(--ink)}
