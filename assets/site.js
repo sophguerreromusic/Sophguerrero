@@ -136,6 +136,17 @@
   function manilaTime(){try{return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit'}).format(new Date());}catch(e){return '';}}
   document.querySelectorAll('.mnl').forEach(function(el){el.textContent='Manila · '+manilaTime();});
 
+    /* ---------- calm mode: no pulsing or flashing light (remembered) ---------- */
+  var calmOn=false;try{calmOn=localStorage.getItem('sgCalm')==='1'}catch(e){}
+  function setCalm(on){
+    calmOn=on;window.SG_CALM=on;document.body.classList.toggle('calm',on);
+    document.querySelectorAll('button.calm').forEach(function(b){b.setAttribute('aria-pressed',String(on));});
+    try{localStorage.setItem('sgCalm',on?'1':'0')}catch(e){}
+  }
+  setCalm(calmOn||reduce);
+  document.addEventListener('click',function(e){var b=e.target.closest('button.calm');if(b){setCalm(!calmOn);say(calmOn?'Calm mode on: no flashing light':'Calm mode off');}});
+  document.addEventListener('keydown',function(e){if((e.key==='c'||e.key==='C')&&!e.metaKey&&!e.ctrlKey&&!/input|textarea|select/i.test(e.target.tagName||'')){setCalm(!calmOn);say(calmOn?'Calm mode on':'Calm mode off');}});
+
   /* ---------- E · tap tempo (light follows) ---------- */
   var tapB=deck.querySelector('.tap'),taps=[];
   window.SG_BPM=124;

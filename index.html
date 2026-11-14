@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=18e10128">
+<link rel="stylesheet" href="/assets/site.css?v=f2e6b59f">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -68,6 +68,7 @@
     <button class="btn play gate-in" type="button" data-play="">▶ Tune in</button>
     <button class="gate-quiet" type="button">Enter without sound</button>
   </div>
+  <button class="calm gate-calm" type="button" aria-pressed="false">Calm mode · no flashing light</button>
 </section>
 <section class="cover-story" aria-labelledby="cover-title">
   <figure class="torch">
@@ -118,16 +119,17 @@
   <div class="lcd"><span class="st">Ready</span><span class="tt">Sophia Guerrero — press play</span><span class="vu" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="tm">0:00</span></div>
   <span class="nx-wrap"><button class="next" type="button" aria-label="Next track"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11 2h2v12h-2zM2 2l8 6-8 6z" fill="currentColor"/></svg></button>
   <button class="tap" type="button" aria-label="Tap tempo: tap in time and the light follows">✦</button>
+  <button class="calm" type="button" aria-pressed="false" title="Calm mode: no pulsing or flashing light">Calm</button>
   <a class="ext" href="https://soundcloud.com/sophiaguerrero" target="_blank" rel="noopener">SoundCloud ↗</a></span>
   <p class="sr" id="deck-live" aria-live="polite"></p>
 </div>
 <div class="afterhours" hidden aria-hidden="true"><p class="kicker">After hours · Manila</p><p class="ah-time">--:--</p><p class="kicker">Move to come back in</p></div>
 <dialog class="kbd" aria-labelledby="kbd-t">
   <h2 id="kbd-t" class="kicker">Shortcuts</h2>
-  <dl><dt>Space</dt><dd>Play / pause</dd><dt>N</dt><dd>Next track</dd><dt>B</dt><dd>Previous track</dd><dt>✦ in the player</dt><dd>Tap in time, the light follows your tempo</dd><dt>Leave it idle</dt><dd>See what happens after hours</dd></dl>
+  <dl><dt>Space</dt><dd>Play / pause</dd><dt>N</dt><dd>Next track</dd><dt>B</dt><dd>Previous track</dd><dt>✦ in the player</dt><dd>Tap in time, the light follows your tempo</dd><dt>C</dt><dd>Calm mode: no pulsing or flashing light</dd><dt>Leave it idle</dt><dd>See what happens after hours</dd></dl>
   <form method="dialog"><button class="btn" type="submit">Close</button></form>
 </dialog>
-<script src="/assets/site.js?v=18e10128" defer></script>
-<script src="/assets/glow.js?v=18e10128" defer></script>
+<script src="/assets/site.js?v=f2e6b59f" defer></script>
+<script src="/assets/glow.js?v=f2e6b59f" defer></script>
 </body>
 </html>
