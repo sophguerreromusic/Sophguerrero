@@ -103,14 +103,13 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
 <footer class="foot">
   <span>Sophia Guerrero · House ✦ Tech House · Manila</span>
   <span><a href="mailto:{email}">{email}</a></span>
-  <button type="button" class="kbd-open">Shortcuts ✦</button>
+  <nav class="foot-links" id="site-links" aria-label="Elsewhere">{FOOT_LINKS}</nav>
 </footer>
 <div class="deck" role="region" aria-label="Music player">
   <button class="prev" type="button" aria-label="Previous track"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h2v12H3zM14 2L6 8l8 6z" fill="currentColor"/></svg></button>
   <button class="pp" type="button" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg></button>
   <div class="lcd"><span class="st">Ready</span><span class="tt">Sophia Guerrero — press play</span><span class="tm">0:00</span><span class="prog" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></span></div>
   <span class="nx-wrap"><button class="next" type="button" aria-label="Next track"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11 2h2v12h-2zM2 2l8 6-8 6z" fill="currentColor"/></svg></button>
-  <button class="tap" type="button" aria-label="Tap tempo: tap in time and the light follows">✦</button>
   <button class="calm" type="button" aria-pressed="false" title="Calm mode: no pulsing or flashing light">Calm</button>
   <button class="pm-open" type="button" aria-haspopup="dialog" title="Open Play mode">Play mode ⤢</button>
   <a class="ext" href="https://soundcloud.com/sophiaguerrero"{EXT}>SoundCloud ↗</a></span>
@@ -150,10 +149,9 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
   <p class="pm-caption" aria-hidden="true"></p>
   <button type="button" class="pm-btn pm-reveal">Show controls</button>
 </section>
-<div class="afterhours" hidden aria-hidden="true"><p class="kicker">After hours · Manila</p><p class="ah-time">--:--</p><p class="kicker">Move to come back in</p></div>
 <dialog class="kbd" aria-labelledby="kbd-t">
   <h2 id="kbd-t" class="kicker">Shortcuts</h2>
-  <dl><dt>Space</dt><dd>Play / pause</dd><dt>N</dt><dd>Next track</dd><dt>B</dt><dd>Previous track</dd><dt>✦ in the player</dt><dd>Tap in time, the light follows your tempo</dd><dt>C</dt><dd>Calm mode: no pulsing or flashing light</dd><dt>Leave it idle</dt><dd>See what happens after hours</dd></dl>
+  <dl><dt>Space</dt><dd>Play / pause</dd><dt>N</dt><dd>Next track</dd><dt>B</dt><dd>Previous track</dd><dt>C</dt><dd>Calm mode: no pulsing or flashing light</dd><dt>?</dt><dd>This list</dd></dl>
   <form method="dialog"><button class="btn" type="submit">Close</button></form>
 </dialog>
 <script type="application/json" id="catalog">{CATALOG_JSON}</script>
@@ -166,11 +164,12 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
 
 def follow_links(items):
     return ''.join(f'<a href="{h}"{EXT}>{esc(t)}</a>' for h, t in items)
+FOOT_LINKS = follow_links(follow)
 
 # ---------- HOME ----------
 latest = releases[0]
 home = f'''<section class="gate" aria-label="Welcome">
-  <p class="kicker gate-top"><span>House ✦ Tech House</span><span class="mnl">Manila</span></p>
+  <p class="kicker gate-top"><span class="mnl">Manila</span></p>
   <p class="gate-name" aria-hidden="true">Sophia<br><em>Guerrero</em></p>
   <p class="tagline">House <b>✦</b> Tech House</p>
   <div class="gate-act">
@@ -180,7 +179,7 @@ home = f'''<section class="gate" aria-label="Welcome">
   <button class="calm gate-calm" type="button" aria-pressed="false">Calm mode · no flashing light</button>
 </section>
 <section class="cover-story" aria-labelledby="cover-title">
-  <figure class="torch">
+  <figure class="cover-photo">
     <picture>
       <source type="image/webp" srcset="{HERO}-640.webp 640w, {HERO}-1080.webp 1080w, {HERO}-1600.webp 1600w" sizes="(max-width:860px) 100vw, 45vw">
       <img src="{HERO}-1080.jpg" width="1080" height="1620" alt="Sophia Guerrero, House and Tech House DJ from Manila" fetchpriority="high" decoding="async">
@@ -188,7 +187,6 @@ home = f'''<section class="gate" aria-label="Welcome">
     <figcaption>Manila · after hours</figcaption>
   </figure>
   <div class="cover-copy">
-    <div class="issue-line kicker"><span>House ✦ Tech House</span><span>Manila, PH</span></div>
     <div>
       <h1 id="cover-title">Sophia<br><em>Guerrero</em></h1>
       <p class="tagline">House <b>✦</b> Tech House</p>
@@ -208,12 +206,12 @@ home = f'''<section class="gate" aria-label="Welcome">
       <p class="kicker" style="margin-bottom:8px">Contents</p>
       <ol class="contents">
         <li><a href="/music/"><span class="n">01</span><span class="t">Music</span><span class="d">{N} releases</span></a></li>
-        <li><a href="/mixes/"><span class="n">02</span><span class="t">Mixes</span><span class="d">Sounds Good · monthly</span></a></li>
-        <li><a href="/press/"><span class="n">03</span><span class="t">Press</span><span class="d">BBC Radio 1</span></a></li>
+        <li><a href="/mixes/"><span class="n">02</span><span class="t">Mixes</span><span class="d">Mixes &amp; guest mixes</span></a></li>
+        <li><a href="/press/"><span class="n">03</span><span class="t">Press</span><span class="d">BBC Radio 1 · Toolroom Radio</span></a></li>
         <li><a href="/book/"><span class="n">04</span><span class="t">Book</span><span class="d">Bookings &amp; enquiries</span></a></li>
       </ol>
     </nav>
-    <div class="follow" aria-label="Follow">{follow_links(follow)}</div>
+    <div class="follow" aria-label="Follow">{follow_links([f for f in follow if f[1] in ("Instagram","SoundCloud","Spotify","Beatport")])}<a href="#site-links">More ↓</a></div>
   </div>
 </section>'''
 
@@ -429,16 +427,13 @@ now_strip = (f'\n<section class="now" aria-labelledby="now-t">\n'
  f'  <h2 id="now-t" class="sec-label">Now</h2>\n'
  + ''.join(f'  <p class="next-date"><span class="kicker">Next date</span> <time datetime="{d}">{nice}</time> · <strong>{esc(e)}</strong>, {esc(c)} <a href="/book/#dates">Dates →</a></p>\n' for d, nice, e, c in UPCOMING_DATES[:1]) +
  f'  <div class="now-grid">\n'
- f'    <article class="now-card"><a href="/music/#rel-{out_now["slug"]}" class="now-a"><img src="{out_now["img"]}" width="1000" height="1000" alt="" loading="lazy">'
- f'<p class="kicker">Out now · {esc(out_now["label"])} · {out_now["nice"]}</p><h3>{esc(out_now["title"])}</h3></a>'
- f'<div class="btns"><button class="btn play" type="button" data-play="{out_now["sc"]}">▶ Play</button><a class="btn" href="{out_now["bp"]}"{EXT} data-track="release-link" data-label="{esc(out_now["title"])} - Beatport">Beatport ↗</a></div></article>\n'
  f'    <article class="now-card"><a href="/music/#rel-{up["slug"]}" class="now-a"><img src="{up["img"]}" width="1000" height="1000" alt="" loading="lazy">'
  f'<p class="kicker now-soon">Coming {up["nice"]} · {esc(up["label"])}</p><h3>{esc(up["title"])}</h3></a>'
  f'<div class="btns"><a class="btn solid" href="{up["bp"]}"{EXT} data-track="release-link" data-label="{esc(up["title"])} - Beatport pre-order">Pre-order ↗</a></div></article>\n'
  f'    <article class="now-card"><a href="/mixes/" class="now-a"><img src="https://i.ytimg.com/vi/{fm["id"]}/maxresdefault.jpg" width="1280" height="720" alt="" loading="lazy" class="wide">'
  f'<p class="kicker">Latest mix · {fm["date"]} · {fm["length"]}</p><h3>October mix</h3></a>'
  f'<div class="btns"><button class="btn play" type="button" data-yt-play="{fm["id"]}">▶ Play mix</button><a class="btn" href="/mixes/#tl-t">Tracklist</a></div></article>\n'
- f'  </div>\n  <div class="listen-on"><span class="kicker">Listen on</span>{listen_on}</div>\n'
+ f'  </div>\n'
  f'  {newsletter_block("home")}\n</section>')
 home = home + now_strip
 
