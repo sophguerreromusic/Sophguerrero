@@ -319,6 +319,9 @@ def arch(m):
     return (f'<li><button type="button" class="arch" data-yt-play="{m["id"]}"><img src="https://i.ytimg.com/vi/{m["id"]}/maxresdefault.jpg" width="1280" height="720" alt="" loading="lazy">'
             f'<span class="arch-t">{esc(m["title"])}</span><span class="kicker">{m["date"]} · {m["length"]} · YouTube</span></button></li>')
 archive = ''.join(arch(m) for m in MIXES)
+archive_tt = (f'<li><button type="button" class="arch" data-play="https://api.soundcloud.com/tracks/2423197164"><span class="arch-tt">Toolroom<br>Trax</span>'
+              f'<span class="arch-t">Toolroom Trax Guest Mix</span><span class="kicker">21 Oct 2026 · 1:02:15 · SoundCloud</span></button></li>')
+archive = archive + archive_tt
 YTW = 'https://www.youtube.com/watch?v=' + fm['id']
 SUB = 'https://www.youtube.com/@sophguerrero?sub_confirmation=1'
 mixes_page = (f'<div class="page room">\n'
@@ -440,6 +443,61 @@ now_strip = (f'\n<section class="now" aria-labelledby="now-t">\n'
 home = home + now_strip
 
 
+# ---------- ON AIR: radio plays (verified 14 Nov 2026) ----------
+# BBC Radio 1: checked against the tracklists on 1001Tracklists.
+BBC_PLAYS = [
+ ('2026-10-22', '22 Oct 2026', 'Arielle Free & Azzecca', 'Rave-Up', 'Habit', 'https://www.1001tracklists.com/tracklist/26hgqt8t/arielle-free-rave-up-2026-10-22.html'),
+ ('2026-10-01', '1 Oct 2026', 'Arielle Free & Chrystal Hero', 'Rave-Up', 'The Funk', 'https://www.1001tracklists.com/tracklist/20wjpu69/arielle-free-chrystal-hero-rave-up-2026-10-01.html'),
+ ('2026-09-25', '25 Sep 2026', 'Danny Howard', 'Radio 1 Club Mix', 'The Funk', 'https://www.1001tracklists.com/tracklist/drks2w9/danny-howard-bbc-radio-1-club-mix-2026-09-25.html'),
+ ('2025-08-01', '1 Aug 2025', 'TSHA', 'Radio 1 in Ibiza, 528 Ibiza', 'Body Move', 'https://www.1001tracklists.com/tracklist/whpug1k/tsha-bbc-radio-1-in-ibiza-528-ibiza-radio-1-main-stage-2025-08-01.html'),
+]
+# Toolroom Radio: checked against Toolroom's official podcast feed (Apple Podcasts).
+APPLE = 'https://podcasts.apple.com/us/podcast/toolroom-radio-ep{ep}/id285097604?i={i}'
+TR_PLAYS = [
+ (864, '2026-10-19', 'Habit', 'Track Of The Week', '1000797037936'),
+ (858, '2026-09-07', 'The Funk', 'Track Of The Week', '1000788257737'),
+ (851, '2026-07-20', 'Are You Ready?', 'Track Of The Week', '1000777522613'),
+ (839, '2026-04-27', 'I Am Telling You', 'Track Of The Week', '1000763772598'),
+ (832, '2026-03-09', "It's a Baby · Gonna Be The One", '', '1000753976810'),
+ (830, '2026-02-23', 'Gonna Be The One', 'Track Of The Week', '1000750984529'),
+ (827, '2026-02-02', 'Gonna Be The One', 'Leaders Of The New School 2026', '1000747674501'),
+ (824, '2026-01-12', 'I Need You', '', '1000745414086'),
+ (821, '2025-12-22', 'I Need You', '', '1000742292313'),
+ (813, '2025-10-27', 'Playing With My Heart', '', '1000733688171'),
+ (812, '2025-10-20', 'Playing With My Heart', '', '1000732620886'),
+ (810, '2025-10-06', 'I Know', 'Track Of The Week', '1000730379227'),
+ (806, '2025-09-08', 'I Know', '', '1000725488021'),
+ (801, '2025-08-04', 'Body Move', 'Track Of The Week + Sophia Guerrero Guest Mix', '1000720565962'),
+ (800, '2025-07-28', 'Body Move', '', '1000719466641'),
+ (794, '2025-06-16', 'Find The Light', 'Track Of The Week', '1000713063249'),
+ (779, '2025-03-03', 'Gimme Your Number', 'Track Of The Week', '1000697342609'),
+ (775, '2025-02-03', 'Gimme Your Number', 'Leaders Of The New School 2025', '1000688478996'),
+]
+GUEST_TT = dict(title='Toolroom Trax Guest Mix', date='21 Oct 2026', iso='2026-10-21', length='1:02:15',
+                sc='https://api.soundcloud.com/tracks/2423197164', mixcloud='https://www.mixcloud.com/toolroom/toolroom-trax-sophia-guerrero-dj-mix/',
+                tracklist='https://www.1001tracklists.com/tracklist/2u19lly9/sophia-guerrero-toolroom-trax-guest-mix-2026-10-21.html')
+def nice_d(iso): return datetime.date.fromisoformat(iso).strftime('%-d %b %Y')
+totw = sum(1 for p in TR_PLAYS if 'Track Of The Week' in p[3])
+bbc_rows = ''.join(
+  f'<li><time datetime="{d}">{n}</time><span class="oa-show"><b>{esc(h)}</b> · {esc(s)}</span><span class="oa-trk">{esc(t)}</span><a href="{u}"{EXT} data-track="radio-link" data-label="BBC {esc(h)} {d}">Tracklist ↗</a></li>'
+  for d, n, h, s, t, u in BBC_PLAYS)
+tr_rows = ''.join(
+  f'<li{" class=feat" if "Guest Mix" in seg else ""}><time datetime="{d}">{nice_d(d)}</time><span class="oa-show"><b>EP{ep}</b>{(" · " + esc(seg)) if seg else ""}</span><span class="oa-trk">{esc(t)}</span><a href="{APPLE.format(ep=ep, i=i)}"{EXT} data-track="radio-link" data-label="Toolroom Radio EP{ep}">Listen ↗</a></li>'
+  for ep, d, t, seg, i in TR_PLAYS)
+on_air = (f'<section class="onair" aria-labelledby="oa-t" id="on-air">\n'
+ f'  <h2 id="oa-t" class="sec-label">On air</h2>\n'
+ f'  <div class="oa-stats"><p><b>{len(BBC_PLAYS)}</b><span>BBC Radio 1 plays</span></p><p><b>{len(TR_PLAYS)}</b><span>Toolroom Radio episodes</span></p><p><b>{totw}</b><span>Toolroom Academy Tracks Of The Week</span></p><p><b>2</b><span>Toolroom guest mixes</span></p></div>\n'
+ f'  <div class="oa-feat">\n'
+ f'    <article><p class="kicker">Guest mix · {GUEST_TT["date"]}</p><h3>Toolroom Trax Guest Mix</h3><div class="btns"><button class="btn play" type="button" data-play="{GUEST_TT["sc"]}">▶ Play</button><a class="btn" href="{GUEST_TT["mixcloud"]}"{EXT} data-track="radio-link" data-label="Toolroom Trax Guest Mix Mixcloud">Mixcloud ↗</a><a class="btn" href="{GUEST_TT["tracklist"]}"{EXT}>Tracklist ↗</a></div></article>\n'
+ f'    <article><p class="kicker">Guest mix · 4 Aug 2025</p><h3>Toolroom Radio EP801 · Hour Two</h3><div class="btns"><a class="btn" href="{APPLE.format(ep=801, i="1000720565962")}"{EXT} data-track="radio-link" data-label="Toolroom Radio EP801 guest mix">Listen on Apple Podcasts ↗</a></div></article>\n'
+ f'  </div>\n'
+ f'  <h3 class="oa-h">BBC Radio 1</h3>\n  <ol class="oa-list">{bbc_rows}</ol>\n'
+ f'  <h3 class="oa-h">Toolroom Radio</h3>\n  <ol class="oa-list">{tr_rows}</ol>\n'
+ f'</section>')
+press_page = press_page.replace('  <h2 class="sec-label">Supported by</h2>', on_air + '\n  <h2 class="sec-label">Supported by</h2>')
+press_ld = {"@context": "https://schema.org", "@type": "ItemList", "name": "Sophia Guerrero on air",
+            "itemListElement": [{"@type": "ListItem", "position": k + 1, "item": {"@type": "RadioEpisode", "name": f"{h} – {s}", "datePublished": d, "url": u}} for k, (d, n, h, s, t, u) in enumerate(BBC_PLAYS)]}
+
 # ---------- BOOK ----------
 # Past dates from Sophia's RA profile, read 14 Nov 2026. Upcoming: none announced on RA.
 PAST_DATES = [('2026-04-25', 'Sat 25 Apr 2026', 'Casa Disco', 'Manila', 'with Meloko'),
@@ -512,11 +570,11 @@ pages = [
     ('mixes', '/mixes/', 'mixes/index.html', 'Mixes — Sounds Good by Sophia Guerrero',
      'Sounds Good, the monthly mix series from Manila House and Tech House DJ Sophia Guerrero.', mixes_page, mixes_ld, None),
     ('press', '/press/', 'press/index.html', 'Press — Sophia Guerrero, House & Tech House DJ, Manila',
-     "Sophia Guerrero's press and radio: BBC Radio 1 with Arielle Free and Danny Howard's Club Mix, DJane Mag, Rave Residence, and DJ support.", press_page, None, None),
+     "Sophia Guerrero's press and radio: BBC Radio 1 with Arielle Free and Danny Howard's Club Mix, DJane Mag, Rave Residence, and DJ support.", press_page, press_ld, None),
     ('book', '/book/', 'book/index.html', 'Book Sophia Guerrero — House & Tech House DJ, Manila',
      f'Bookings and enquiries for Sophia Guerrero, House and Tech House DJ and producer from Manila, Philippines: {email}.', book_page, book_ld, None),
 ]
-CATALOG_JSON = json.dumps([dict(kind='release', no=r['no'], title=r['title'], feat=r['feat'], label=r['label'], bpm=r['bpm'], key=r['key'], sc=r['sc'], sp=r['sp'], img=r['img'], date=r['nice'], year=r['year'], slug=r['slug'], upcoming=r.get('upcoming', False)) for r in library] + [dict(kind='mix', yt=m['id'], title=m['title'], label='Mix', date=m['date'], year=m['iso'][:4], length=m['length'], img='https://i.ytimg.com/vi/%s/maxresdefault.jpg' % m['id'], bpm=0, key='') for m in MIXES], ensure_ascii=False).replace('</', '<\\/')
+CATALOG_JSON = json.dumps([dict(kind='release', no=r['no'], title=r['title'], feat=r['feat'], label=r['label'], bpm=r['bpm'], key=r['key'], sc=r['sc'], sp=r['sp'], img=r['img'], date=r['nice'], year=r['year'], slug=r['slug'], upcoming=r.get('upcoming', False)) for r in library] + [dict(kind='mix', sc='https://api.soundcloud.com/tracks/2423197164', title='Toolroom Trax Guest Mix', label='Toolroom Trax', date='21 Oct 2026', year='2026', length='1:02:15', img='/assets/img/og-sophia-guerrero.jpg', bpm=0, key='')] + [dict(kind='mix', yt=m['id'], title=m['title'], label='Mix', date=m['date'], year=m['iso'][:4], length=m['length'], img='https://i.ytimg.com/vi/%s/maxresdefault.jpg' % m['id'], bpm=0, key='') for m in MIXES], ensure_ascii=False).replace('</', '<\\/')
 pages_404 = [('lost', '/404.html', '404.html' if not PREFIX else '404/index.html', 'Lost in the smoke — Sophia Guerrero', 'Page not found.', lost, None, None)]
 for slug, path, fn, title, desc, body, ld, ogt in pages + pages_404:
     f = OUT / fn; f.parent.mkdir(parents=True, exist_ok=True)

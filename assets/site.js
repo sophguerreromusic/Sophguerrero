@@ -42,7 +42,7 @@
       pp=deck.querySelector('.pp'),live=document.getElementById('deck-live'),ext=deck.querySelector('.ext'),
       prog=deck.querySelector('.prog'),progI=prog?prog.querySelector('i'):null;
   var CAT=[];try{CAT=JSON.parse(document.getElementById('catalog').textContent)}catch(e){}
-  var QUEUE=CAT.filter(function(r){return r.sc&&r.kind!=='mix'});
+  var QUEUE=CAT.filter(function(r){return r.sc});
   var ALL=CAT.filter(function(r){return !r.upcoming&&(r.sc||r.sp||r.yt)});
   var current=null,vol=80;
   try{vol=+(localStorage.getItem('sgVol')||80)}catch(e){}
