@@ -342,7 +342,10 @@
   /* ---------- Manila clock: the site keeps Manila time ----------
      The light and accent follow the hour in Manila (dusk, night, after hours, sunrise, daytime),
      and the home running order marks the slot that's on now. Colour only; nothing extra moves. */
-  function manilaTime(){try{return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date());}catch(e){return '';}}
+  /* preview: ?at=HH:MM shows the site at that Manila time (for checking the looks) */
+  var AT=(location.search.match(/[?&]at=(\d{1,2}):?(\d{2})/)||null);
+  if(AT)AT=('0'+Math.min(23,+AT[1])).slice(-2)+':'+AT[2];
+  function manilaTime(){if(AT)return AT;try{return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date());}catch(e){return '';}}
   var PAL={day:{lav:[.80,.78,.86],vio:[.40,.38,.52],acid:[.84,.95,.42]},dusk:{lav:[.92,.76,.80],vio:[.55,.33,.45],acid:[1,.54,.36]},
     night:{lav:[.784,.749,.863],vio:[.42,.357,.549],acid:[.784,.941,.235]},after:{lav:[.70,.66,.95],vio:[.36,.28,.62],acid:[.76,.61,1]},
     sunrise:{lav:[.95,.82,.80],vio:[.58,.42,.50],acid:[1,.76,.48]}};
