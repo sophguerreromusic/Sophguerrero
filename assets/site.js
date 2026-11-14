@@ -251,6 +251,7 @@
 
   /* ---------- per-page behaviour ---------- */
   function init(root){
+    if(window.SGClock)window.SGClock();
     if(root.querySelector&&root.querySelector('.play-page')){var go=function(){if(window.SGPlay)window.SGPlay.open();};if(window.SGPlay)setTimeout(go,60);else document.addEventListener('DOMContentLoaded',function(){setTimeout(go,60)});}
 
     var tc=location.hash.match(/^#cue-(\d+)$/);
@@ -338,8 +339,27 @@
     var off=function(){removeEventListener('wheel',swipe);removeEventListener('touchstart',swipe);removeEventListener('touchmove',swipe);};
     addEventListener('wheel',swipe,{passive:true});addEventListener('touchstart',swipe,{passive:true});addEventListener('touchmove',swipe,{passive:true});
   }
-  function manilaTime(){try{return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit'}).format(new Date());}catch(e){return '';}}
-  document.querySelectorAll('.mnl').forEach(function(el){el.textContent='Manila · '+manilaTime();});
+  /* ---------- Manila clock: the site keeps Manila time ----------
+     The light and accent follow the hour in Manila (dusk, night, after hours, sunrise, daytime),
+     and the home running order marks the slot that's on now. Colour only; nothing extra moves. */
+  function manilaTime(){try{return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date());}catch(e){return '';}}
+  var PAL={day:{lav:[.80,.78,.86],vio:[.40,.38,.52],acid:[.84,.95,.42]},dusk:{lav:[.92,.76,.80],vio:[.55,.33,.45],acid:[1,.54,.36]},
+    night:{lav:[.784,.749,.863],vio:[.42,.357,.549],acid:[.784,.941,.235]},after:{lav:[.70,.66,.95],vio:[.36,.28,.62],acid:[.76,.61,1]},
+    sunrise:{lav:[.95,.82,.80],vio:[.58,.42,.50],acid:[1,.76,.48]}};
+  function phaseOf(h){if(h>=4&&h<6)return['sunrise','sunrise'];if(h>=6&&h<16)return['day','daytime'];if(h>=16&&h<19)return['dusk','dusk'];if(h>=19)return['night','night'];return['after','after hours'];}
+  function clock(){
+    var t=manilaTime();if(!t)return;var hm=t.split(':'),h=+hm[0]+(+hm[1])/60,p=phaseOf(h);
+    if(document.documentElement.getAttribute('data-phase')!==p[0])document.documentElement.setAttribute('data-phase',p[0]);
+    window.SG_PAL=PAL[p[0]];
+    document.querySelectorAll('.mnl').forEach(function(el){el.textContent='Manila · '+t+' · '+p[1];});
+    var ro=document.querySelector('.ro');if(ro){
+      var hh=h<12?h+24:h,on=null,li=ro.querySelectorAll('li[data-at]');
+      for(var i=0;i<li.length;i++){var a=+li[i].getAttribute('data-at'),e=li[i].getAttribute('data-end');e=e?+e:(li[i+1]?+li[i+1].getAttribute('data-at'):a);
+        var is=hh>=a&&hh<e;li[i].classList.toggle('on',is);var sr=li[i].querySelector('.sr');if(is&&!sr){sr=document.createElement('span');sr.className='sr';sr.textContent=' (on now)';li[i].querySelector('a').appendChild(sr);}else if(!is&&sr)sr.remove();if(is)on=li[i];}
+      var sub=ro.querySelector('.ro-sub');if(sub)sub.textContent=on?('On now · '+t+' in Manila'):('Doors 22:00 · it\'s '+t+' in Manila');
+    }
+  }
+  window.SGClock=clock;clock();setInterval(clock,30000);
 
     /* ---------- calm mode: no pulsing or flashing light (remembered) ---------- */
   var calmOn=false;try{calmOn=localStorage.getItem('sgCalm')==='1'}catch(e){}

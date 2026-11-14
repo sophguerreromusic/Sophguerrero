@@ -13,7 +13,7 @@ var VS='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
 var FS=[
 'precision highp float;',
 'uniform vec2 R;uniform float T,M,K,B,MD,H,A,BAR,ROT;uniform vec2 P;',
-'const vec3 INK=vec3(.071,.067,.082),LAV=vec3(.784,.749,.863),VIO=vec3(.42,.357,.549),PAP=vec3(.949,.937,.918),ACID=vec3(.784,.941,.235);',
+'uniform vec3 LAV,VIO,ACID;const vec3 INK=vec3(.071,.067,.082),PAP=vec3(.949,.937,.918);',
 'float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
 'float n2(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(h21(i),h21(i+vec2(1,0)),u.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),u.x),u.y);}',
 'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n2(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}',
@@ -67,7 +67,7 @@ function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(
 var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(pr);gl.useProgram(pr);
 var bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
 var loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
-var U={};['R','T','M','K','B','MD','H','A','BAR','ROT','P'].forEach(function(n){U[n]=gl.getUniformLocation(pr,n)});
+var COL={lav:[.784,.749,.863],vio:[.42,.357,.549],acid:[.784,.941,.235]};var U={};['R','T','M','K','B','MD','H','A','BAR','ROT','P','LAV','VIO','ACID'].forEach(function(n){U[n]=gl.getUniformLocation(pr,n)});
 var small=matchMedia('(max-width: 860px)');
 var scale=Math.min(devicePixelRatio||1,1.5)*(small.matches?.45:.55);
 function size(){cv.width=Math.max(2,Math.round(innerWidth*scale));cv.height=Math.max(2,Math.round(innerHeight*scale));gl.viewport(0,0,cv.width,cv.height);}
@@ -124,6 +124,8 @@ function frame(now){
   rot+=dt*(.08+.2*K);
   var bar=lit?((now-beat0)/1000)*BPM/60/4:t*.08;
   gl.uniform2f(U.R,cv.width,cv.height);gl.uniform1f(U.T,t);gl.uniform1f(U.M,mode);gl.uniform1f(U.K,K*(KMUL[page]||.7));gl.uniform1f(U.B,B);gl.uniform1f(U.MD,MD);gl.uniform1f(U.H,H);gl.uniform1f(U.A,amt);gl.uniform1f(U.BAR,bar);gl.uniform1f(U.ROT,rot);gl.uniform2f(U.P,pos.x,pos.y);
+  var pal=window.SG_PAL;if(pal){['lav','vio','acid'].forEach(function(k){var c=COL[k];for(var j=0;j<3;j++)c[j]+=(pal[k][j]-c[j])*Math.min(1,dt*1.5);});}
+  gl.uniform3fv(U.LAV,COL.lav);gl.uniform3fv(U.VIO,COL.vio);gl.uniform3fv(U.ACID,COL.acid);
   gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
   root.style.setProperty('--flash',(F*.3).toFixed(3));
   if(vu.length&&(fN++&1)===0){
