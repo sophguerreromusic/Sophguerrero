@@ -488,7 +488,7 @@ lost = f'''<div class="page lost">
 </div>'''
 
 play_page = f'''<div class="page play-page">
-  <header class="page-head"><h1>Play</h1><p class="kicker">Listening room · fullscreen · display mode</p></header>
+  <header class="page-head"><h1>Play</h1><p class="kicker">{N} releases · latest mix</p></header>
   <p class="lede" style="margin-bottom:24px">Step inside: every release and the latest mix in one dark room.</p>
   <div class="btns"><button class="btn solid pm-open" type="button" aria-haspopup="dialog">Enter Play mode ⤢</button><a class="btn" href="/music/">Browse the record library</a><a class="btn" href="/mixes/">Mixes</a></div>
   <p class="lib-note">Nothing plays until you press play. Leave any time with Exit or Esc; the music keeps going in the player bar while you browse.</p>
