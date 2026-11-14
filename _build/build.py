@@ -168,7 +168,7 @@ def follow_links(items):
 # ---------- HOME ----------
 latest = releases[0]
 home = f'''<section class="gate" aria-label="Welcome">
-  <p class="kicker gate-top"><span>Issue No. {latest["no"]:02d}</span><span class="mnl">Manila</span></p>
+  <p class="kicker gate-top"><span>House ✦ Tech House</span><span class="mnl">Manila</span></p>
   <p class="gate-name" aria-hidden="true">Sophia<br><em>Guerrero</em></p>
   <p class="tagline">House <b>✦</b> Tech House</p>
   <div class="gate-act">
@@ -186,7 +186,7 @@ home = f'''<section class="gate" aria-label="Welcome">
     <figcaption>Manila · after hours</figcaption>
   </figure>
   <div class="cover-copy">
-    <div class="issue-line kicker"><span>Issue No. {latest["no"]:02d}</span><span>House ✦ Tech House</span><span>Manila, PH</span></div>
+    <div class="issue-line kicker"><span>House ✦ Tech House</span><span>Manila, PH</span></div>
     <div>
       <h1 id="cover-title">Sophia<br><em>Guerrero</em></h1>
       <p class="tagline">House <b>✦</b> Tech House</p>
