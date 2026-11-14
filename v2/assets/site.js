@@ -221,9 +221,10 @@
         dlg.querySelector('.sv-label').textContent=r.label;dlg.querySelector('.sv-date').textContent=r.date;
         dlg.querySelector('.sv-bpm').textContent=r.bpm;dlg.querySelector('.sv-key').textContent=r.key;
         var L=dlg.querySelector('.sv-listen');
-        if(r.sc){L.innerHTML='<button class="btn play" type="button" data-play="'+r.sc+'">▶ Play in the player bar</button><p class="note">Plays from SoundCloud and keeps going while you browse.</p>';}
+        if(r.upcoming){L.innerHTML='<p class="kicker" style="color:var(--acid)">Out '+esc(r.date)+'</p><a class="btn solid" href="'+r.bp+'" target="_blank" rel="noopener">Pre-order on Beatport ↗</a><p class="note">Listening links arrive on release day.</p>';}
+        else if(r.sc){L.innerHTML='<button class="btn play" type="button" data-play="'+r.sc+'">▶ Play in the player bar</button><p class="note">Plays from SoundCloud and keeps going while you browse.</p>';}
         else{L.innerHTML='<iframe title="'+esc(r.title)+' on Spotify" src="https://open.spotify.com/embed/album/'+r.sp+'?theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe><p class="note">Plays here through Spotify. Without a Spotify login you may hear a 30-second preview.</p>';}
-        var links=[['Beatport',r.bp],['Traxsource',r.tx],['Spotify','https://open.spotify.com/album/'+r.sp]];if(r.sc)links.push(['SoundCloud',r.sc]);
+        var links=[['Beatport',r.bp]];if(r.tx)links.push(['Traxsource',r.tx]);if(r.sp)links.push(['Spotify','https://open.spotify.com/album/'+r.sp]);if(r.sc)links.push(['SoundCloud',r.sc]);
         dlg.querySelector('.sv-links').innerHTML=links.map(function(l){return '<a class="btn" href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+' ↗</a>'}).join('');
         dlg.showModal();
       });

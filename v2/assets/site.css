@@ -367,3 +367,8 @@ dialog.sleeve-view::backdrop{background:rgba(18,17,21,.82)}
 .prog:focus-visible{outline-offset:2px}
 .lcd{row-gap:0}
 .deck{height:auto;min-height:var(--bar);padding-top:8px;padding-bottom:8px}
+
+/* upcoming release */
+.sleeve .soon{position:absolute;right:0;bottom:0;background:var(--acid);color:var(--ink);font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px}
+.rec.upcoming .rec-s{color:var(--acid)}
+.records[data-view="list"] .sleeve .soon{display:none}
