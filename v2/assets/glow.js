@@ -72,7 +72,7 @@ function size(){cv.width=Math.max(2,Math.round(innerWidth*scale));cv.height=Math
 size();addEventListener('resize',size);
 /* page -> look: 0 bloom, 1 haze, 2 spark, 3 scan */
 var LOOK={home:0,mixes:1,press:2,book:2,music:3};
-var AMT={home:1.35,mixes:.85,press:.7,book:.6,music:.6};
+var AMT={home:.9,mixes:.58,press:.48,book:.42,music:.42};
 function home(page){
   if(page==='home')return small.matches?{x:.5,y:.42}:{x:.455,y:.38};
   if(page==='press'||page==='book')return small.matches?{x:.82,y:.86}:{x:.86,y:.84};
