@@ -142,7 +142,7 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
     <label class="pm-vol"><span class="sr">Volume</span><span aria-hidden="true">Vol</span><input type="range" min="0" max="100" step="1" value="80"></label>
   </div>
   <nav class="pm-list" aria-label="Choose a track"><ol></ol></nav>
-  <p class="pm-note">The light follows each track's tempo and key, not the audio itself. Calm mode (C) stops pulsing.</p>
+  <p class="pm-note">Calm mode (C) stops pulsing.</p>
   <p class="pm-caption" aria-hidden="true"></p>
   <button type="button" class="pm-btn pm-reveal">Show controls</button>
 </section>
@@ -487,7 +487,7 @@ lost = f'''<div class="page lost">
 
 play_page = f'''<div class="page play-page">
   <header class="page-head"><h1>Play</h1><p class="kicker">Listening room · fullscreen · display mode</p></header>
-  <p class="lede" style="margin-bottom:24px">Step inside: every release and the latest mix in one dark room, with light that follows each track's tempo and key.</p>
+  <p class="lede" style="margin-bottom:24px">Step inside: every release and the latest mix in one dark room.</p>
   <div class="btns"><button class="btn solid pm-open" type="button" aria-haspopup="dialog">Enter Play mode ⤢</button><a class="btn" href="/music/">Browse the record library</a><a class="btn" href="/mixes/">Mixes</a></div>
   <p class="lib-note">Nothing plays until you press play. Leave any time with Exit or Esc; the music keeps going in the player bar while you browse.</p>
 </div>'''
