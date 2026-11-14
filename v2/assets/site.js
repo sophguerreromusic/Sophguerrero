@@ -108,5 +108,12 @@
     }
   }
   init(document);
+  /* preview-only font switch (remembered for this visit) */
+  var ts=document.querySelector('.typeswitch');
+  if(ts){
+    var saved='';try{saved=sessionStorage.getItem('sgType')||''}catch(e){}
+    function setT(v){document.body.classList.toggle('t-familjen',v==='familjen');ts.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.t===v))});try{sessionStorage.setItem('sgType',v)}catch(e){}}
+    setT(saved);ts.addEventListener('click',function(e){var b=e.target.closest('button');if(b)setT(b.dataset.t);});
+  }
   setCurrent(location.pathname);
 })();
