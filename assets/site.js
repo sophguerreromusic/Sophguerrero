@@ -3,11 +3,12 @@
   'use strict';
   var PROFILE='https://soundcloud.com/sophiaguerrero';
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var B=document.body.dataset.base||'';
 
   /* ---------- old #panel links → new pages ---------- */
-  var legacy={releases:'/music/',music:'/music/',mixes:'/mixes/',press:'/press/',info:'/book/',tour:'/book/#played-at',play:'/?play'};
+  var legacy={releases:B+'/music/',music:B+'/music/',mixes:B+'/mixes/',press:B+'/press/',info:B+'/book/',tour:B+'/book/#played-at',play:B+'/?play'};
   var h=location.hash.slice(1);
-  if((location.pathname==='/'||/index\.html$/.test(location.pathname))&&legacy[h]){location.replace(legacy[h]);return;}
+  if((location.pathname===B+'/'||/index\.html$/.test(location.pathname))&&legacy[h]){location.replace(legacy[h]);return;}
 
   /* ---------- deck (SoundCloud widget, created on first play) ---------- */
   var deck=document.querySelector('.deck'),lcdT=deck.querySelector('.tt'),lcdS=deck.querySelector('.st'),lcdM=deck.querySelector('.tm'),
@@ -65,7 +66,7 @@
   if(/[?&]play\b/.test(location.search)){lcdT.textContent='Press play to start';pp.focus({preventScroll:true});}
 
   /* ---------- page swaps keep the deck playing ---------- */
-  var PAGES=/^\/(music|mixes|press|book)?\/?$/;
+  var PAGES=new RegExp('^'+B.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'/(music|mixes|press|book)?/?$');
   function sameSite(a){return a.origin===location.origin&&PAGES.test(a.pathname)&&!a.hasAttribute('download')&&a.target!=='_blank';}
   function setCurrent(path){document.querySelectorAll('.mast nav a').forEach(function(a){if(a.pathname===path)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});}
   function swap(url,push){
