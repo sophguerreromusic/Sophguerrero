@@ -349,6 +349,8 @@ press_page = f'''<div class="page">
 </div>'''
 
 # ---------- ENGAGEMENT: cross-links, selections, now strip, dates, newsletter ----------
+# Upcoming dates, from Sophia (14 Nov 2026).
+UPCOMING_DATES = [('2026-11-27', 'Fri 27 Nov 2026', 'No Entry', 'Manila')]
 import re as _re, urllib.parse as _up
 def slug(t): return _re.sub(r'[^a-z0-9]+', '-', t.lower().replace("'", '')).strip('-')
 def norm(t): return _re.sub(r'[^a-z0-9]', '', t.lower())
@@ -419,7 +421,9 @@ STREAM = [('Spotify', 'https://open.spotify.com/artist/2vr2Zel4lL47VOq86RCEHi'),
           ('Deezer', 'https://www.deezer.com/artist/13781519')]
 listen_on = ''.join(f'<a href="{h}"{EXT} data-track="streaming-click" data-label="{n}">{n} ↗</a>' for n, h in STREAM)
 now_strip = (f'\n<section class="now" aria-labelledby="now-t">\n'
- f'  <h2 id="now-t" class="sec-label">Now</h2>\n  <div class="now-grid">\n'
+ f'  <h2 id="now-t" class="sec-label">Now</h2>\n'
+ + ''.join(f'  <p class="next-date"><span class="kicker">Next date</span> <time datetime="{d}">{nice}</time> · <strong>{esc(e)}</strong>, {esc(c)} <a href="/book/#dates">Dates →</a></p>\n' for d, nice, e, c in UPCOMING_DATES[:1]) +
+ f'  <div class="now-grid">\n'
  f'    <article class="now-card"><a href="/music/#rel-{out_now["slug"]}" class="now-a"><img src="{out_now["img"]}" width="1000" height="1000" alt="" loading="lazy">'
  f'<p class="kicker">Out now · {esc(out_now["label"])} · {out_now["nice"]}</p><h3>{esc(out_now["title"])}</h3></a>'
  f'<div class="btns"><button class="btn play" type="button" data-play="{out_now["sc"]}">▶ Play</button><a class="btn" href="{out_now["bp"]}"{EXT} data-track="release-link" data-label="{esc(out_now["title"])} - Beatport">Beatport ↗</a></div></article>\n'
@@ -438,10 +442,13 @@ home = home + now_strip
 # Past dates from Sophia's RA profile, read 14 Nov 2026. Upcoming: none announced on RA.
 PAST_DATES = [('2026-04-25', 'Sat 25 Apr 2026', 'Casa Disco', 'Manila', 'with Meloko'),
               ('2025-06-11', 'Wed 11 Jun 2025', "It's a Groove Thang · Apotheka", 'Manila', 'with Antonne')]
+NEXT = ''.join(f'<li><time datetime="{d}">{nice}</time><span class="pd-e">{esc(e)}</span><span class="pd-w">{esc(c)}</span></li>' for d, nice, e, c in UPCOMING_DATES)
 PAST = ''.join(f'<li><time datetime="{d}">{nice}</time><span class="pd-e">{esc(e)}</span><span class="pd-w">{esc(c)} · {esc(w)}</span></li>' for d, nice, e, c, w in PAST_DATES)
 book_ld = {"@context": "https://schema.org", "@graph": [{"@type": "MusicEvent", "name": e, "startDate": d,
            "location": {"@type": "Place", "name": e.split(' · ')[-1], "address": c}, "performer": {"@type": "Person", "name": "Sophia Guerrero"},
-           "eventStatus": "https://schema.org/EventScheduled", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"} for d, nice, e, c, w in PAST_DATES]}
+           "eventStatus": "https://schema.org/EventScheduled", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"} for d, nice, e, c, w in PAST_DATES] + [{"@type": "MusicEvent", "name": f"Sophia Guerrero at {e}", "startDate": d,
+           "location": {"@type": "Place", "name": e, "address": c}, "performer": {"@type": "Person", "name": "Sophia Guerrero"},
+           "eventStatus": "https://schema.org/EventScheduled", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"} for d, nice, e, c in UPCOMING_DATES]}
 INQ_SUBJ = _up.quote('Booking inquiry: Sophia Guerrero')
 INQ_BODY = _up.quote('Hi Sophia,\n\nEvent / promoter:\nDate:\nCity and venue:\nCapacity:\nSet time and length:\nFee / budget:\nTravel and accommodation:\nContact number:\n\nThanks!')
 
@@ -467,7 +474,8 @@ book_page = f'''<div class="page">
         <li>Support from {esc(', '.join(both[:-1]))} and {esc(both[-1])}</li>
       </ol>
       <h2 class="sec-label" id="dates">Dates</h2>
-      <p class="dates-none">No upcoming dates announced right now.</p>
+      <h3 class="kicker">Upcoming</h3>
+      <ul class="pastdates nextdates">{NEXT}</ul>
       <div class="btns" style="margin:10px 0 18px"><a class="btn" href="https://ra.co/dj/sophiaguerrero"{EXT} data-track="ra-follow">Follow on RA for new dates ↗</a></div>
       <h3 class="kicker" id="played-at">Past dates</h3>
       <ul class="pastdates">{PAST}</ul>

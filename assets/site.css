@@ -563,3 +563,8 @@ body{padding-bottom:calc(var(--bar) + env(safe-area-inset-bottom))}
 /* email address: clean grotesk, lowercase, easy to read */
 .big-mail{font-family:var(--display);font-weight:500;font-size:clamp(22px,3vw,40px);line-height:1.15;letter-spacing:-.01em;text-transform:none;padding-bottom:4px}
 .foot a[href^="mailto:"]{font-family:var(--display);font-size:15px;letter-spacing:0;text-transform:none;color:var(--paper)}
+.next-date{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;margin:-6px 0 22px;font-family:var(--display);font-size:clamp(18px,2vw,24px)}
+.next-date time{color:var(--acid)}
+.next-date a{font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--lav);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.nextdates .pd-e{color:var(--paper)}
+.nextdates time{color:var(--acid)}
