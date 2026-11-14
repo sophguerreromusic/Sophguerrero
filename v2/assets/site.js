@@ -9,6 +9,32 @@
   var h=location.hash.slice(1);
   if((location.pathname===B+'/'||/index\.html$/.test(location.pathname))&&legacy[h]){location.replace(legacy[h]);return;}
 
+
+  /* ---------- privacy-conscious analytics (off until a GoatCounter site is set) ----------
+     Cookieless counting only. Respects Do Not Track and Global Privacy Control: if either is on,
+     nothing is loaded or sent. No personal data, no IDs. Events: player-start, mix-play,
+     release-link, streaming-click, booking-inquiry, newsletter-signup, return-visit, and a few
+     discovery clicks (mix-to-release, release-to-mix, selection-click). */
+  var GC=document.body.dataset.gc||'',optOut=navigator.doNotTrack==='1'||window.doNotTrack==='1'||navigator.globalPrivacyControl===true;
+  window.SG_EVENTS=[];
+  var gcQ=[];
+  function track(name,label){
+    window.SG_EVENTS.push(label?name+': '+label:name);
+    if(!GC||optOut)return;
+    var ev={path:name+(label?'/'+label:''),title:label||name,event:true};
+    if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count(ev);else gcQ.push(ev);
+  }
+  window.sgTrack=track;
+  if(GC&&!optOut){
+    var gs=document.createElement('script');gs.async=true;gs.src='https://gc.zgo.at/count.js';gs.dataset.goatcounter='https://'+GC+'.goatcounter.com/count';
+    gs.onload=function(){var t=setInterval(function(){if(window.goatcounter&&window.goatcounter.count){clearInterval(t);gcQ.splice(0).forEach(function(e){window.goatcounter.count(e)});}},200);};
+    document.head.appendChild(gs);
+  }
+    /* return visit = back on the site after 30+ minutes away; only a last-seen time is kept on the device */
+  if(!optOut){try{var nowT=Date.now(),lastT=+localStorage.getItem('sgLast')||0;localStorage.setItem('sgLast',String(nowT));if(lastT&&nowT-lastT>1800000)track('return-visit');}catch(e){}}
+  document.addEventListener('click',function(e){var a=e.target.closest('[data-track]');if(a)track(a.dataset.track,a.dataset.label||'');},true);
+  document.addEventListener('submit',function(e){var f=e.target.closest('[data-track-submit]');if(f)track(f.dataset.trackSubmit);},true);
+
   /* ---------- deck: one player bar for two real sources ----------
      SoundCloud widget (releases queue) and the YouTube IFrame player (mixes, kept visible in a dock).
      Nothing here generates or fakes audio; everything shown comes from the players' own events. */
@@ -38,7 +64,7 @@
   function stalled(){clearTimeout(stallT);stallT=setTimeout(function(){if(!playing){lcdS.textContent='Tap';lcdT.textContent='Press play again to start';}},7000);}
 
   /* SoundCloud: releases */
-  var widget=null,frame=null,scApi=false,qi=0;
+  var widget=null,frame=null,scApi=false,qi=0,lastStarted='';
   function loadScript(u,ok){var s=document.createElement('script');s.src=u;s.async=true;s.onload=ok;document.head.appendChild(s);}
   function scReady(cb){if(window.SC&&SC.Widget)return cb();if(scApi){var i=setInterval(function(){if(window.SC&&SC.Widget){clearInterval(i);cb()}},80);return;}scApi=true;loadScript('https://w.soundcloud.com/player/api.js',cb);}
   function scShow(){var r=QUEUE[qi];if(!r)return;lcdT.textContent=r.title+' — '+r.label;ext.href=r.sc;ext.textContent='SoundCloud ↗';window.SG_BPM=r.bpm||124;window.SG_NOPULSE=false;}
@@ -52,7 +78,7 @@
         deck.appendChild(frame);widget=SC.Widget(frame);
         var E=SC.Widget.Events;
         widget.bind(E.READY,function(){widget.play();});
-        widget.bind(E.PLAY,function(){if(src!=='sc'){widget.pause();return;}clearTimeout(stallT);setState(true);scShow();widget.getDuration(function(d){durMs=d;});say('Now playing: '+QUEUE[qi].title);});
+        widget.bind(E.PLAY,function(){if(src!=='sc'){widget.pause();return;}clearTimeout(stallT);if(lastStarted!==QUEUE[qi].sc){lastStarted=QUEUE[qi].sc;track('player-start',QUEUE[qi].title);}setState(true);scShow();widget.getDuration(function(d){durMs=d;});say('Now playing: '+QUEUE[qi].title);});
         widget.bind(E.PAUSE,function(){if(src==='sc')setState(false);});
         widget.bind(E.FINISH,function(){if(src==='sc')playRelease(qi+1);});
         widget.bind(E.PLAY_PROGRESS,function(e){if(src==='sc')setProg(e.currentPosition,durMs);});
@@ -97,7 +123,7 @@
           events:{
             onReady:function(){yt.playVideo();},
             onStateChange:function(e){
-              if(e.data===YT.PlayerState.PLAYING){if(src!=='yt'){yt.pauseVideo();return;}clearTimeout(stallT);setState(true);ytShow();clearInterval(ytTimer);ytTimer=setInterval(ytTick,500);}
+              if(e.data===YT.PlayerState.PLAYING){if(src!=='yt'){yt.pauseVideo();return;}clearTimeout(stallT);if(lastStarted!==ytId){lastStarted=ytId;track('mix-play',ytTitle);}setState(true);ytShow();clearInterval(ytTimer);ytTimer=setInterval(ytTick,500);}
               else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.ENDED){if(src==='yt')setState(false);clearInterval(ytTimer);ytTick();}
             }}});
       }else{if(yt.getVideoData&&yt.getVideoData().video_id===id){if(at!=null)yt.seekTo(at,true);yt.playVideo();}else yt.loadVideoById({videoId:id,startSeconds:at||0});}
@@ -184,6 +210,8 @@
       torch.addEventListener('touchmove',function(e){var t=e.touches[0];if(t)mv(t.clientX,t.clientY)},{passive:true});
       torch.addEventListener('pointerleave',function(){torch.style.setProperty('--fx','60%');torch.style.setProperty('--fy','34%');});
     }
+    var tc=location.hash.match(/^#cue-(\d+)$/);
+    if(tc){var c=root.querySelector('#cue-'+tc[1]);if(c){c.classList.add('target');setTimeout(function(){c.scrollIntoView({block:'center'})},60);}}
     /* record library */
     var lib=root.querySelector('.records');
     if(lib){
@@ -225,11 +253,16 @@
         else if(r.sc){L.innerHTML='<button class="btn play" type="button" data-play="'+r.sc+'">▶ Play in the player bar</button><p class="note">Plays from SoundCloud and keeps going while you browse.</p>';}
         else{L.innerHTML='<iframe title="'+esc(r.title)+' on Spotify" src="https://open.spotify.com/embed/album/'+r.sp+'?theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe><p class="note">Plays here through Spotify. Without a Spotify login you may hear a 30-second preview.</p>';}
         var links=[['Beatport',r.bp]];if(r.tx)links.push(['Traxsource',r.tx]);if(r.sp)links.push(['Spotify','https://open.spotify.com/album/'+r.sp]);if(r.sc)links.push(['SoundCloud',r.sc]);
-        dlg.querySelector('.sv-links').innerHTML=links.map(function(l){return '<a class="btn" href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+' ↗</a>'}).join('');
+        dlg.querySelector('.sv-links').innerHTML=links.map(function(l){return '<a class="btn" href="'+l[1]+'" target="_blank" rel="noopener" data-track="release-link" data-label="'+esc(r.title)+' - '+l[0]+'">'+l[0]+' ↗</a>'}).join('');
+        var pl=dlg.querySelector('.sv-played');if(pl)pl.innerHTML=(r.played&&r.played.length)?'Heard in the '+r.played.map(function(p){return '<a href="'+B+'/mixes/#cue-'+p.s+'" data-track="release-to-mix" data-label="'+esc(r.title)+'">'+esc(p.mix)+' at '+p.t+' →</a>'}).join(', '):'';
+        if(history.replaceState)history.replaceState(null,'','#rel-'+r.slug);
         dlg.showModal();
       });
+      var deep=location.hash.match(/^#rel-([a-z0-9-]+)$/);
+      if(deep){var tgt=root.querySelector('#rel-'+deep[1]+' .rec-open');if(tgt)setTimeout(function(){tgt.scrollIntoView({block:'center'});tgt.click();},60);}
       if(dlg){
-        dlg.addEventListener('close',function(){dlg.querySelector('.sv-listen').innerHTML='';if(opener)opener.focus();});
+        dlg.addEventListener('close',function(){dlg.querySelector('.sv-listen').innerHTML='';if(location.hash.indexOf('#rel-')===0&&history.replaceState)history.replaceState(null,'',location.pathname);if(opener)opener.focus();});
+        dlg.addEventListener('click',function(e){var a=e.target.closest('a[href*="/mixes/#cue-"]');if(a)dlg.close();});
         dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();if(e.target.closest('[data-play]'))setTimeout(function(){dlg.close()},150);});
       }
     }
