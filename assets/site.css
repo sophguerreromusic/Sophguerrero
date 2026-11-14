@@ -496,3 +496,55 @@ body.pm-open canvas.glow{display:none}
   .pm-btn{padding:8px 10px}
 }
 @media (prefers-reduced-motion:reduce){.pm{transition:none}.pm-art.swap img,.pm-art.swap::after{animation:none}}
+
+/* ======== iPhone / touch ======== */
+html{-webkit-tap-highlight-color:transparent}
+a,button,input,select,[role=slider]{touch-action:manipulation}
+.mast{padding-top:max(14px,env(safe-area-inset-top));padding-left:max(var(--gut),env(safe-area-inset-left));padding-right:max(var(--gut),env(safe-area-inset-right))}
+.deck{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-left:max(var(--gut),env(safe-area-inset-left));padding-right:max(var(--gut),env(safe-area-inset-right))}
+body{padding-bottom:calc(var(--bar) + env(safe-area-inset-bottom))}
+.pm{padding-top:max(14px,env(safe-area-inset-top));padding-bottom:max(12px,env(safe-area-inset-bottom));padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+/* bigger touch areas on the thin seek bars */
+.prog,.pm-prog{position:relative}
+.prog::before,.pm-prog::before{content:"";position:absolute;left:0;right:0;top:-10px;bottom:-3px}
+.deck button,.pm-ctrl button{position:relative;z-index:1}
+/* hover-only effects shouldn't stick after a tap */
+@media (hover:none){
+  .records[data-view="crate"] .rec-open:hover .sleeve img{transform:none}
+  .issue .art:hover img,.rel .cover:hover img{transform:none}
+  .bookbtn:hover{background:var(--acid)}
+}
+@media (max-width:640px){
+  :root{--bar:118px}
+  /* player bar: readout on top, big thumb-friendly controls underneath */
+  .deck{grid-template-columns:repeat(5,minmax(0,1fr));grid-template-areas:"lcd lcd lcd lcd lcd" "prev pp next calm pm";gap:8px 8px;padding-top:8px}
+  .deck .lcd{grid-area:lcd}
+  .deck .prev{grid-area:prev;display:grid!important}
+  .deck .pp{grid-area:pp}
+  .deck .nx-wrap{display:contents}
+  .deck .next{grid-area:next}
+  .deck .calm{grid-area:calm}
+  .deck .pm-open{grid-area:pm;font-size:11px;padding:0 4px}
+  .deck .tap,.deck .ext{display:none!important}
+  .deck button{width:auto;height:44px;min-width:44px}
+  .lcd{grid-template-columns:auto minmax(0,1fr) auto}
+  /* tap targets */
+  .mast nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
+  .mast .logo{min-height:44px}
+  .bookbtn{min-height:44px}
+  .filters button,.seg button,.chip,.btn{min-height:44px}
+  .lib-sort select{font-size:16px;min-height:44px}
+  .kbd-open{min-height:44px}
+  .listen-on a,.follow a{display:inline-flex;align-items:center;min-height:44px}
+  .foot a{display:inline-flex;align-items:center;min-height:44px}
+  .pm-btn{min-height:44px}
+  .pm-vol input{height:44px}
+  .gate-quiet,.gate-calm{min-height:44px}
+}
+/* iPhone can't put a web page in fullscreen; hide the button there (display mode still works) */
+.no-fs .pm-fs{display:none}
+@media (max-width:720px){
+  .mast .right{display:contents}
+  .mast nav{order:3;width:100%}
+  .mast .bookbtn{order:2;margin-left:auto}
+}

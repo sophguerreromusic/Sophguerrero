@@ -208,5 +208,6 @@ function startGL(){
 }
 function stopGL(){cancelAnimationFrame(raf);}
 
+if(!(document.fullscreenEnabled||document.webkitFullscreenEnabled))pm.classList.add('no-fs');
 window.SGPlay={open:open,close:close,isOpen:function(){return openState}};
 })();

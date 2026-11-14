@@ -66,7 +66,10 @@
     document.querySelectorAll('[data-play]').forEach(function(b){var u=b.dataset.play||(QUEUE[0]&&QUEUE[0].sc);b.setAttribute('aria-pressed',String(playing&&src==='sc'&&u===cur));});
     document.querySelectorAll('[data-yt-play]').forEach(function(b){b.setAttribute('aria-pressed',String(playing&&src==='yt'&&b.dataset.ytPlay===ytId));});
   }
-  function stalled(){clearTimeout(stallT);stallT=setTimeout(function(){if(!playing){lcdS.textContent='Tap';lcdT.textContent='Press play again to start';}},7000);}
+  var touch=matchMedia('(pointer: coarse)').matches;
+  function stalled(){clearTimeout(stallT);stallT=setTimeout(function(){if(!playing){lcdS.textContent='Tap';lcdT.textContent='Tap ▶ again to start';}},touch?3500:7000);}
+  /* iPhone: load the SoundCloud player script on the first touch so the first play starts faster */
+  addEventListener('pointerdown',function pre(){removeEventListener('pointerdown',pre);if(!(window.SC&&SC.Widget))scReady(function(){});},{passive:true});
 
   /* SoundCloud: releases */
   var widget=null,frame=null,scApi=false,qi=0,lastStarted='';

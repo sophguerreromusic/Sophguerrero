@@ -66,7 +66,7 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
@@ -78,6 +78,8 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
 <meta property="og:image" content="{OG}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/spark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Sophia Guerrero">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
