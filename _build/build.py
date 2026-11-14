@@ -63,7 +63,7 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
     url = BASE + path
     lds = [json.dumps(person, ensure_ascii=False, indent=1)]
     page_ld = json.dumps(extra_ld, ensure_ascii=False) if extra_ld else '{}'
-    nav = ''.join(f'<li><a href="{h}"{" aria-current=\"page\"" if h == path else ""}><span class="n">{n}</span>{t}</a></li>' for h, n, t in NAV)
+    nav = ''.join(f'<li><a href="{h}"{" aria-current=\"page\"" if h == path else ""}>{t}</a></li>' for h, n, t in NAV)
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,7 +84,7 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
 <meta name="apple-mobile-web-app-title" content="Sophia Guerrero">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Inter+Tight:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v={VER}">
 <script type="application/ld+json">
 {lds[0]}
@@ -101,7 +101,7 @@ def page(slug, path, title, desc, body, extra_ld=None, og_title=None):
 {body}
 </main>
 <footer class="foot">
-  <span>Sophia Guerrero · House ✦ Tech House · Manila</span>
+  <span>Sophia Guerrero · House ✦ Tech House · <span class="mnl">Manila</span></span>
   <span><a href="mailto:{email}">{email}</a></span>
   <nav class="foot-links" id="site-links" aria-label="Elsewhere">{FOOT_LINKS}</nav>
 </footer>
@@ -184,12 +184,13 @@ home = f'''<section class="gate" aria-label="Welcome">
       <source type="image/webp" srcset="{HERO}-640.webp 640w, {HERO}-1080.webp 1080w, {HERO}-1600.webp 1600w" sizes="(max-width:860px) 100vw, 45vw">
       <img src="{HERO}-1080.jpg" width="1080" height="1620" alt="Sophia Guerrero, House and Tech House DJ from Manila" fetchpriority="high" decoding="async">
     </picture>
-    <figcaption>Manila · after hours</figcaption>
+    <figcaption class="mnl">Manila</figcaption>
   </figure>
   <div class="cover-copy">
     <div>
       <h1 id="cover-title">Sophia<br><em>Guerrero</em></h1>
       <p class="tagline">House <b>✦</b> Tech House</p>
+      <p class="intro">DJ and producer from Manila, with releases on Toolroom, Milk &amp; Sugar and Wh0 Worx and plays on BBC Radio 1.</p>
     </div>
     <article class="feature" aria-label="New release">
       <img src="{latest["img"]}" width="96" height="96" alt="{esc(latest["title"])} cover art" decoding="async">
@@ -202,13 +203,13 @@ home = f'''<section class="gate" aria-label="Welcome">
         </div>
       </div>
     </article>
-    <nav aria-label="Contents">
-      <p class="kicker" style="margin-bottom:8px">Contents</p>
-      <ol class="contents">
-        <li><a href="/music/"><span class="n">01</span><span class="t">Music</span><span class="d">{N} releases</span></a></li>
-        <li><a href="/mixes/"><span class="n">02</span><span class="t">Mixes</span><span class="d">Mixes &amp; guest mixes</span></a></li>
-        <li><a href="/press/"><span class="n">03</span><span class="t">Press</span><span class="d">BBC Radio 1 · Toolroom Radio</span></a></li>
-        <li><a href="/book/"><span class="n">04</span><span class="t">Book</span><span class="d">Bookings &amp; enquiries</span></a></li>
+    <nav aria-label="Contents" class="ro">
+      <p class="ro-h"><span>Running order</span><span class="ro-sub">Manila time</span></p>
+      <ol>
+        <li data-at="22"><a href="/music/"><time>22:00</time><span class="t">Music</span><span class="d">{N} releases</span></a></li>
+        <li data-at="23.5"><a href="/mixes/"><time>23:30</time><span class="t">Mixes</span><span class="d">Mixes &amp; guest mixes</span></a></li>
+        <li data-at="25"><a href="/press/"><time>01:00</time><span class="t">Press</span><span class="d">BBC Radio 1 · Toolroom Radio</span></a></li>
+        <li data-at="26.5" data-end="28"><a href="/book/"><time>02:30</time><span class="t">Book</span><span class="d">Bookings &amp; enquiries</span></a></li>
       </ol>
     </nav>
     <div class="follow" aria-label="Follow">{follow_links([f for f in follow if f[1] in ("Instagram","SoundCloud","Spotify","Beatport")])}<a href="#site-links">More ↓</a></div>
