@@ -250,3 +250,6 @@ dialog.kbd::backdrop{background:rgba(18,17,21,.7)}
 .gate-calm[aria-pressed="true"]{background:var(--lav);color:var(--ink);border-color:var(--lav)}
 body.calm .torch::after{opacity:1}
 @media (max-width:640px){.deck .calm{padding:0 8px}}
+/* Music: the scan light sits behind the covers, not over them */
+main{position:relative;z-index:1}
+body[data-page="music"] canvas.glow{z-index:0}
