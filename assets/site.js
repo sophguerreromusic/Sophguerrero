@@ -392,7 +392,7 @@
 (function(){
   'use strict';
   var TO='booking@sophguerrero.com';
-  var L={name:'Name',email:'Email',event:'Event / promoter',date:'Date',venue:'City and venue',capacity:'Capacity',set:'Set time and length',fee:'Fee / budget',notes:'Notes'};
+  var L={name:'Name',email:'Email',event:'Event / promoter',date:'Date',venue:'City and venue',set:'Set time and length',notes:'Notes'};
   document.addEventListener('submit',function(e){
     var f=e.target.closest&&e.target.closest('form.book-form');if(!f)return;
     e.preventDefault();
