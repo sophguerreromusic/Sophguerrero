@@ -45,11 +45,33 @@
     ".sg-gate .sg-yt:hover{border-color:var(--lav,#c8bfdc)}",
     ".sg-gate .sg-msg{font-size:13px;margin:10px 0 0;min-height:1em}",
     ".sg-gate .sg-msg.err{color:#ff9b9b}",
+    ".selections.sg-locked{position:relative}",
+    ".selections.sg-locked .sel-list{filter:blur(6px);opacity:.55;pointer-events:none;user-select:none;max-height:420px;overflow:hidden;",
+    "  -webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent)}",
+    ".selections .sel-list{transition:filter .5s,opacity .5s}",
+    ".sg-mini{display:inline-block;margin:6px 0 18px;padding:12px 18px;border-radius:10px;border:0;background:var(--lav,#c8bfdc);color:var(--ink,#121115);font:inherit;font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}",
     "@media (max-width:720px){.sg-gate{position:relative;left:auto;top:auto;transform:none;width:auto;margin:0 0 18px;padding:22px 16px}.tracklist.sg-locked .cues{max-height:360px}.sg-gate form{flex-direction:column}.sg-gate button{width:100%}}"
   ].join("\n");
   document.head.appendChild(css);
 
   section.classList.add("sg-locked");
+
+  // In Rotation lists the same records, so it is locked too (still in the HTML for Google).
+  var sel = document.querySelector(".selections");
+  var selList = sel && sel.querySelector(".sel-list");
+  var mini = null;
+  if (sel && selList) {
+    sel.classList.add("sg-locked");
+    mini = document.createElement("button");
+    mini.type = "button";
+    mini.className = "sg-mini";
+    mini.textContent = "Join the Sounds Good Club to unlock ✦";
+    mini.addEventListener("click", function () {
+      gate.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(function () { input.focus({ preventScroll: true }); }, 500);
+    });
+    sel.insertBefore(mini, selList);
+  }
 
   var gate = document.createElement("div");
   gate.className = "sg-gate";
@@ -70,6 +92,8 @@
     remember();
     section.classList.remove("sg-locked");
     gate.remove();
+    if (sel) sel.classList.remove("sg-locked");
+    if (mini) mini.remove();
   }
 
   // Email path: sends the address to the Kit form, then unlocks.
