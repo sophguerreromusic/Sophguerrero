@@ -81,7 +81,7 @@ function home(page){
   if(page==='press'||page==='book')return small.matches?{x:.82,y:.86}:{x:.86,y:.84};
   return {x:.5,y:.5};
 }
-var t0=performance.now(),last=t0,beat0=t0,lastTap=0;
+var t0=performance.now(),last=t0,lastDraw=0,beat0=t0,lastTap=0;
 var root=document.documentElement,vu=[].slice.call(document.querySelectorAll('.deck .vu i')),fN=0;
 var F=0,K=0,B=0,MD=0,H=0,pos={x:.5,y:.5},tgt={x:.5,y:.5},rot=0,lastPtr=-1e9,wasPlaying=false,amt=.8;
 function ptr(x,y){tgt.x=Math.min(.95,Math.max(.05,x/innerWidth));tgt.y=1-Math.min(.95,Math.max(.05,y/innerHeight));lastPtr=performance.now();}
@@ -90,6 +90,10 @@ addEventListener('touchmove',function(e){var t=e.touches[0];if(t)ptr(t.clientX,t
 function frame(now){
   if(!reduce)requestAnimationFrame(frame);
   if(document.hidden)return;
+  /* idle (nothing playing, no recent cursor/touch): the slow breathing only needs ~24 frames a
+     second, so skip the rest and save battery; full frame rate while music plays or the pointer moves */
+  var busy=document.body.classList.contains('playing')||(window.SG_TAP&&now-window.SG_TAP<8000)||now-lastPtr<1500;
+  if(!busy&&now-lastDraw<41)return;lastDraw=now;
   var dt=Math.min(.05,(now-last)/1000);last=now;var t=(now-t0)/1000;
   var page=document.body.dataset.page||'home',mode=LOOK[page]||0,playing=document.body.classList.contains('playing');
   var BPM=window.SG_BPM||124;

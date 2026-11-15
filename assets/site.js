@@ -223,7 +223,7 @@
   /* ---------- page swaps keep the deck playing ---------- */
   var PAGES=new RegExp('^'+B.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'/(play|music|mixes|press|book)?/?$');
   function sameSite(a){return a.origin===location.origin&&PAGES.test(a.pathname)&&!a.hasAttribute('download')&&a.target!=='_blank';}
-  function setCurrent(path){document.querySelectorAll('.mast nav a').forEach(function(a){if(a.pathname===path)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});}
+  function markNav(path){document.querySelectorAll('.mast nav a,.mast .bookbtn').forEach(function(a){if(a.pathname===path)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});}
   function swap(url,push){
     return fetch(url,{credentials:'same-origin'}).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(html){
       var doc=new DOMParser().parseFromString(html,'text/html'),nm=doc.querySelector('main');if(!nm)throw 0;
@@ -234,7 +234,7 @@
       document.body.dataset.page=doc.body.dataset.page;
       var u=new URL(url,location.href);
       if(push)history.pushState({},'',u.pathname+u.hash);
-      setCurrent(u.pathname);
+      markNav(u.pathname);
       if(u.hash&&document.querySelector(u.hash))document.querySelector(u.hash).scrollIntoView();else scrollTo(0,0);
       var h1=nm.querySelector('h1');if(h1){h1.setAttribute('tabindex','-1');h1.focus({preventScroll:true});}
       say('Page: '+doc.title.split(' — ')[0]);
@@ -385,5 +385,28 @@
 
 
   init(document);
-  setCurrent(location.pathname);
+  markNav(location.pathname);
+})();
+
+/* ---------- booking inquiry form: builds an email to booking@ (no data stored on the site) ---------- */
+(function(){
+  'use strict';
+  var TO='booking@sophguerrero.com';
+  var L={name:'Name',email:'Email',event:'Event / promoter',date:'Date',venue:'City and venue',capacity:'Capacity',set:'Set time and length',fee:'Fee / budget',notes:'Notes'};
+  document.addEventListener('submit',function(e){
+    var f=e.target.closest&&e.target.closest('form.book-form');if(!f)return;
+    e.preventDefault();
+    var msg=f.querySelector('.bf-msg'),bad=null;
+    [].slice.call(f.querySelectorAll('[required]')).forEach(function(i){var ok=i.value.trim()&&(i.type!=='email'||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(i.value.trim()));i.setAttribute('aria-invalid',ok?'false':'true');if(!ok&&!bad)bad=i;});
+    if(bad){msg.textContent='Please fill in '+bad.parentNode.firstChild.textContent.trim().toLowerCase()+'.';bad.focus();return;}
+    var v=function(n){var i=f.elements[n];return i?i.value.trim():'';};
+    var d=v('date'),nice=d;try{if(d)nice=new Date(d+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});}catch(x){}
+    var lines=['Hi Sophia,',''];
+    Object.keys(L).forEach(function(k){var val=k==='date'?nice:v(k);if(val)lines.push(L[k]+': '+val);});
+    lines.push('','Sent from sophguerrero.com/book');
+    var subj='Booking inquiry: '+[nice,v('venue')].filter(Boolean).join(' · ');
+    if(window.sgTrack)window.sgTrack('booking-inquiry','form');
+    msg.textContent='Opening your email app… If nothing opens, write to '+TO+'.';
+    location.href='mailto:'+TO+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(lines.join('\n'));
+  });
 })();
