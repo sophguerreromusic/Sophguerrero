@@ -45,7 +45,7 @@
     ".sg-gate .sg-yt:hover{border-color:var(--lav,#c8bfdc)}",
     ".sg-gate .sg-msg{font-size:13px;margin:10px 0 0;min-height:1em}",
     ".sg-gate .sg-msg.err{color:#ff9b9b}",
-    "@media (max-width:480px){.sg-gate{top:70px;padding:22px 16px}.sg-gate form{flex-direction:column}}"
+    "@media (max-width:720px){.sg-gate{position:relative;left:auto;top:auto;transform:none;width:auto;margin:0 0 18px;padding:22px 16px}.tracklist.sg-locked .cues{max-height:360px}.sg-gate form{flex-direction:column}.sg-gate button{width:100%}}"
   ].join("\n");
   document.head.appendChild(css);
 
@@ -64,7 +64,7 @@
     '</form>' +
     '<p class="sg-consent">I\'m happy to get emails from Sophia Guerrero. Unsubscribe anytime.</p>' +
     '<p class="sg-msg" aria-live="polite"></p>';
-  section.appendChild(gate);
+  section.insertBefore(gate, list);
 
   function unlock() {
     remember();
