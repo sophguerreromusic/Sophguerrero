@@ -78,8 +78,8 @@
   gate.setAttribute("role", "region");
   gate.setAttribute("aria-label", "Unlock the tracklist");
   gate.innerHTML =
-    '<h3>Join the Sounds Good Club ✦</h3>' +
-    '<p>Members unlock the tracklist and get each new mix before anyone else, plus the stories behind the records, unreleased IDs, and first word on Manila gigs.</p>' +
+    '<h3>Sounds Good Club ✦</h3>' +
+    '<p>Join to unlock the tracklist. New mix in your inbox every month.</p>' +
     '<form novalidate>' +
       '<input type="email" name="email_address" placeholder="your@email.com" autocomplete="email" required aria-label="Email address">' +
       '<button type="submit">Join</button>' +
