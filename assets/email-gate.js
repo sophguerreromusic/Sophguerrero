@@ -1,5 +1,5 @@
 /* Sounds Good Club — tracklist unlock (email via Kit)
-   sophguerrero.com/mixes/
+   sophguerrero.com — loaded on every page, acts only where the Mixes tracklist is.
    - Tracklist stays in the HTML, so Google can still read it.
    - Visitors see it blurred until they join the Sounds Good Club list.
    - Once unlocked, it stays unlocked on that browser.
@@ -8,18 +8,12 @@
   var KIT_FORM_URL = "https://app.kit.com/forms/10191903/subscriptions";
   var STORAGE_KEY = "sg_tracklist_unlocked";
 
-  var section = document.querySelector(".tracklist");
-  var list = section && section.querySelector(".cues");
-  if (!section || !list) return;
-
   function isUnlocked() {
     try { return localStorage.getItem(STORAGE_KEY) === "1"; } catch (e) { return false; }
   }
   function remember() {
     try { localStorage.setItem(STORAGE_KEY, "1"); } catch (e) {}
   }
-  if (isUnlocked()) return;
-
   var css = document.createElement("style");
   css.textContent = [
     ".tracklist.sg-locked{position:relative}",
@@ -53,6 +47,13 @@
     "@media (max-width:720px){.sg-gate{position:relative;left:auto;top:auto;transform:none;width:auto;margin:0 0 18px;padding:22px 16px}.tracklist.sg-locked .cues{max-height:360px}.sg-gate form{flex-direction:column}.sg-gate button{width:100%}}"
   ].join("\n");
   document.head.appendChild(css);
+
+  function setup() {
+  if (isUnlocked()) return;
+  var section = document.querySelector(".tracklist");
+  var list = section && section.querySelector(".cues");
+  if (!section || !list || section.dataset.sgGate) return;
+  section.dataset.sgGate = "1";
 
   section.classList.add("sg-locked");
 
@@ -137,4 +138,9 @@
         msg.textContent = "Something went wrong. Please try again.";
       });
   });
+  }
+
+  setup();
+  // The site swaps pages without a full reload, so run again whenever the page content changes.
+  new MutationObserver(function () { setup(); }).observe(document.body, { childList: true, subtree: true });
 })();
