@@ -644,15 +644,25 @@ body[data-page="music"] .btn{background:none}
 @media (max-width:520px){.ro a{grid-template-columns:minmax(0,1fr)}.ro .d{grid-column:1}}
 
 /* ======== booking inquiry form ======== */
-.book-form{margin:28px 0 8px}
-.book-form .sec-label{margin-top:0}
-.bf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px;margin:14px 0 18px}
-.bf-grid label{display:flex;flex-direction:column;gap:6px;font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-dim)}
+.inquiry.book-form{display:block;max-width:640px;margin:36px 0 12px;padding:26px 24px 22px;border:1px solid var(--char-2);background:rgba(242,239,234,.025)}
+.book-form .sec-label{margin:0 0 4px}
+.book-form .bf-lede{margin:0 0 20px;font-size:15px;line-height:1.5;color:var(--paper-dim)}
+.bf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px;margin:0 0 22px}
+.bf-grid label{display:flex;flex-direction:column;gap:7px;font-family:var(--display);font-weight:600;font-size:12px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim)}
+.bf-grid label .opt{font-weight:400;letter-spacing:.04em;text-transform:none;opacity:.7}
 .bf-grid .bf-wide{grid-column:1/-1}
-.bf-grid input,.bf-grid textarea{font:inherit;font-family:var(--sans);font-weight:400;font-size:16px;letter-spacing:0;text-transform:none;color:var(--paper);background:var(--ink);border:1px solid var(--char-2);border-radius:0;padding:12px 14px;min-height:46px;width:100%;color-scheme:dark}
-.bf-grid textarea{resize:vertical;min-height:92px}
-.bf-grid input:focus-visible,.bf-grid textarea:focus-visible{outline:2px solid var(--acid);outline-offset:1px;border-color:transparent}
+.bf-grid input,.bf-grid textarea{-webkit-appearance:none;appearance:none;box-sizing:border-box;width:100%;margin:0;font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.3;letter-spacing:0;text-transform:none;color:var(--paper);background:var(--ink);border:1px solid var(--char-2);border-radius:0;padding:0 14px;height:48px;color-scheme:dark;transition:border-color .2s ease}
+.bf-grid input::placeholder,.bf-grid textarea::placeholder{color:var(--paper-dim);opacity:.55}
+.bf-grid input[type=date]{display:block;min-width:0}
+.bf-grid input[type=date]::-webkit-date-and-time-value{text-align:left}
+.bf-grid textarea{height:auto;min-height:104px;padding:12px 14px;resize:vertical}
+.bf-grid input:hover,.bf-grid textarea:hover{border-color:var(--paper-dim)}
+.bf-grid input:focus-visible,.bf-grid textarea:focus-visible{outline:none;border-color:var(--acid);box-shadow:0 0 0 1px var(--acid)}
 .bf-grid [aria-invalid="true"]{border-color:#ff9b9b}
-.bf-msg{min-height:1.2em;margin-top:8px;font-size:14px;color:var(--lav)}
+.bf-foot{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px}
+.bf-foot .btn{width:auto;justify-self:auto}
+.bf-foot .inq-note{flex:1 1 220px;margin:0;font-size:13px;line-height:1.45;color:var(--paper-dim)}
+.bf-msg{min-height:1.2em;margin:12px 0 0;font-size:14px;color:var(--lav)}
+.bf-msg:empty{display:none}
 .kit .btns{margin-top:14px}
-@media (max-width:640px){.bf-grid{grid-template-columns:1fr}}
+@media (max-width:640px){.inquiry.book-form{padding:20px 16px 18px}.bf-grid{grid-template-columns:1fr;gap:14px}.bf-foot .btn{width:100%;justify-content:center}}
